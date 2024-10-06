@@ -2,15 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AboutUs;
+use App\Models\Home;
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Models\Speakers;
 
 class PostController extends Controller
 {
     public function index()
     {
         $posts = Post::all();
-        return response()->json($posts);
+        $home = Home::all();
+        $about = AboutUs::all();
+        $speaker = Speakers::all();
+        return response()->json([
+            'posts' => $posts,
+            'home' => $home,
+            'about' => $about,
+            'speaker' => $speaker,
+        ]);
     }
 
     public function store(Request $request)
