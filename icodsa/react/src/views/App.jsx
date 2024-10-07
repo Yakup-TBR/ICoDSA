@@ -43,7 +43,7 @@ export default function App() {
       .catch(error => {
         console.error(error);
       });
-}, []);
+  }, []);
 
 
   return (
@@ -139,15 +139,19 @@ export default function App() {
 
       <section className="AboutUs">
         <div className="container">
+
           <div className="row flex">
-            <div className="col-md-6 col-lg-5">
+
+            <div className="confDay col-md-6 col-lg-5">
               <img src="/bali.jpg" alt="conf.date" id="confImg" />
-              <div className="excellance-tag bg-primary">
-                <div className="excellance-text">
+              <div className="container excellance-tag text-center p-4">
+                <div className="container excellance-text justtify-content-center p-2">
                   <p>Conf. Date</p>
                   <div className="icon">
                     <div className="icon-home">
-                      <i className="icon-home fa-3x"></i>
+                      <svg width="61" height="61" viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10.1667 30.5001L30.5 10.1667L50.8334 30.5001M15.25 26.6876V48.2917C15.25 48.9658 15.5178 49.6123 15.9945 50.089C16.4711 50.5656 17.1176 50.8334 17.7917 50.8334H25.4167V43.2084C25.4167 42.5343 25.6845 41.8878 26.1611 41.4112C26.6378 40.9345 27.2843 40.6667 27.9584 40.6667H33.0417C33.7158 40.6667 34.3623 40.9345 34.8389 41.4112C35.3156 41.8878 35.5834 42.5343 35.5834 43.2084V50.8334H43.2084C43.8824 50.8334 44.5289 50.5656 45.0056 50.089C45.4822 49.6123 45.75 48.9658 45.75 48.2917V26.6876" stroke="white" />
+                      </svg>
                     </div>
                     <h3 id="confDate">{aboutData.event_dd}</h3>
                     <h4>{aboutData.event_mmyy}</h4>
@@ -155,20 +159,23 @@ export default function App() {
                 </div>
               </div>
             </div>
+
+
             <div className="col">
               <h1 className="mb-5">
                 About Us
               </h1>
               <p>
-              {aboutData.about_desc}
+                {aboutData.about_desc}
               </p>
             </div>
+
           </div>
         </div>
 
       </section>
 
-      <section className="Speakers pt-100 pb-80 bg-light">
+      <section className="Speakers pt-100 pb-80">
         <div className="container">
           <div className="container">
             <div className="section-header">
