@@ -1,37 +1,24 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Link } from "react-router-dom";
 import '../styles/dashboard.css';
 
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 
-
-
 export default function Dashboard() {
-    // --------- Home -----------
-    const [data, setData] = useState([]);
-    const [hostLogo, setHostLogo] = useState('');
-    const [placeDate, setPlaceDate] = useState('');
-    const [description, setDescription] = useState('');
-    const [homeBg, setHomeBg] = useState('');
 
-
-    // --------- tes ---------
-    const [posts, setPosts] = useState([]);
-    const [content, setContent] = useState('');
-    const [title, setTitle] = useState('');
-
-    // --------- About Us ---------
-    const [about_img, setabout_img] = useState('');
-    const [about_desc, setabout_desc] = useState('');
-    const [event_date, setevent_date] = useState('');
-
-
+    // ------------- HOME START -------------
+    const [homeData, setHomeData] = useState({
+        host_logo: '',
+        title: '',
+        place_date: '',
+        description: '',
+        home_bg: ''
+    });
 
     useEffect(() => {
-        axios.get('http://localhost:8000/api/posts')
+        axios.get('http://localhost:8000/api/homes/1')
             .then(response => {
-                setPosts(response.data);
+                setHomeData(response.data);
             })
             .catch(error => {
                 console.error(error);
@@ -40,114 +27,108 @@ export default function Dashboard() {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:8000/api/posts', { title, content })
+        axios.put('http://localhost:8000/api/homes/1', homeData)
             .then(response => {
-                setPosts([...posts, response.data]);
-                setTitle('');
-                setContent('');
+                setHomeData(response.data);
+                alert('Post updated successfully!');
             })
             .catch(error => {
                 console.error(error);
             });
     };
 
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setHomeData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    // ------------- ABOUT US START ------------- 
+    const [aboutData, setAboutData] = useState({
+        about_img: '',
+        about_desc: '',
+        event_dd: '',
+        description: '',
+        event_mmyy: ''
+    });
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/api/abouts/1')
+            .then(response => {
+                setAboutData(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+
+    const handleSubmitAbout = (event) => {
+        event.preventDefault();
+        axios.put('http://localhost:8000/api/abouts/1', aboutData)
+            .then(response => {
+                setAboutData(response.data);
+                alert('About Us updated successfully!');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleInputChangeAbout = (event) => {
+        const { name, value } = event.target;
+        setAboutData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleFileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAboutData((prevData) => ({
+                    ...prevData,
+                    about_img: reader.result, // Simpan URL gambar sementara
+                }));
+            };
+            reader.readAsDataURL(file); // Membaca file sebagai URL
+        }
+    };
+
     return (
         <div>
-            <h1>Posts</h1>
-            <ul>
-                {posts.map(post => (
-                    <li key={post.id}>
-                        <h2>{post.title}</h2>
-                        <p>{post.content}</p>
-                    </li>
-                ))}
-            </ul>
-            <form onSubmit={handleSubmit}>
-                <input type="text" value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Title" />
-                <textarea value={content} onChange={(event) => setContent(event.target.value)} placeholder="Content" />
-                <button type="submit">Create Post</button>
-            </form>
-
-
-
-
-
-
-
-
-
-
-
-            <body>
-                <nav className="navbar navbar-expand-lg sticky-top py-3">
-                    <div className="container-fluid px-5">
-                        <a
-                            className="navbar-brand justify-content-start align-items-center"
-                            href="#"
-                        >
-                            <img src="./public/logo-icodis.png" alt="" />
-                        </a>
-                        <button
-                            className="navbar-toggler"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#navbarNav"
-                            aria-controls="navbarNav"
-                            aria-expanded="false"
-                            aria-label="Toggle navigation"
-                        >
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div
-                            className="collapse navbar-collapse justify-content-end align-items-center"
-                            id="navbarNav"
-                        >
-                            <ul className="navbar-nav">
-                                <li className="nav-item">
-                                    <Link to="/" className="nav-link">
-                                        Home
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/dashboard" className="nav-link">
-                                        Abous Us
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/about" className="nav-link">
-                                        Speakers
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/about" className="nav-link">
-                                        For Author
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/about" className="nav-link">
-                                        Committee
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/about" className="nav-link">
-                                        Contacts
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-
-                <section className="Home" style={{ backgroundImage: `url('/coba.jpg')` }} >
-                    <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
+            {/* Section Home */}
+            <section className="Home" style={{ backgroundImage: `url('/coba.jpg')` }}>
+                <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
+                    <form onSubmit={handleSubmit}>
                         <div className="container" id="hostLogo">
                             <img src="/logo-telu.png" alt="Logo TelU" className="mx-2" />
                             <img src="/logo-utm.png" alt="Logo UTM" className="mx-2" />
                         </div>
 
                         <div className="container" id="textHome">
-                            <h1>ICoDSA 2025</h1>
-                            <h2>Bali, July 10-11, 2024</h2>
+                            <input
+                                type="text"
+                                className="title-input editable-text"
+                                name="title"
+                                value={homeData.title}
+                                onChange={handleInputChange}
+                                placeholder="Judul ICODSAnya"
+                            />
+                            <h1 className="hidden">{homeData.title}</h1>
+
+                            <input
+                                type="text"
+                                className="place-date-input editable-text"
+                                name="place_date"
+                                value={homeData.place_date}
+                                onChange={handleInputChange}
+                                placeholder="Place Date"
+                            />
+                            <h2 className="hidden">{homeData.place_date}</h2>
                         </div>
 
                         <div className="container" id="buttonHome">
@@ -160,17 +141,41 @@ export default function Dashboard() {
                         </div>
 
                         <div className="container" id="descHome">
-                            <p>The 7th International Conference on Data Science and Its Applications</p>
+                            <input
+                                type="text"
+                                className="description-input editable-text"
+                                name="description"
+                                value={homeData.description}
+                                onChange={handleInputChange}
+                                placeholder="Description"
+                            />
+                            <p className="hidden">{homeData.description}</p>
                         </div>
-                    </div>
 
-                </section>
+                        <button type="submit">Update Home</button>
+                    </form>
+                </div>
+            </section>
 
-                <section className="AboutUs">
-                    <div className="container">
+            {/* Section About Us */}
+            <section className="AboutUs">
+                <div className="container">
+                    <form onSubmit={handleSubmitAbout}>
                         <div className="row flex">
                             <div className="col-md-6 col-lg-5">
                                 <img src="/bali.jpg" alt="conf.date" id="confImg" />
+                                <input
+                                    type="file"
+                                    accept="image/*" // Membatasi file yang bisa diupload menjadi gambar
+                                    onChange={handleFileChange} // Menangani perubahan file
+                                />
+                                {aboutData.about_img && (
+                                    <img
+                                        src={aboutData.about_img}
+                                        alt="Preview"
+                                        style={{ width: '100%', height: 'auto', marginTop: '10px' }} // Menampilkan gambar yang diupload
+                                    />
+                                )}
                                 <div className="excellance-tag bg-primary">
                                     <div className="excellance-text">
                                         <p>Conf. Date</p>
@@ -178,229 +183,65 @@ export default function Dashboard() {
                                             <div className="icon-home">
                                                 <i className="icon-home fa-3x"></i>
                                             </div>
-                                            <h3 id="confDate">10-11</h3>
-                                            <h4>July, 2025</h4>
+                                            <input
+                                                type="text"
+                                                className="eventDD-input editable-text"
+                                                name="event_dd"
+                                                value={aboutData.event_dd}
+                                                onChange={handleInputChangeAbout}
+                                                placeholder="10-11"
+                                            />
+                                            <input
+                                                type="text"
+                                                className="eventMMYY-input editable-text"
+                                                name="event_mmyy"
+                                                value={aboutData.event_mmyy}
+                                                onChange={handleInputChangeAbout}
+                                                placeholder="July, 2025"
+                                            />
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div className="col">
-                                <h1 className="mb-5">
-                                    About Us
-                                </h1>
-                                <p>
-                                    The rapid evolution of contemporary computing technology has propelled individuals to generate an unprecedented volume of data, characterized by both its size and diversity—a phenomenon unparalleled in the annals of computing history. This surge in data has sparked a compelling need for effective processing and analysis, captivating the attention of researchers who endeavor to propose innovative solutions. In response to this burgeoning interest, the 7th International Conference on Data Science and Its Applications (ICoDSA) 2024, themed Data for Good: Leveraging Data Science for Social Impact, has been meticulously organized.
 
-                                    The conference serves as a focal point for researchers to share and disseminate their noteworthy contributions in the realms of data science, computational linguistics, and information science. Encompassing a broad spectrum of relevant topics, 7th ICoDSA 2024 extends a warm invitation to researchers to explore and present their latest insights in these dynamic fields.
-                                    Papers from the previous ICoDSA indexed in Scopus:
-
-                                    1st ICoDIS | IoP Science
-                                    2nd ICoDIS | IoP Science
-                                    3rd ICoDIS (ICoDSA) | IEEE Xplore
-                                    4th ICoDIS (ICoDSA) | IEEE Xplore
-                                    5th ICoDIS (ICoDSA) | IEEE Xplore
-                                    6th ICoDIS (ICoDSA) | IEEE Xplore
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </section>
-
-                <section className="Speakers pt-100 pb-80 bg-light">
-                    <div className="container">
-                        <div className="container">
-                            <div className="section-header">
-                                <h5>
-                                    Keynote
-                                </h5>
-                                <h2>
-                                    Speakers
-                                </h2>
-                            </div>
-                            <div className="container mt-4">
-
-                            </div>
-                            <div className="card">
-                                <img src="/HoshangKolivand.jpg" className="card-img-top" alt="..." />
-                                <div className="card-body">
-                                    <h5 className="card-title">Assoc. Prof. Dr. Hoshang Kolivand</h5>
-                                    <p className="card-text">School of Computer Science and Mathematics, Liverpool John Moores University, England</p>
+                            <div className="col" id="aboutDesc">
+                                <h1 className="mb-5">About Us</h1>
+                                <div className="container">
+                                    <textarea
+                                        className="descAbout-input"
+                                        name="about_desc"
+                                        value={aboutData.about_desc}
+                                        onChange={handleInputChangeAbout}
+                                        placeholder="About Description"
+                                        rows="10" // Menetapkan jumlah baris yang diinginkan
+                                    />
                                 </div>
                             </div>
+
+                        </div>
+                        <button type="submit">Update About Us</button>
+                    </form>
+                </div>
+            </section>
+
+            {/* Section Speakers */}
+            <section className="Speakers pt-100 pb-80 bg-light">
+                <div className="container">
+                    <div className="section-header">
+                        <h5>Keynote</h5>
+                        <h2>Speakers</h2>
+                    </div>
+                    <div className="card">
+                        <img src="/HoshangKolivand.jpg" className="card-img-top" alt="Assoc. Prof. Dr. Hoshang Kolivand" />
+                        <div className="card-body">
+                            <h5 className="card-title">Assoc. Prof. Dr. Hoshang Kolivand</h5>
+                            <p className="card-text">
+                                School of Computer Science and Mathematics, Liverpool John Moores University, England
+                            </p>
                         </div>
                     </div>
-                </section>
-            </body>
-
-
-
-
-            <body>
-                <nav className="navbar navbar-expand-lg sticky-top py-3">
-                    <div className="container-fluid px-5">
-                        <a
-                            className="navbar-brand justify-content-start align-items-center"
-                            href="#"
-                        >
-                            <img src="./public/logo-icodis.png" alt="" />
-                        </a>
-                        <button
-                            className="navbar-toggler"
-                            type="button"
-                            data-bs-toggle="collapse"
-                            data-bs-target="#navbarNav"
-                            aria-controls="navbarNav"
-                            aria-expanded="false"
-                            aria-label="Toggle navigation"
-                        >
-                            <span className="navbar-toggler-icon"></span>
-                        </button>
-                        <div
-                            className="collapse navbar-collapse justify-content-end align-items-center"
-                            id="navbarNav"
-                        >
-                            <ul className="navbar-nav">
-                                <li className="nav-item">
-                                    <Link to="/" className="nav-link">
-                                        Home
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/dashboard" className="nav-link">
-                                        Abous Us
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/about" className="nav-link">
-                                        Speakers
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/about" className="nav-link">
-                                        For Author
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/about" className="nav-link">
-                                        Committee
-                                    </Link>
-                                </li>
-                                <li className="nav-item">
-                                    <Link to="/about" className="nav-link">
-                                        Contacts
-                                    </Link>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-
-                <section className="Home" style={{ backgroundImage: `url('/coba.jpg')` }} >
-                    <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
-                        <div className="container" id="hostLogo">
-                            <img src="/logo-telu.png" alt="Logo TelU" className="mx-2" />
-                            <img src="/logo-utm.png" alt="Logo UTM" className="mx-2" />
-                        </div>
-
-                        <div className="container" id="textHome">
-                            <h1>ICoDSA 2025</h1>
-                            <h2>Bali, July 10-11, 2024</h2>
-                        </div>
-
-                        <div className="container" id="buttonHome">
-                            <button type="button" className="btn btn-primary mx-2">
-                                Submit Here
-                            </button>
-                            <button type="button" className="btn btn-primary mx-2">
-                                Presentation Schedule
-                            </button>
-                        </div>
-
-                        <div className="container" id="descHome">
-                            <p>The 7th International Conference on Data Science and Its Applications</p>
-                        </div>
-                    </div>
-
-                </section>
-
-                <section className="AboutUs">
-                    <div className="container">
-                        <div className="row flex">
-                            <div className="col-md-6 col-lg-5">
-                                <img src="/bali.jpg" alt="conf.date" id="confImg" />
-                                <div className="excellance-tag bg-primary">
-                                    <div className="excellance-text">
-                                        <p>Conf. Date</p>
-                                        <div className="icon">
-                                            <div className="icon-home">
-                                                <i className="icon-home fa-3x"></i>
-                                            </div>
-                                            <h3 id="confDate">10-11</h3>
-                                            <h4>July, 2025</h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col">
-                                <h1 className="mb-5">
-                                    About Us
-                                </h1>
-                                <p>
-                                    The rapid evolution of contemporary computing technology has propelled individuals to generate an unprecedented volume of data, characterized by both its size and diversity—a phenomenon unparalleled in the annals of computing history. This surge in data has sparked a compelling need for effective processing and analysis, captivating the attention of researchers who endeavor to propose innovative solutions. In response to this burgeoning interest, the 7th International Conference on Data Science and Its Applications (ICoDSA) 2024, themed Data for Good: Leveraging Data Science for Social Impact, has been meticulously organized.
-
-                                    The conference serves as a focal point for researchers to share and disseminate their noteworthy contributions in the realms of data science, computational linguistics, and information science. Encompassing a broad spectrum of relevant topics, 7th ICoDSA 2024 extends a warm invitation to researchers to explore and present their latest insights in these dynamic fields.
-                                    Papers from the previous ICoDSA indexed in Scopus:
-
-                                    1st ICoDIS | IoP Science
-                                    2nd ICoDIS | IoP Science
-                                    3rd ICoDIS (ICoDSA) | IEEE Xplore
-                                    4th ICoDIS (ICoDSA) | IEEE Xplore
-                                    5th ICoDIS (ICoDSA) | IEEE Xplore
-                                    6th ICoDIS (ICoDSA) | IEEE Xplore
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-
-                </section>
-
-                <section className="Speakers pt-100 pb-80 bg-light">
-                    <div className="container">
-                        <div className="container">
-                            <div className="section-header">
-                                <h5>
-                                    Keynote
-                                </h5>
-                                <h2>
-                                    Speakers
-                                </h2>
-                            </div>
-                            <div className="container mt-4">
-
-                            </div>
-                            <div className="card">
-                                <img src="/HoshangKolivand.jpg" className="card-img-top" alt="..." />
-                                <div className="card-body">
-                                    <h5 className="card-title">Assoc. Prof. Dr. Hoshang Kolivand</h5>
-                                    <p className="card-text">School of Computer Science and Mathematics, Liverpool John Moores University, England</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </body>
-
-
-
-
-
-
-
-
+                </div>
+            </section>
         </div>
     );
-
-
-
 }

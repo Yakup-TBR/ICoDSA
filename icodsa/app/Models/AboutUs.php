@@ -8,9 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class AboutUs extends Model
 {
     use HasFactory;
+
+    // Menentukan nama tabel yang digunakan
+    protected $table = 'abouts';
+
     protected $fillable = [
         'about_img',
         'about_desc',
-        'event_date',
+        'event_dd',
+        'event_mmyy',
     ];
 }

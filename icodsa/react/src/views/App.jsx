@@ -1,8 +1,51 @@
+import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "../styles/app.css";
 
 export default function App() {
+
+
+  // --------- Home -----------
+  const [homeData, setHomeData] = useState({
+    host_logo: '',
+    title: '',
+    place_date: '',
+    description: '',
+    home_bg: ''
+  });
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/homes/1')
+      .then(response => {
+        setHomeData(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
+  // --------- About -----------
+  const [aboutData, setAboutData] = useState({
+    about_img: '',
+    about_desc: '',
+    event_dd: '',
+    description: '',
+    event_mmyy: ''
+  });
+
+  useEffect(() => {
+    axios.get('http://localhost:8000/api/abouts/1')
+      .then(response => {
+        setAboutData(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+}, []);
+
+
   return (
     <body>
       <nav className="navbar navbar-expand-lg sticky-top py-3">
@@ -72,8 +115,10 @@ export default function App() {
           </div>
 
           <div className="container" id="textHome">
-            <h1>ICoDSA 2025</h1>
-            <h2>Bali, July 10-11, 2024</h2>
+            <div className="container" id="textHome">
+              <h1>{homeData.title}</h1>
+              <h2>{homeData.place_date}</h2>
+            </div>
           </div>
 
           <div className="container" id="buttonHome">
@@ -86,7 +131,7 @@ export default function App() {
           </div>
 
           <div className="container" id="descHome">
-            <p>The 7th International Conference on Data Science and Its Applications</p>
+            <p>{homeData.description}</p>
           </div>
         </div>
 
@@ -104,8 +149,8 @@ export default function App() {
                     <div className="icon-home">
                       <i className="icon-home fa-3x"></i>
                     </div>
-                    <h3 id="confDate">10-11</h3>
-                    <h4>July, 2025</h4>
+                    <h3 id="confDate">{aboutData.event_dd}</h3>
+                    <h4>{aboutData.event_mmyy}</h4>
                   </div>
                 </div>
               </div>
@@ -115,17 +160,7 @@ export default function App() {
                 About Us
               </h1>
               <p>
-                The rapid evolution of contemporary computing technology has propelled individuals to generate an unprecedented volume of data, characterized by both its size and diversity—a phenomenon unparalleled in the annals of computing history. This surge in data has sparked a compelling need for effective processing and analysis, captivating the attention of researchers who endeavor to propose innovative solutions. In response to this burgeoning interest, the 7th International Conference on Data Science and Its Applications (ICoDSA) 2024, themed Data for Good: Leveraging Data Science for Social Impact, has been meticulously organized.
-
-                The conference serves as a focal point for researchers to share and disseminate their noteworthy contributions in the realms of data science, computational linguistics, and information science. Encompassing a broad spectrum of relevant topics, 7th ICoDSA 2024 extends a warm invitation to researchers to explore and present their latest insights in these dynamic fields.
-                Papers from the previous ICoDSA indexed in Scopus:
-
-                1st ICoDIS | IoP Science
-                2nd ICoDIS | IoP Science
-                3rd ICoDIS (ICoDSA) | IEEE Xplore
-                4th ICoDIS (ICoDSA) | IEEE Xplore
-                5th ICoDIS (ICoDSA) | IEEE Xplore
-                6th ICoDIS (ICoDSA) | IEEE Xplore
+              {aboutData.about_desc}
               </p>
             </div>
           </div>
@@ -145,7 +180,7 @@ export default function App() {
               </h2>
             </div>
             <div className="container mt-4">
-              
+
             </div>
             <div className="card">
               <img src="/HoshangKolivand.jpg" className="card-img-top" alt="..." />
