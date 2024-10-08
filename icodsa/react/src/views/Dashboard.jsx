@@ -6,35 +6,61 @@ import { useEffect, useState } from 'react';
 
 export default function Dashboard() {
 
-    // ------------- HOME -------------
+    // ------------- HOME START -------------
+
     const [homeData, setHomeData] = useState({
-        host_logo: '',
         title: '',
         place_date: '',
         description: '',
         home_bg: ''
     });
 
+    const [hostLogoData, setHostLogoData] = useState([]);
+
     useEffect(() => {
-        axios.get('http://localhost:8000/api/homes/1')
-            .then(response => {
-                setHomeData(response.data);
-            })
-            .catch(error => {
+        // Mengambil data home dan logo
+        const fetchHomeData = async () => {
+            try {
+                const homeResponse = await axios.get('http://localhost:8000/api/homes/1');
+                setHomeData(homeResponse.data);
+            } catch (error) {
+                if (error.response && error.response.status === 404) {
+                    const newHome = {
+                        title: 'Judul Awal',
+                        place_date: 'Tanggal Awal',
+                        description: 'Deskripsi Awal',
+                        home_bg: 'background.jpg',
+                    };
+                    await axios.post('http://localhost:8000/api/homes', newHome);
+                    setHomeData(newHome);
+                } else {
+                    console.error(error);
+                }
+            }
+        };
+
+        const fetchHostLogoData = async () => {
+            try {
+                const logoResponse = await axios.get('http://localhost:8000/api/host_host_logos'); // Mengambil semua logo
+                setHostLogoData(logoResponse.data);
+            } catch (error) {
                 console.error(error);
-            });
+            }
+        };
+
+        fetchHomeData();
+        fetchHostLogoData();
     }, []);
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        axios.put('http://localhost:8000/api/homes/1', homeData)
-            .then(response => {
-                setHomeData(response.data);
-                alert('Post updated successfully!');
-            })
-            .catch(error => {
-                console.error(error);
-            });
+        try {
+            const response = await axios.put('http://localhost:8000/api/homes/1', homeData);
+            setHomeData(response.data);
+            alert('Post updated successfully!');
+        } catch (error) {
+            console.error(error);
+        }
     };
 
     const handleInputChange = (event) => {
@@ -44,6 +70,43 @@ export default function Dashboard() {
             [name]: value,
         }));
     };
+
+    const handleLogoUpload = async (event) => {
+        const files = event.target.files;
+        const formData = new FormData();
+
+        for (let i = 0; i < files.length; i++) {
+            formData.append('host_logo[]', files[i]); // Menyimpan file gambar dalam array
+        }
+
+        try {
+            await axios.post('http://localhost:8000/api/host_host_logos', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            // Memperbarui data logo setelah berhasil diupload
+            const response = await axios.get('http://localhost:8000/api/host_host_logos');
+            setHostLogoData(response.data);
+            alert('Logos uploaded successfully!');
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleLogoDelete = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8000/api/host_host_logos/${id}`);
+            // Memperbarui data logo setelah berhasil dihapus
+            const response = await axios.get('http://localhost:8000/api/host_host_logos');
+            setHostLogoData(response.data);
+            alert('Logo deleted successfully!');
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    // ------------- HOME END -------------
 
     // ------------- ABOUT US -------------
     const [aboutData, setAboutData] = useState({
@@ -174,17 +237,10 @@ export default function Dashboard() {
     return (
         <div>
             {/* Section Home */}
-            <section className="Home" style={{ backgroundImage: `url('/coba.jpg')` }}>
-                <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
+            <section className="Home" style={{ backgroundImage: `url('/coba.jpg')` }} >
+            <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
                     <form onSubmit={handleSubmit}>
-                        <div className="container" id="hostLogo">
-                            {homeData.host_logo ? (
-                                <img src={`http://localhost:8000/storage/${homeData.host_logo}`} alt="Host Logo" className="mx-2" />
-                            ) : (
-                                <p>No logo uploaded yet.</p>
-                            )}
-                        </div>
-
+                        {/* Form untuk data home */}
                         <div className="container" id="textHome">
                             <input
                                 type="text"
@@ -205,6 +261,23 @@ export default function Dashboard() {
                                 placeholder="Place Date"
                             />
                             <h2 className="hidden">{homeData.place_date}</h2>
+                        </div>
+
+                        {/* Container untuk logo host */}
+                        <div className="container" id="hostLogo">
+                            {hostLogoData.length > 0 ? (
+                                hostLogoData.map((logo) => (
+                                    <div key={logo.id} className="logo-container">
+                                        <img src={`http://localhost:8000/storage/${logo.host_logo}`} alt="Host Logo" className="mx-2" />
+                                        <button type="button" onClick={() => handleLogoDelete(logo.id)} className="btn btn-danger mx-2">
+                                            Delete Logo
+                                        </button>
+                                    </div>
+                                ))
+                            ) : (
+                                <p>No logos uploaded yet.</p>
+                            )}
+                            <input type="file" multiple onChange={handleLogoUpload} /> {/* Menambahkan atribut multiple */}
                         </div>
 
                         <div className="container" id="buttonHome">
@@ -316,8 +389,8 @@ export default function Dashboard() {
                         {speakers.map((speaker) => (
                             <div className="col-md-4" key={speaker.id}>
                                 <div className="card mb-4">
-                                <img src={`http://localhost:8000${speaker.speakers_img}`} className="card-img-top" alt={speaker.speakers_name} />
-                                <div className="card-body">
+                                    <img src={`http://localhost:8000${speaker.speakers_img}`} className="card-img-top" alt={speaker.speakers_name} />
+                                    <div className="card-body">
                                         <h5 className="card-title">{speaker.speakers_name}</h5>
                                         <p className="card-text">{speaker.speakers_desc}</p>
                                         <button className="btn btn-danger" onClick={() => handleDeleteSpeakers(speaker.id)}>

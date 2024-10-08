@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    // Menampilkan semua data dari tabel Home
     public function index()
     {
         $homes = Home::all();
@@ -17,9 +16,8 @@ class HomeController extends Controller
     // Menyimpan data baru ke tabel Home
     public function store(Request $request)
     {
-        // Validasi request, karena nullable, semua bisa optional
+        // Validasi request, semua field nullable
         $validatedHome = $request->validate([
-            'host_logo' => 'nullable|string',
             'title' => 'nullable|string|max:255',
             'place_date' => 'nullable|string|max:255',
             'description' => 'nullable|string',
@@ -43,7 +41,6 @@ class HomeController extends Controller
     {
         // Validasi request untuk update, semua field nullable
         $validated = $request->validate([
-            'host_logo' => 'nullable|string',
             'title' => 'nullable|string|max:255',
             'place_date' => 'nullable|string|max:255',
             'description' => 'nullable|string',
