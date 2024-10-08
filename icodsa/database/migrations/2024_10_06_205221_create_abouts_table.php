@@ -12,7 +12,7 @@ return new class extends Migration
     {
         Schema::create('abouts', function (Blueprint $table) {            $table->id();
             $table->string('about_img')->nullable();
-            $table->string('about_desc')->nullable();
+            $table->text('about_desc')->nullable();
             $table->string('event_dd')->nullable();
             $table->string('event_mmyy')->nullable();
             $table->timestamps();

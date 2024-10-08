@@ -115,8 +115,8 @@ nav img {
     border: #ffffff;
     border-style: solid;
     border-width: 1px;
-    transform: scale(1.05); /* Sedikit memperbesar tombol saat hover */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Menambahkan bayangan */
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 
@@ -132,6 +132,7 @@ nav img {
 .AboutUs {
     margin-top: 100px;
     margin-bottom: 100px;
+    padding: 20px 200px;
 }
 
 #AboutUs h1 {
@@ -146,13 +147,21 @@ nav img {
     background-color: #343a3a;
 } */
 
-.excellance-tag{
+.col-md-6.col-lg-5 {
+    position: relative;
+}
+
+.excellance-tag {
+    position: absolute;
+    top: 80%; /* Atur sesuai kebutuhan */
+    left: 30%; /* Atur sesuai kebutuhan */
     width: 200px;
     height: 250px;
     border: #ffffff;
     border-style: solid;
     background-color: #3584a7;
     color: white;
+    z-index: 1; 
 }
 
 .excellance-text{
@@ -161,9 +170,9 @@ nav img {
 }
 
 #confImg {
-    max-height: 65%;
-    max-width: 100%;
+    max-width: 80%;
     object-fit: cover;
+    z-index: 0; /* Pastikan gambar di bawah tag */
 }
 
 .confDay p {
@@ -188,6 +197,23 @@ nav img {
     font-size: 16px;
     line-height: 28px;
     letter-spacing: 0px;
+}
+
+#aboutUsH1 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: 2px;
+}
+
+#aboutUsDesc{
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: #777777;
 }
 
 /* ------------ Speakers US START ------------ */

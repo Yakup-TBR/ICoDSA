@@ -45,7 +45,6 @@ export default function App() {
       });
   }, []);
 
-
   return (
     <body>
       <nav className="navbar navbar-expand-lg sticky-top py-3">
@@ -110,8 +109,11 @@ export default function App() {
       <section className="Home" style={{ backgroundImage: `url('/coba.jpg')` }} >
         <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
           <div className="container" id="hostLogo">
-            <img src="/logo-telu.png" alt="Logo TelU" className="mx-2" />
-            <img src="/logo-utm.png" alt="Logo UTM" className="mx-2" />
+            {homeData.host_logo ? (
+              <img src={`http://localhost:8000/storage/${homeData.host_logo}`} alt="Host Logo" className="mx-2" />
+            ) : (
+              <p></p>
+            )}
           </div>
 
           <div className="container" id="textHome">
@@ -133,8 +135,14 @@ export default function App() {
           <div className="container" id="descHome">
             <p>{homeData.description}</p>
           </div>
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
         </div>
-
       </section>
 
       <section className="AboutUs">
@@ -160,14 +168,13 @@ export default function App() {
               </div>
             </div>
 
-
             <div className="col">
-              <h1 className="mb-5">
+              <h1 className="mb-5" id="aboutUsH1">
                 About Us
               </h1>
-              <p>
+              <h5 id="aboutUsDesc">
                 {aboutData.about_desc}
-              </p>
+              </h5>
             </div>
 
           </div>

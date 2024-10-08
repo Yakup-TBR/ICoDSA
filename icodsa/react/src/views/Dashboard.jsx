@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 export default function Dashboard() {
 
-    // ------------- HOME START -------------
+    // ------------- HOME -------------
     const [homeData, setHomeData] = useState({
         host_logo: '',
         title: '',
@@ -45,7 +45,7 @@ export default function Dashboard() {
         }));
     };
 
-    // ------------- ABOUT US START ------------- 
+    // ------------- ABOUT US -------------
     const [aboutData, setAboutData] = useState({
         about_img: '',
         about_desc: '',
@@ -98,6 +98,79 @@ export default function Dashboard() {
         }
     };
 
+    // ------------- SPEAKERS -------------
+    const [speakers, setSpeakers] = useState([]);
+    const [newSpeaker, setNewSpeaker] = useState({
+        speakers_img: '',
+        speakers_name: '',
+        speakers_desc: '',
+    });
+    const [showModal, setShowModalSpeakers] = useState(false);
+    const [selectedLogo, setSelectedLogoSpeakers] = useState(null);
+
+    // Fetch speakers from the API
+    useEffect(() => {
+        fetchSpeakers();
+    }, []);
+
+    const fetchSpeakers = () => {
+        axios.get('http://localhost:8000/api/speakers')
+            .then(response => {
+                setSpeakers(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleInputChangeSpeakers = (event) => {
+        const { name, value } = event.target;
+        setNewSpeaker((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleFileChangeSpeakers = (event) => {
+        setSelectedLogoSpeakers(event.target.files[0]);
+    };
+
+    const handleSubmitSpeakers = (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('speakers_img', selectedLogo);
+        formData.append('speakers_name', newSpeaker.speakers_name);
+        formData.append('speakers_desc', newSpeaker.speakers_desc);
+
+        axios.post('http://localhost:8000/api/speakers', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then(response => {
+                setSpeakers([...speakers, response.data]);
+                setShowModalSpeakers(false);
+                alert('Speaker added successfully!');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleDeleteSpeakers = (id) => {
+        if (window.confirm('Are you sure you want to delete this speaker?')) {
+            axios.delete(`http://localhost:8000/api/speakers/${id}`)
+                .then(() => {
+                    setSpeakers(speakers.filter(speaker => speaker.id !== id));
+                    alert('Speaker deleted successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    };
+
+
     return (
         <div>
             {/* Section Home */}
@@ -105,8 +178,11 @@ export default function Dashboard() {
                 <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
                     <form onSubmit={handleSubmit}>
                         <div className="container" id="hostLogo">
-                            <img src="/logo-telu.png" alt="Logo TelU" className="mx-2" />
-                            <img src="/logo-utm.png" alt="Logo UTM" className="mx-2" />
+                            {homeData.host_logo ? (
+                                <img src={`http://localhost:8000/storage/${homeData.host_logo}`} alt="Host Logo" className="mx-2" />
+                            ) : (
+                                <p>No logo uploaded yet.</p>
+                            )}
                         </div>
 
                         <div className="container" id="textHome">
@@ -163,19 +239,6 @@ export default function Dashboard() {
                     <form onSubmit={handleSubmitAbout}>
                         <div className="row flex">
                             <div className="col-md-6 col-lg-5">
-                                <img src="/bali.jpg" alt="conf.date" id="confImg" />
-                                <input
-                                    type="file"
-                                    accept="image/*" // Membatasi file yang bisa diupload menjadi gambar
-                                    onChange={handleFileChange} // Menangani perubahan file
-                                />
-                                {aboutData.about_img && (
-                                    <img
-                                        src={aboutData.about_img}
-                                        alt="Preview"
-                                        style={{ width: '100%', height: 'auto', marginTop: '10px' }} // Menampilkan gambar yang diupload
-                                    />
-                                )}
                                 <div className="excellance-tag bg-primary">
                                     <div className="excellance-text">
                                         <p>Conf. Date</p>
@@ -202,7 +265,21 @@ export default function Dashboard() {
                                         </div>
                                     </div>
                                 </div>
+                                <img src="/bali.jpg" alt="conf.date" id="confImg" />
+                                <input
+                                    type="file"
+                                    accept="image/*" // Membatasi file yang bisa diupload menjadi gambar
+                                    onChange={handleFileChange} // Menangani perubahan file
+                                />
+                                {aboutData.about_img && (
+                                    <img
+                                        src={aboutData.about_img}
+                                        alt="Preview"
+                                        style={{ width: '100%', height: 'auto', marginTop: '10px' }} // Menampilkan gambar yang diupload
+                                    />
+                                )}
                             </div>
+
 
                             <div className="col" id="aboutDesc">
                                 <h1 className="mb-5">About Us</h1>
@@ -230,18 +307,63 @@ export default function Dashboard() {
                     <div className="section-header">
                         <h5>Keynote</h5>
                         <h2>Speakers</h2>
+                        <button className="btn btn-primary" onClick={() => setShowModalSpeakers(true)}>
+                            + Add Speaker
+                        </button>
                     </div>
-                    <div className="card">
-                        <img src="/HoshangKolivand.jpg" className="card-img-top" alt="Assoc. Prof. Dr. Hoshang Kolivand" />
-                        <div className="card-body">
-                            <h5 className="card-title">Assoc. Prof. Dr. Hoshang Kolivand</h5>
-                            <p className="card-text">
-                                School of Computer Science and Mathematics, Liverpool John Moores University, England
-                            </p>
-                        </div>
+
+                    <div className="row">
+                        {speakers.map((speaker) => (
+                            <div className="col-md-4" key={speaker.id}>
+                                <div className="card mb-4">
+                                <img src={`http://localhost:8000${speaker.speakers_img}`} className="card-img-top" alt={speaker.speakers_name} />
+                                <div className="card-body">
+                                        <h5 className="card-title">{speaker.speakers_name}</h5>
+                                        <p className="card-text">{speaker.speakers_desc}</p>
+                                        <button className="btn btn-danger" onClick={() => handleDeleteSpeakers(speaker.id)}>
+                                            Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             </section>
+
+            {/* Modal for Adding New Speaker */}
+            {showModal && (
+                <div className="modal fade show" style={{ display: 'block' }}>
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Add New Speaker</h5>
+                                <button type="button" className="btn-close" onClick={() => setShowModalSpeakers(false)}></button>
+                            </div>
+                            <form onSubmit={handleSubmitSpeakers}>
+                                <div className="modal-body">
+                                    <div className="mb-3">
+                                        <label className="form-label">Upload Image</label>
+                                        <input type="file" className="form-control" onChange={handleFileChangeSpeakers} required />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label">Speaker Name</label>
+                                        <input type="text" className="form-control" name="speakers_name" onChange={handleInputChangeSpeakers} required />
+                                    </div>
+                                    <div className="mb-3">
+                                        <label className="form-label">Description</label>
+                                        <textarea className="form-control" name="speakers_desc" onChange={handleInputChangeSpeakers} required></textarea>
+                                    </div>
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-secondary" onClick={() => setShowModalSpeakers(false)}>Close</button>
+                                    <button type="submit" className="btn btn-primary">Add Speaker</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

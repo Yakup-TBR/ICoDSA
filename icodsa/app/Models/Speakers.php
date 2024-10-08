@@ -10,6 +10,7 @@ class Speakers extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'speakers_img',
         'speakers_name',
         'speakers_desc',
