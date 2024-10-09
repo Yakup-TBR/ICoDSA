@@ -1,8 +1,7 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import '../styles/dashboard.css';
-
 import axios from 'axios';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
+import '../styles/dashboard.css';
 
 export default function Dashboard() {
 
@@ -238,7 +237,22 @@ export default function Dashboard() {
         <div>
             {/* Section Home */}
             <section className="Home" style={{ backgroundImage: `url('/coba.jpg')` }} >
-            <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
+                <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
+                    <div className="container" id="hostLogo">
+                        {hostLogoData.length > 0 ? (
+                            hostLogoData.map((logo) => (
+                                <div key={logo.id} className="logo-container">
+                                    <img src={`http://localhost:8000/storage/${logo.host_logo}`} alt="Host Logo" className="mx-2" />
+                                    <button type="button" onClick={() => handleLogoDelete(logo.id)} className="btn btn-danger mx-2">
+                                        Delete Logo
+                                    </button>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No logos uploaded yet.</p>
+                        )}
+                        <input type="file" multiple onChange={handleLogoUpload} /> {/* Menambahkan atribut multiple */}
+                    </div>
                     <form onSubmit={handleSubmit}>
                         {/* Form untuk data home */}
                         <div className="container" id="textHome">
@@ -263,22 +277,7 @@ export default function Dashboard() {
                             <h2 className="hidden">{homeData.place_date}</h2>
                         </div>
 
-                        {/* Container untuk logo host */}
-                        <div className="container" id="hostLogo">
-                            {hostLogoData.length > 0 ? (
-                                hostLogoData.map((logo) => (
-                                    <div key={logo.id} className="logo-container">
-                                        <img src={`http://localhost:8000/storage/${logo.host_logo}`} alt="Host Logo" className="mx-2" />
-                                        <button type="button" onClick={() => handleLogoDelete(logo.id)} className="btn btn-danger mx-2">
-                                            Delete Logo
-                                        </button>
-                                    </div>
-                                ))
-                            ) : (
-                                <p>No logos uploaded yet.</p>
-                            )}
-                            <input type="file" multiple onChange={handleLogoUpload} /> {/* Menambahkan atribut multiple */}
-                        </div>
+
 
                         <div className="container" id="buttonHome">
                             <button type="button" className="btn btn-primary mx-2">
@@ -308,70 +307,67 @@ export default function Dashboard() {
 
             {/* Section About Us */}
             <section className="AboutUs">
+
+
                 <div className="container">
                     <form onSubmit={handleSubmitAbout}>
                         <div className="row flex">
-                            <div className="col-md-6 col-lg-5">
-                                <div className="excellance-tag bg-primary">
-                                    <div className="excellance-text">
+                            
+                            <div className="confDay col-md-6 col-lg-5">
+                                <div className="container">
+                                    <img src="/bali.jpg" alt="conf.date" id="confImg" />
+                                </div>
+                                
+                                <div className="container excellance-tag text-center p-4">
+                                    <div className="container excellance-text justtify-content-center p-2">
                                         <p>Conf. Date</p>
                                         <div className="icon">
                                             <div className="icon-home">
-                                                <i className="icon-home fa-3x"></i>
+                                                <svg width="61" height="61" viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M10.1667 30.5001L30.5 10.1667L50.8334 30.5001M15.25 26.6876V48.2917C15.25 48.9658 15.5178 49.6123 15.9945 50.089C16.4711 50.5656 17.1176 50.8334 17.7917 50.8334H25.4167V43.2084C25.4167 42.5343 25.6845 41.8878 26.1611 41.4112C26.6378 40.9345 27.2843 40.6667 27.9584 40.6667H33.0417C33.7158 40.6667 34.3623 40.9345 34.8389 41.4112C35.3156 41.8878 35.5834 42.5343 35.5834 43.2084V50.8334H43.2084C43.8824 50.8334 44.5289 50.5656 45.0056 50.089C45.4822 49.6123 45.75 48.9658 45.75 48.2917V26.6876" stroke="white" />
+                                                </svg>
                                             </div>
-                                            <input
+                                            <h3 id="confDate"><input
                                                 type="text"
                                                 className="eventDD-input editable-text"
-                                                name="event_dd"
-                                                value={aboutData.event_dd}
-                                                onChange={handleInputChangeAbout}
-                                                placeholder="10-11"
-                                            />
-                                            <input
+                                                name="event_dd" value={aboutData.event_dd} onChange={handleInputChangeAbout} placeholder="10-11"
+                                            /></h3>
+                                            <h4><input
                                                 type="text"
                                                 className="eventMMYY-input editable-text"
-                                                name="event_mmyy"
-                                                value={aboutData.event_mmyy}
-                                                onChange={handleInputChangeAbout}
-                                                placeholder="July, 2025"
-                                            />
+                                                name="event_mmyy" value={aboutData.event_mmyy} onChange={handleInputChangeAbout} placeholder="July, 2025"
+                                            /></h4>
                                         </div>
                                     </div>
                                 </div>
-                                <img src="/bali.jpg" alt="conf.date" id="confImg" />
-                                <input
-                                    type="file"
-                                    accept="image/*" // Membatasi file yang bisa diupload menjadi gambar
-                                    onChange={handleFileChange} // Menangani perubahan file
-                                />
-                                {aboutData.about_img && (
-                                    <img
-                                        src={aboutData.about_img}
-                                        alt="Preview"
-                                        style={{ width: '100%', height: 'auto', marginTop: '10px' }} // Menampilkan gambar yang diupload
-                                    />
-                                )}
+                                
                             </div>
 
-
-                            <div className="col" id="aboutDesc">
-                                <h1 className="mb-5">About Us</h1>
-                                <div className="container">
-                                    <textarea
-                                        className="descAbout-input"
-                                        name="about_desc"
-                                        value={aboutData.about_desc}
-                                        onChange={handleInputChangeAbout}
-                                        placeholder="About Description"
-                                        rows="10" // Menetapkan jumlah baris yang diinginkan
-                                    />
-                                </div>
+                            <div className="col">
+                                <h1 className="mb-5" id="aboutUsH1">
+                                    About Us
+                                </h1>
+                                <textarea
+                                    className="descAbout-input"
+                                    name="about_desc"
+                                    value={aboutData.about_desc}
+                                    onChange={handleInputChangeAbout}
+                                    placeholder="About Description"
+                                    rows="50"
+                                />
                             </div>
 
                         </div>
+                        <input
+                                type="file"
+                                accept="image/*"
+                                onChange={handleFileChange}
+                            />
                         <button type="submit">Update About Us</button>
+
                     </form>
                 </div>
+
             </section>
 
             {/* Section Speakers */}

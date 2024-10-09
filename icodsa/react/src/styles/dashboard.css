@@ -78,12 +78,13 @@ nav img {
 
 
 /* ------------ ABOUT US START ------------ */
-.AboutUs{
+.AboutUs {
     margin-top: 100px;
     margin-bottom: 100px;
+    padding: 20px 200px;
 }
 
-#AboutUs h1{
+#AboutUs h1 {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-size: 32px;
@@ -91,14 +92,77 @@ nav img {
     letter-spacing: 2px;
 }
 
-#confImg{
-    width: 450px;
+/* .confDay {
+    background-color: #343a3a;
+} */
+
+.col-md-6.col-lg-5 {
+    position: relative;
 }
 
-
-.excellance-text{
+.excellance-tag {
+    position: absolute;
+    top: 80%; /* Atur sesuai kebutuhan */
+    left: 30%; /* Atur sesuai kebutuhan */
+    width: 200px;
+    height: 250px;
+    border: #ffffff;
+    border-style: solid;
     background-color: #3584a7;
     color: white;
+    z-index: 1;
+}
+
+.excellance-text {
+    border: #ffffff;
+    border-style: solid;
+}
+
+#confImg {
+    max-width: 80%;
+    object-fit: cover;
+    z-index: 0; /* Pastikan gambar di bawah tag */
+}
+
+.confDay p {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 16px;
+    letter-spacing: 0px;
+}
+
+.confDay h3 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 36px;
+    letter-spacing: 0px;
+}
+
+.confDay h4 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 0px;
+}
+
+#aboutUsH1 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 32px;
+    line-height: 40px;
+    letter-spacing: 2px;
+}
+
+#aboutUsDesc {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 28px;
+    letter-spacing: 0px;
+    color: #777777;
 }
 
 .descAbout-input {
@@ -118,10 +182,6 @@ nav img {
     overflow: auto; /* Menambahkan scroll vertical jika isi terlalu panjang */
 }
 
-
-
-
-/* Gaya untuk input di About Us */
 .editable-text {
     border: 1px dotted rgba(255, 255, 255, 0.7); /* Border titik-titik */
     background: transparent;

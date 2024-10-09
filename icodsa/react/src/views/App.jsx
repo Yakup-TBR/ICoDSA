@@ -9,21 +9,47 @@ export default function App() {
 
   // --------- Home -----------
   const [homeData, setHomeData] = useState({
-    host_logo: '',
     title: '',
     place_date: '',
     description: '',
     home_bg: ''
   });
 
+  const [hostLogoData, setHostLogoData] = useState([]);
+
   useEffect(() => {
-    axios.get('http://localhost:8000/api/homes/1')
-      .then(response => {
-        setHomeData(response.data);
-      })
-      .catch(error => {
+    // Mengambil data home dan logo
+    const fetchHomeData = async () => {
+      try {
+        const homeResponse = await axios.get('http://localhost:8000/api/homes/1');
+        setHomeData(homeResponse.data);
+      } catch (error) {
+        if (error.response && error.response.status === 404) {
+          const newHome = {
+            title: 'Judul Awal',
+            place_date: 'Tanggal Awal',
+            description: 'Deskripsi Awal',
+            home_bg: 'background.jpg',
+          };
+          await axios.post('http://localhost:8000/api/homes', newHome);
+          setHomeData(newHome);
+        } else {
+          console.error(error);
+        }
+      }
+    };
+
+    const fetchHostLogoData = async () => {
+      try {
+        const logoResponse = await axios.get('http://localhost:8000/api/host_host_logos'); // Mengambil semua logo
+        setHostLogoData(logoResponse.data);
+      } catch (error) {
         console.error(error);
-      });
+      }
+    };
+
+    fetchHomeData();
+    fetchHostLogoData();
   }, []);
 
   // --------- About -----------
@@ -109,12 +135,18 @@ export default function App() {
       <section className="Home" style={{ backgroundImage: `url('/coba.jpg')` }} >
         <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
           <div className="container" id="hostLogo">
-            {homeData.host_logo ? (
-              <img src={`http://localhost:8000/storage/${homeData.host_logo}`} alt="Host Logo" className="mx-2" />
+            {hostLogoData.length > 0 ? (
+              hostLogoData.map((logo) => (
+                <div key={logo.id} className="logo-container">
+                  <img src={`http://localhost:8000/storage/${logo.host_logo}`} alt="Host Logo" className="mx-2" />
+
+                </div>
+              ))
             ) : (
-              <p></p>
+              <p>No logos uploaded yet.</p>
             )}
           </div>
+
 
           <div className="container" id="textHome">
             <div className="container" id="textHome">
@@ -149,7 +181,6 @@ export default function App() {
         <div className="container">
 
           <div className="row flex">
-
             <div className="confDay col-md-6 col-lg-5">
               <img src="/bali.jpg" alt="conf.date" id="confImg" />
               <div className="container excellance-tag text-center p-4">
