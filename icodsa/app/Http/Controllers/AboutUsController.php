@@ -20,7 +20,7 @@ class AboutUsController extends Controller
         // Validasi request, karena nullable, semua bisa optional
         $validatedAbout = $request->validate([
             'about_img' => 'nullable|string',
-            'about_desc' => 'nullable|string|max:255',
+            'about_desc' => 'nullable|string',
             'event_dd' => 'nullable|string|max:255',
             'event_mmyy' => 'nullable|string|max:255',
         ]);
@@ -43,7 +43,7 @@ class AboutUsController extends Controller
         // Validasi request untuk update, semua field nullable
         $validated = $request->validate([
             'about_img' => 'nullable|string',
-            'about_desc' => 'nullable|string|max:255',
+            'about_desc' => 'nullable|string',
             'place_date' => 'nullable|string|max:255',
             'event_dd' => 'nullable|string|max:255',
             'event_mmyy' => 'nullable|string|max:255',

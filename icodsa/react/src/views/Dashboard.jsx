@@ -105,8 +105,6 @@ export default function Dashboard() {
         }
     };
 
-    // ------------- HOME END -------------
-
     // ------------- ABOUT US -------------
     const [aboutData, setAboutData] = useState({
         about_img: '',
@@ -307,8 +305,6 @@ export default function Dashboard() {
 
             {/* Section About Us */}
             <section className="AboutUs">
-
-
                 <div className="container">
                     <form onSubmit={handleSubmitAbout}>
                         <div className="row flex">
@@ -318,7 +314,7 @@ export default function Dashboard() {
                                     <img src="/bali.jpg" alt="conf.date" id="confImg" />
                                 </div>
                                 
-                                <div className="container excellance-tag text-center p-4">
+                                <div className="container excellance-tag text-center p-4" id="exllancetag">
                                     <div className="container excellance-text justtify-content-center p-2">
                                         <p>Conf. Date</p>
                                         <div className="icon">
@@ -371,7 +367,7 @@ export default function Dashboard() {
             </section>
 
             {/* Section Speakers */}
-            <section className="Speakers pt-100 pb-80 bg-light">
+            <section className="Speakers pt-100 pb-80">
                 <div className="container">
                     <div className="section-header">
                         <h5>Keynote</h5>

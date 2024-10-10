@@ -7,7 +7,7 @@ import "../styles/app.css";
 export default function App() {
 
 
-  // --------- Home -----------
+  // ------------- HOME START -------------
   const [homeData, setHomeData] = useState({
     title: '',
     place_date: '',
@@ -52,7 +52,7 @@ export default function App() {
     fetchHostLogoData();
   }, []);
 
-  // --------- About -----------
+  // ------------- ABOUT US -------------
   const [aboutData, setAboutData] = useState({
     about_img: '',
     about_desc: '',
@@ -70,6 +70,24 @@ export default function App() {
         console.error(error);
       });
   }, []);
+
+  // ------------- SPEAKERS -------------
+  const [speakers, setSpeakers] = useState([]);
+
+  // Fetch speakers from the API
+  useEffect(() => {
+    fetchSpeakers();
+  }, []);
+
+  const fetchSpeakers = () => {
+    axios.get('http://localhost:8000/api/speakers')
+      .then(response => {
+        setSpeakers(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   return (
     <body>
@@ -143,7 +161,7 @@ export default function App() {
                 </div>
               ))
             ) : (
-              <p>No logos uploaded yet.</p>
+              <p></p>
             )}
           </div>
 
@@ -213,30 +231,127 @@ export default function App() {
 
       </section>
 
-      <section className="Speakers pt-100 pb-80">
+      <section className="Speakers">
         <div className="container">
-          <div className="container">
-            <div className="section-header">
-              <h5>
-                Keynote
-              </h5>
-              <h2>
-                Speakers
-              </h2>
-            </div>
-            <div className="container mt-4">
-
-            </div>
-            <div className="card">
-              <img src="/HoshangKolivand.jpg" className="card-img-top" alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">Assoc. Prof. Dr. Hoshang Kolivand</h5>
-                <p className="card-text">School of Computer Science and Mathematics, Liverpool John Moores University, England</p>
+          <div className="section-header">
+            <h5>Keynote</h5>
+            <h2>Speakers</h2>
+          </div>
+          <div className="row mt-4 px-2">
+            {speakers.map((speaker) => (
+              <div className="col-lg-3 col-md-4 col-sm-6 mb-4" key={speaker.id}>
+                <div className="card custom-card">
+                  <img
+                    src={`http://localhost:8000${speaker.speakers_img}`}
+                    className="card-img-top"
+                    alt={speaker.speakers_name}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{speaker.speakers_name}</h5>
+                    <p className="card-text">{speaker.speakers_desc}</p>
+                  </div>
+                </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
+
+      <section className="tutorial">
+        <div className="container">
+          <div className="section-header">
+            <h5>Tutorial</h5>
+            <h2>Session</h2>
+          </div>
+          <div className="container p-2" id="tutor">
+            <img src="./public/tutoriall.png" alt="" />
+          </div>
+          <div className="section-header">
+            <h2>Abstract</h2>
+          </div>
+          <div className="container p-0">
+            <p>
+              The arrival of generative AI, especially ChatGPT, has revolutionized the educational landscape and offers unprecedented opportunities for personalized and interactive learning experiences. This tutorial examines the success of ChatGPT, powered by AI, as a learning assistant in data science and its wider applications. Using natural language processing capabilities, ChatGPT provides customized training, homework support, and real-time feedback, increasing understanding of complex data science concepts. The tutorial will assess effectiveness in supporting knowledge acquisition, engagement, and continuous learning.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section className="importantDate" style={{ backgroundImage: `url('/coba.jpg')` }}>
+        <div className="container">
+          <h2>Important Date</h2>
+        </div>
+        <div className="container">
+          <div className="row">
+            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
+              <div className="card">
+                <h3 className="card-title">Important Date</h3>
+                <div className="card-body">
+                  <img src="iconImportantDate.png" alt=".." />
+                  <h4 className="card-text">24</h4>
+                  <h5>Mei, 2024</h5>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
+              <div className="card">
+                <h3 className="card-title">Important Date</h3>
+                <div className="card-body">
+                  <img src="iconImportantDate.png" alt=".." />
+                  <h4 className="card-text">24</h4>
+                  <h5>Mei, 2024</h5>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
+              <div className="card">
+                <h3 className="card-title">Important Date</h3>
+                <div className="card-body">
+                  <img src="iconImportantDate.png" alt=".." />
+                  <h4 className="card-text">24</h4>
+                  <h5>Mei, 2024</h5>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
+              <div className="card">
+                <h3 className="card-title">Important Date</h3>
+                <div className="card-body">
+                  <img src="iconImportantDate.png" alt=".." />
+                  <h4 className="card-text">24</h4>
+                  <h5>Mei, 2024</h5>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
+              <div className="card">
+                <h3 className="card-title">Important Date</h3>
+                <div className="card-body">
+                  <img src="iconImportantDate.png" alt=".." />
+                  <h4 className="card-text">24</h4>
+                  <h5>Mei, 2024</h5>
+                </div>
+              </div>
+            </div>
+            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
+              <div className="card">
+                <h3 className="card-title">Important Date</h3>
+                <div className="card-body">
+                  <img src="iconImportantDate.png" alt=".." />
+                  <h4 className="card-text">24</h4>
+                  <h5>Mei, 2024</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+          <a href="#" data-scroll-goto="2">
+            <span></span>
+          </a>
+        </div>
+      </section>
+
+
+
     </body>
   );
 }
