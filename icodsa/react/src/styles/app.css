@@ -7,13 +7,17 @@ body {
 }
 
 nav {
-    background: linear-gradient(to right, #463e7d, #31cebd); /* Gradient dari kiri ke kanan */
-    color: #ffffff; /* Warna teks */
+    background: linear-gradient(to right, #463e7d, #31cebd);
+    color: #ffffff;
     font-size: 16px;
     font-weight: 400;
     font-family: "Roboto", sans-serif;
-    line-height: 16px; /* Mengatur jarak antara baris teks */
+    line-height: 16px;
     letter-spacing: 1px;
+}
+
+nav .container-fluid {
+    padding-left: 40px;
 }
 
 nav img {
@@ -21,11 +25,24 @@ nav img {
 }
 
 .navbar-nav .nav-link {
-    color: #ffffff; /* Mengatur warna teks link di navbar */
+    color: #ffffff;
 }
 
 .navbar-nav .nav-link:hover {
-    color: #ddd; /* Mengubah warna saat hover jika diinginkan */
+    color: #ddd;
+}
+
+.navbar {
+    padding: 20px 165px;
+
+    transition:
+        background-color 0.3s ease,
+        box-shadow 0.3s ease;
+}
+
+.navbar.scrolled {
+    background: linear-gradient(to right, #463e7d, #31cebd); /* Gaya seperti yang diinginkan */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* ------------ HOME START ------------ */
@@ -131,7 +148,6 @@ nav img {
 .AboutUs {
     margin-top: 100px;
     margin-bottom: 100px;
-    padding: 20px 200px;
 }
 
 #AboutUs h1 {
@@ -152,8 +168,8 @@ nav img {
 
 .excellance-tag {
     position: absolute;
-    top: 80%; /* Atur sesuai kebutuhan */
-    left: 30%; /* Atur sesuai kebutuhan */
+    top: 80%;
+    left: 30%;
     width: 200px;
     height: 250px;
     border: #ffffff;
@@ -219,8 +235,8 @@ nav img {
 /* ------------ Speakers US START ------------ */
 .Speakers {
     margin-top: 200px;
-    margin-left: 200px;
-    margin-right: 200px;
+    margin-left: 190px;
+    margin-right: 190px;
 }
 
 .custom-card {
@@ -246,7 +262,6 @@ nav img {
     line-height: 40px;
     letter-spacing: 2px;
     color: #343a3a;
-    padding-left: 3px;
 }
 
 .Speakers .card h5 {
@@ -270,8 +285,8 @@ nav img {
 /* ------------ Tutorial START ------------ */
 .tutorial {
     margin-top: 100px;
-    margin-left: 200px;
-    margin-right: 200px;
+    margin-left: 190px;
+    margin-right: 190px;
 }
 
 #tutor img {
@@ -294,8 +309,8 @@ nav img {
     padding: 0;
     margin: 0;
     padding-top: 100px;
-    padding-left: 200px;
-    padding-right: 200px;
+    padding-left: 190px;
+    padding-right: 190px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -363,3 +378,122 @@ nav img {
 }
 
 /* ------------ OUR TOPICS START ------------ */
+
+.ourTopics {
+    margin-top: 100px;
+    margin-left: 190px;
+    margin-right: 190px;
+    max-width: 100%;
+}
+
+.ourTopics .row .card {
+    margin-left: 0;
+    border: none;
+}
+
+.ourTopics h3 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 40px;
+    background: linear-gradient(to left, #363060, #00949d);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.ourTopics .card h4 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 18px;
+    color: #343a3a;
+}
+
+.ourTopics .card h5 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #777777;
+}
+
+/* ------------ AUTHOR INFO START ------------ */
+.AuthorInfo {
+    margin-top: 100px;
+    margin-left: 190px;
+    margin-right: 190px;
+    max-width: 100%;
+}
+
+.AuthorInfo h1 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: #343a3a;
+    margin-top: 40px;
+}
+
+.AuthorInfo h2 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #343a3a;
+    margin-top: 30px;
+}
+.AuthorInfo p {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    color: #777777;
+}
+
+.AuthorInfo button {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    border: none;
+    background: linear-gradient(45deg, #363060, #00afb9); /* Gradien default */
+    background-size: 200% 200%; /* Ukuran latar besar untuk efek bergerak */
+    background-position: 0% 50%; /* Posisi awal */
+    color: white;
+    transition: background-position 0.6s ease, background-size 0.6s ease, color 0.4s ease; /* Transisi halus */
+}
+
+.AuthorInfo button:hover {
+    background-position: 100% 50%; /* Geser gradien untuk memberikan efek bergerak */
+    color: white;
+}
+
+/* ------------ PROGRAM COMMITTEE START ------------ */
+.programComittee {
+    margin-top: 100px;
+    margin-left: 190px;
+    margin-right: 190px;
+    max-width: 100%;
+}
+
+.programComittee .content{
+    margin-top: 35px;
+}
+
+.programComittee h3{
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #777777;
+}
+
+.programComittee h4{
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #777777;
+}
+
+.programComittee hr{
+    margin-top: 50px;
+}
+
+/* ------------ REVIEWER START ------------ */

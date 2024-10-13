@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Home;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+
 
 class HomeController extends Controller
 {
@@ -39,7 +41,6 @@ class HomeController extends Controller
     // Mengupdate data di tabel Home
     public function update(Request $request, Home $home)
     {
-        // Validasi request untuk update, semua field nullable
         $validated = $request->validate([
             'title' => 'nullable|string|max:255',
             'place_date' => 'nullable|string|max:255',
@@ -58,5 +59,28 @@ class HomeController extends Controller
     {
         $home->delete();
         return response()->json(null, 204);
+    }
+
+    public function uploadBg(Request $request, Home $home)
+    {
+        // Validasi file gambar
+        $validatedData = $request->validate([
+            'home_bg' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Maksimal 2MB
+        ]);
+
+        // Menghapus gambar sebelumnya jika ada
+        if ($home->home_bg) {
+            // Hapus gambar dari storage
+            Storage::disk('public')->delete($home->home_bg);
+        }
+
+        // Simpan gambar ke storage
+        $path = $request->file('home_bg')->store('backgrounds', 'public'); // Simpan di storage/app/public/backgrounds
+
+        // Update kolom home_bg di database
+        $home->home_bg = $path; // Simpan path ke database
+        $home->save();
+
+        return response()->json(['home_bg' => $path], 200);
     }
 }

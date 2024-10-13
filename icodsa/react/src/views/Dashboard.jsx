@@ -11,8 +11,9 @@ export default function Dashboard() {
         title: '',
         place_date: '',
         description: '',
-        home_bg: ''
+        home_bg: null // Ubah menjadi null untuk menampung file gambar
     });
+
 
     const [hostLogoData, setHostLogoData] = useState([]);
 
@@ -70,6 +71,26 @@ export default function Dashboard() {
         }));
     };
 
+    const handleBgUpload = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return; // Pastikan file ada
+
+        const formData = new FormData();
+        formData.append('home_bg', file); // Simpan file gambar
+
+        try {
+            const response = await axios.post('http://localhost:8000/api/homes/1/bg', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            setHomeData((prevData) => ({ ...prevData, home_bg: response.data.home_bg }));
+            alert('Background image uploaded successfully!');
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     const handleLogoUpload = async (event) => {
         const files = event.target.files;
         const formData = new FormData();
@@ -106,11 +127,11 @@ export default function Dashboard() {
     };
 
     // ------------- ABOUT US -------------
+    
     const [aboutData, setAboutData] = useState({
-        about_img: '',
+        about_img: null,
         about_desc: '',
         event_dd: '',
-        description: '',
         event_mmyy: ''
     });
 
@@ -135,7 +156,7 @@ export default function Dashboard() {
                 console.error(error);
             });
     };
-
+    
     const handleInputChangeAbout = (event) => {
         const { name, value } = event.target;
         setAboutData((prevData) => ({
@@ -144,19 +165,27 @@ export default function Dashboard() {
         }));
     };
 
-    const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onloadend = () => {
-                setAboutData((prevData) => ({
-                    ...prevData,
-                    about_img: reader.result, // Simpan URL gambar sementara
-                }));
-            };
-            reader.readAsDataURL(file); // Membaca file sebagai URL
+    const handleAboutImgUpload = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return; // Pastikan file ada
+    
+        const formData = new FormData();
+        formData.append('about_img', file); // Simpan file gambar
+    
+        try {
+            const response = await axios.post('http://localhost:8000/api/abouts/1/about_img', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            // Update about_img sesuai nama yang benar dalam response
+            setAboutData((prevData) => ({ ...prevData, about_img: response.data.about_img })); 
+            alert('Image uploaded successfully!');
+        } catch (error) {
+            console.error(error);
         }
     };
+    
 
     // ------------- SPEAKERS -------------
     const [speakers, setSpeakers] = useState([]);
@@ -234,23 +263,41 @@ export default function Dashboard() {
     return (
         <div>
             {/* Section Home */}
-            <section className="Home" style={{ backgroundImage: `url('/coba.jpg')` }} >
+            <section className="Home" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
                 <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
-                    <div className="container" id="hostLogo">
+                    <div className="container align-items-center" id="hostLogo">
                         {hostLogoData.length > 0 ? (
                             hostLogoData.map((logo) => (
-                                <div key={logo.id} className="logo-container">
+                                <div id="logo-container" key={logo.id} className="logo-container position-relative"> {/* Tambahkan position-relative */}
                                     <img src={`http://localhost:8000/storage/${logo.host_logo}`} alt="Host Logo" className="mx-2" />
-                                    <button type="button" onClick={() => handleLogoDelete(logo.id)} className="btn btn-danger mx-2">
-                                        Delete Logo
-                                    </button>
+                                    <svg
+                                        type="button" width="24"
+                                        height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                        onClick={() => handleLogoDelete(logo.id)} className="delete-icon"
+                                    > <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" fill="white" /> <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" stroke="#DE5858" /> <path d="M6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19V7H6V19ZM8 9H16V19H8V9ZM15.5 4L14.5 3H9.5L8.5 4H5V6H19V4H15.5Z" fill="#DE5858" />
+                                    </svg>
                                 </div>
                             ))
                         ) : (
                             <p>No logos uploaded yet.</p>
                         )}
-                        <input type="file" multiple onChange={handleLogoUpload} /> {/* Menambahkan atribut multiple */}
+
                     </div>
+
+                    <div className="container" id="inputLogo">
+                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.2231 15.3125C14.654 15.3125 15.0807 15.2276 15.4788 15.0627C15.8769 14.8978 16.2386 14.6561 16.5433 14.3514C16.848 14.0468 17.0897 13.685 17.2546 13.2869C17.4195 12.8888 17.5044 12.4621 17.5044 12.0312C17.5044 11.6004 17.4195 11.1737 17.2546 10.7756C17.0897 10.3775 16.848 10.0157 16.5433 9.71106C16.2386 9.40636 15.8769 9.16467 15.4788 8.99977C15.0807 8.83487 14.654 8.75 14.2231 8.75C13.3529 8.75 12.5183 9.0957 11.9029 9.71106C11.2876 10.3264 10.9419 11.161 10.9419 12.0312C10.9419 12.9015 11.2876 13.7361 11.9029 14.3514C12.5183 14.9668 13.3529 15.3125 14.2231 15.3125Z" fill="white" />
+                            <path d="M30.625 30.625C30.625 31.7853 30.1641 32.8981 29.3436 33.7186C28.5231 34.5391 27.4103 35 26.25 35H8.75C7.58968 35 6.47688 34.5391 5.65641 33.7186C4.83594 32.8981 4.375 31.7853 4.375 30.625V4.375C4.375 3.21468 4.83594 2.10188 5.65641 1.28141C6.47688 0.460936 7.58968 0 8.75 0L20.7812 0L30.625 9.84375V30.625ZM8.75 2.1875C8.16984 2.1875 7.61344 2.41797 7.2032 2.8282C6.79297 3.23844 6.5625 3.79484 6.5625 4.375V26.25L11.4275 21.385C11.5999 21.213 11.8248 21.1035 12.0665 21.0737C12.3082 21.044 12.5529 21.0958 12.7619 21.2209L17.5 24.0625L22.2184 17.4562C22.3108 17.3271 22.4301 17.2197 22.5681 17.1413C22.7062 17.0629 22.8596 17.0155 23.0178 17.0024C23.176 16.9893 23.3351 17.0108 23.4842 17.0654C23.6332 17.1199 23.7686 17.2063 23.8809 17.3184L28.4375 21.875V9.84375H24.0625C23.1923 9.84375 22.3577 9.49805 21.7423 8.88269C21.127 8.26734 20.7812 7.43274 20.7812 6.5625V2.1875H8.75Z" fill="white" />
+                        </svg>
+
+                        <label htmlFor="file-upload" className="custom-file-upload">
+                            Choose png logo
+                        </label>
+                        <input id="file-upload" type="file" multiple onChange={handleLogoUpload} />
+                    </div>
+
+
+
                     <form onSubmit={handleSubmit}>
                         {/* Form untuk data home */}
                         <div className="container" id="textHome">
@@ -260,9 +307,8 @@ export default function Dashboard() {
                                 name="title"
                                 value={homeData.title}
                                 onChange={handleInputChange}
-                                placeholder="Judul ICODSAnya"
+                                placeholder="Event Name"
                             />
-                            <h1 className="hidden">{homeData.title}</h1>
 
                             <input
                                 type="text"
@@ -270,12 +316,9 @@ export default function Dashboard() {
                                 name="place_date"
                                 value={homeData.place_date}
                                 onChange={handleInputChange}
-                                placeholder="Place Date"
+                                placeholder="Place, Date"
                             />
-                            <h2 className="hidden">{homeData.place_date}</h2>
                         </div>
-
-
 
                         <div className="container" id="buttonHome">
                             <button type="button" className="btn btn-primary mx-2">
@@ -293,10 +336,11 @@ export default function Dashboard() {
                                 name="description"
                                 value={homeData.description}
                                 onChange={handleInputChange}
-                                placeholder="Description"
+                                placeholder="Short Description"
                             />
-                            <p className="hidden">{homeData.description}</p>
                         </div>
+
+                        <input type="file" accept="image/*" onChange={handleBgUpload} style={{ marginTop: '10px' }} />
 
                         <button type="submit">Update Home</button>
                     </form>
@@ -305,66 +349,54 @@ export default function Dashboard() {
 
             {/* Section About Us */}
             <section className="AboutUs">
-                <div className="container">
-                    <form onSubmit={handleSubmitAbout}>
-                        <div className="row flex">
-                            
-                            <div className="confDay col-md-6 col-lg-5">
-                                <div className="container">
-                                    <img src="/bali.jpg" alt="conf.date" id="confImg" />
-                                </div>
-                                
-                                <div className="container excellance-tag text-center p-4" id="exllancetag">
-                                    <div className="container excellance-text justtify-content-center p-2">
-                                        <p>Conf. Date</p>
-                                        <div className="icon">
-                                            <div className="icon-home">
-                                                <svg width="61" height="61" viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M10.1667 30.5001L30.5 10.1667L50.8334 30.5001M15.25 26.6876V48.2917C15.25 48.9658 15.5178 49.6123 15.9945 50.089C16.4711 50.5656 17.1176 50.8334 17.7917 50.8334H25.4167V43.2084C25.4167 42.5343 25.6845 41.8878 26.1611 41.4112C26.6378 40.9345 27.2843 40.6667 27.9584 40.6667H33.0417C33.7158 40.6667 34.3623 40.9345 34.8389 41.4112C35.3156 41.8878 35.5834 42.5343 35.5834 43.2084V50.8334H43.2084C43.8824 50.8334 44.5289 50.5656 45.0056 50.089C45.4822 49.6123 45.75 48.9658 45.75 48.2917V26.6876" stroke="white" />
-                                                </svg>
-                                            </div>
-                                            <h3 id="confDate"><input
-                                                type="text"
-                                                className="eventDD-input editable-text"
-                                                name="event_dd" value={aboutData.event_dd} onChange={handleInputChangeAbout} placeholder="10-11"
-                                            /></h3>
-                                            <h4><input
-                                                type="text"
-                                                className="eventMMYY-input editable-text"
-                                                name="event_mmyy" value={aboutData.event_mmyy} onChange={handleInputChangeAbout} placeholder="July, 2025"
-                                            /></h4>
+            <div className="container">
+                <form onSubmit={handleSubmitAbout}>
+                    <div className="row flex">
+                        <div className="confDay col-md-6 col-lg-5">
+                            <div className="container">
+                                {/* Ganti sumber gambar menjadi yang dinamis */}
+                                <img src={`http://localhost:8000/storage/${aboutData.about_img || 'bali.jpg'}`} alt="conf.date" id="confImg" />
+                            </div>
+                            <div className="container excellance-tag text-center p-4" id="excelance-tag">
+                                <div className="container excellance-text justify-content-center p-2">
+                                    <p>Conf. Date</p>
+                                    <div className="icon">
+                                        <div className="icon-home">
+                                            {/* SVG */}
                                         </div>
+                                        <h3 id="confDate"><input
+                                            type="text"
+                                            className="eventDD-input editable-text"
+                                            name="event_dd" value={aboutData.event_dd} onChange={handleInputChangeAbout} placeholder="10-11"
+                                        /></h3>
+                                        <h4><input
+                                            type="text"
+                                            className="eventMMYY-input editable-text"
+                                            name="event_mmyy" value={aboutData.event_mmyy} onChange={handleInputChangeAbout} placeholder="July, 2025"
+                                        /></h4>
                                     </div>
                                 </div>
-                                
                             </div>
-
-                            <div className="col">
-                                <h1 className="mb-5" id="aboutUsH1">
-                                    About Us
-                                </h1>
-                                <textarea
-                                    className="descAbout-input"
-                                    name="about_desc"
-                                    value={aboutData.about_desc}
-                                    onChange={handleInputChangeAbout}
-                                    placeholder="About Description"
-                                    rows="50"
-                                />
-                            </div>
-
                         </div>
-                        <input
-                                type="file"
-                                accept="image/*"
-                                onChange={handleFileChange}
+                        <div className="col">
+                            <h1 className="mb-5" id="aboutUsH1">About Us</h1>
+                            <textarea
+                                className="descAbout-input"
+                                name="about_desc"
+                                value={aboutData.about_desc}
+                                onChange={handleInputChangeAbout}
+                                placeholder="About Description"
+                                rows="10"
                             />
-                        <button type="submit">Update About Us</button>
-
-                    </form>
-                </div>
-
-            </section>
+                        </div>
+                    </div>
+                    <div className="container" id='gambarAbout'>
+                        <input type="file" accept="image/*" onChange={handleAboutImgUpload} style={{ marginTop: '10px' }} />
+                    </div>
+                    <button type="submit">Update About Us</button>
+                </form>
+            </div>
+        </section>
 
             {/* Section Speakers */}
             <section className="Speakers pt-100 pb-80">

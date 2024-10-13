@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AboutUs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AboutUsController extends Controller
 {
@@ -17,7 +18,6 @@ class AboutUsController extends Controller
     // Menyimpan data baru ke tabel about
     public function store(Request $request)
     {
-        // Validasi request, karena nullable, semua bisa optional
         $validatedAbout = $request->validate([
             'about_img' => 'nullable|string',
             'about_desc' => 'nullable|string',
@@ -40,20 +40,43 @@ class AboutUsController extends Controller
     // Mengupdate data di tabel Home
     public function update(Request $request, AboutUs $about)
     {
-        // Validasi request untuk update, semua field nullable
         $validated = $request->validate([
             'about_img' => 'nullable|string',
             'about_desc' => 'nullable|string',
-            'place_date' => 'nullable|string|max:255',
             'event_dd' => 'nullable|string|max:255',
             'event_mmyy' => 'nullable|string|max:255',
         ]);
 
-        // Update data sesuai dengan yang diinputkan
+        // Update data lainnya
         $about->update($validated);
 
         return response()->json($about);
     }
+
+    public function uploadImgAbout(Request $request, AboutUs $about)
+    {
+        // Validasi file gambar
+        $validatedData = $request->validate([
+            'about_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+    
+        // Menghapus gambar sebelumnya jika ada
+        if ($about->about_img) {
+            // Hapus gambar dari storage
+            Storage::disk('public')->delete($about->about_img);
+        }
+    
+        // Simpan gambar ke storage
+        $path = $request->file('about_img')->store('aboutImg', 'public'); // Simpan di storage/app/public/aboutImg
+    
+        // Update kolom about_img di database
+        $about->about_img = $path; // Simpan path ke database
+        $about->save();
+    
+        return response()->json(['about_img' => $path], 200); // Kembalikan path yang benar
+    }
+    
+
 
     // Menghapus data dari id tertentu
     public function destroy(AboutUs $about)

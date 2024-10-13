@@ -91,8 +91,8 @@ export default function App() {
 
   return (
     <body>
-      <nav className="navbar navbar-expand-lg sticky-top py-3">
-        <div className="container-fluid px-5">
+      <nav className="navbar navbar-expand-lg sticky-top">
+        <div className="container-fluid">
           <a
             className="navbar-brand justify-content-start align-items-center"
             href="#"
@@ -150,7 +150,7 @@ export default function App() {
         </div>
       </nav>
 
-      <section className="Home" style={{ backgroundImage: `url('/coba.jpg')` }} >
+      <section className="Home" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
         <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
           <div className="container" id="hostLogo">
             {hostLogoData.length > 0 ? (
@@ -350,8 +350,166 @@ export default function App() {
         </div>
       </section>
 
+      <section className="ourTopics">
+        <div className="container">
+          <div className="section-header">
+            <h5>Our</h5>
+            <h2>Topics</h2>
+          </div>
+          <div className="container content p-0">
+            <div className="row m-0">
+              {/* Card 1 */}
+              <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0" id="cardArea">
+                <div className="card">
+                  <div className="card-title pb-2">
+                    <h3>01.</h3>
+                  </div>
+                  <div className="card-body p-0">
+                    <h4 className="card-text">Data Science</h4>
+                    <h5>Social Engineering, Cyber Ethics and Cyber Crime</h5>
+                    <h5>Social Engineering, Cyber Ethics and Cyber Crime</h5>
+                    <h5>Social Engineering, Cyber Ethics and Cyber Crime</h5>
+                    <h5>Social Engineering, Cyber Ethics and Cyber Crime</h5>
+                    <h5>Social Engineering, Cyber Ethics and Cyber Crime</h5>
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 2 */}
+              <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0">
+                <div className="card">
+                  <div className="card-title pb-2">
+                    <h3>02.</h3>
+                  </div>
+                  <div className="card-body p-0">
+                    <h4 className="card-text">Artificial Intelligence</h4>
+                    <h5>Machine Learning and Deep Learning</h5>
+                    <h5>Machine Learning and Deep Learning</h5>
+                    <h5>Machine Learning and Deep Learning</h5>
+                    <h5>Machine Learning and Deep Learning</h5>
+
+                  </div>
+                </div>
+              </div>
+
+              {/* Card 3 */}
+              <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0">
+                <div className="card">
+                  <div className="card-title pb-2">
+                    <h3>03.</h3>
+                  </div>
+                  <div className="card-body p-0">
+                    <h4 className="card-text">Cyber Security</h4>
+                    <h5>Cryptography and Network Security</h5>
+                    <h5>Machine Learning and Deep Learning</h5>
+                    <h5>Machine Learning and Deep Learning</h5>
+                    <h5>Machine Learning and Deep Learning</h5>
+                    <h5>Machine Learning and Deep Learning</h5>
+                  </div>
+                </div>
+              </div>
+
+
+              {/* Card 3 */}
+              <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0">
+                <div className="card">
+                  <div className="card-title pb-2">
+                    <h3>03.</h3>
+                  </div>
+                  <div className="card-body p-0">
+                    <h4 className="card-text">Cyber Security</h4>
+                    <h5>Cryptography and Network Security</h5>
+                  </div>
+                </div>
+              </div>
+
+
+              {/* Card 3 */}
+              <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0">
+                <div className="card">
+                  <div className="card-title pb-2">
+                    <h3>03.</h3>
+                  </div>
+                  <div className="card-body p-0">
+                    <h4 className="card-text">Cyber Security</h4>
+                    <h5>Cryptography and Network Security</h5>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <section className="AuthorInfo">
+        <div className="container">
+          <h1>
+            Author Information
+          </h1>
+        </div>
+
+        <div className="container">
+          <h2>
+            Paper Submission
+          </h2>
+        </div>
+
+        <div className="container mt-0">
+          <p>
+            Prospective authors are invited to submit full papers of 4-6 pages (including tables, figures and references) in standard IEEE double-column format. Please submit your paper via https://edas.info/newPaper.php?c=32055. New users are required to register with EDAS before paper submission. Each full registration for the conference will cover one paper.
+          </p>
+        </div>
+
+        <div className="container">
+          <button type="button" className="btn btn-primary">
+            Submit Here
+          </button>
+
+        </div>
+      </section>
+
+      <section className="programComittee">
+        <div className="section-header pb-1">
+          <h2>Program Committee</h2>
+          <h5>Organaizing Committee</h5>
+        </div>
+        <div className="container p-0">
+          <div className="content">
+            <div className="content-head">
+              <h3>Steering Committee:
+              </h3>
+            </div>
+            <div className="content-body">
+              <h4>
+                Prof. Dr. Adiwijaya (Telkom University, Indonesia)
+              </h4>
+            </div>
+          </div>
+
+          <div className="content">
+            <div className="content-head">
+              <h3>Steering Committee:
+              </h3>
+            </div>
+            <div className="content-body">
+              <h4>
+                Prof. Dr. Adiwijaya (Telkom University, Indonesia)
+              </h4>
+            </div>
+          </div>
+
+        </div>
+        <hr />
+
+      </section>
 
 
     </body>
+
   );
 }
+
+// SCRIPT
+

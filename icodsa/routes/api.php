@@ -13,7 +13,18 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::apiResource('posts', PostController::class);
+
 Route::apiResource('homes', HomeController::class);
+Route::post('homes/{home}/bg', [HomeController::class, 'uploadBg']);
+
+
 Route::apiResource('abouts', AboutUsController::class);
+Route::post('abouts/{about}/about_img', [AboutUsController::class, 'uploadImgAbout']);
+
 Route::apiResource('speakers', SpeakerController::class);
+
 Route::apiResource('host_host_logos', HomeHostLogoController::class);
+
+
+
+

@@ -30,8 +30,64 @@ nav img {
 
 /* ------------ HOME START ------------ */
 
-.hidden {
-    display: none;
+#inputLogo {
+    width: 150px;
+    height: 80px;
+    border: 1px dotted rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#inputLogo label {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 9px;
+}
+
+#inputLogo input[type="file"] {
+    display: none; /* Hide the actual file input */
+}
+
+.custom-file-upload {
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #3584a7; /* Button color */
+    color: white;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+    width: 110px;
+}
+
+.custom-file-upload:hover {
+    background-color: #2ba2d6; /* Hover effect */
+}
+
+#logo-container {
+    border: 1px dotted rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    position: relative; /* Buat logo-container menjadi relative untuk menempatkan child-nya */
+    margin: 5px;
+}
+
+#hostLogo img {
+    width: auto;
+    height: 50px;
+    margin-bottom: 10px;
+}
+
+.delete-icon {
+    position: absolute;
+    top: 10;
+    right: 0;
+    cursor: pointer;
+    z-index: 1;
+    margin-right: 5px;
+    margin-top: 5px;
 }
 
 .editable-text {
@@ -43,13 +99,13 @@ nav img {
     width: 100%;
     padding: 10px;
     margin-bottom: 20px;
+    border-radius: 5px;
 }
 
 .title-input {
     font-family: "Poppins", sans-serif;
     font-weight: 200;
     font-size: 64px;
-    line-height: 80px;
     letter-spacing: 1px;
 }
 
@@ -57,7 +113,6 @@ nav img {
     font-family: "Poppins", sans-serif;
     font-weight: 200;
     font-size: 24px;
-    line-height: 30px;
     letter-spacing: 1px;
 }
 
@@ -65,13 +120,11 @@ nav img {
     font-family: "Poppins", sans-serif;
     font-weight: 200;
     font-size: 36px;
-    line-height: 45px;
     letter-spacing: 1px;
 }
 
-/* Tambahan gaya jika dibutuhkan */
 .editable-text::placeholder {
-    color: rgba(255, 255, 255, 0.5); /* Gaya placeholder agar tetap terlihat */
+    color: rgba(255, 255, 255, 0.5);
 }
 
 /* ------------ ABOUT US START ------------ */
@@ -89,20 +142,16 @@ nav img {
     letter-spacing: 2px;
 }
 
-/* .confDay {
-    background-color: #343a3a;
-} */
-
 .col-md-6.col-lg-5 {
     position: relative;
 }
 
-#excellance-tag {
+#excelance-tag {
     position: absolute;
-    top: 80%; /* Atur sesuai kebutuhan */
+    top: 45%; /* Atur sesuai kebutuhan */
     left: 30%; /* Atur sesuai kebutuhan */
     width: 200px;
-    height: 250px;
+    height: 330px;
     border: #ffffff;
     border-style: solid;
     background-color: #3584a7;
@@ -189,7 +238,16 @@ nav img {
     margin-bottom: 20px; /* Ruang di bawah setiap input */
 }
 
+#gambarAbout{
+    background-color: #31cebd;
+}
 /* ------------ Speakers US START ------------ */
+.ourTopics .card {
+    /* border: none; */
+    width: auto;
+    margin: 20px;
+}
+
 .Speakers h5 {
     font-family: "Poppins", sans-serif;
     font-weight: 500;
