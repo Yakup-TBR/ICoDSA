@@ -3,8 +3,11 @@
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeHostLogoController;
+use App\Http\Controllers\ImportantDateBgController;
+use App\Http\Controllers\ImportantDateController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SpeakerController;
+use App\Http\Controllers\TopicsController;
 use App\Http\Controllers\TutorialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -30,6 +33,12 @@ Route::apiResource('tutorial', TutorialController::class);
 Route::post('tutorial/{tutorial}/thumbail_img', [TutorialController::class, 'uploadThumbnailImg']);
 
 
+Route::apiResource('important-dates', ImportantDateController::class);
+Route::apiResource('important_date_bg', ImportantDateBgController::class);
+Route::post('important_date_bg/{id}/important_date_bg', [ImportantDateBgController::class, 'uploadImportantDateBg']);
+
+
+Route::apiResource('topics', TopicsController::class);
 
 
 

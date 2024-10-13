@@ -107,6 +107,40 @@ export default function App() {
       });
   }, []);
 
+  // ------------- IMPORTANT DATE -------------
+  const [importantDates, setImportantDates] = useState([]);
+
+
+  useEffect(() => {
+    fetchImportantDates();
+  }, []);
+
+  // Function to fetch important dates from the API
+  const fetchImportantDates = () => {
+    axios.get('http://localhost:8000/api/important-dates')
+      .then(response => {
+        setImportantDates(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching important dates:', error);
+      });
+  };
+
+  // ------------- OUR TOPICS -------------
+  const [topics, setTopics] = useState([]);
+  useEffect(() => {
+    fetchTopics();
+  }, []);
+
+  const fetchTopics = () => {
+    axios.get('http://localhost:8000/api/topics')
+      .then(response => {
+        setTopics(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  };
 
   return (
     <body>
@@ -300,66 +334,20 @@ export default function App() {
         </div>
         <div className="container">
           <div className="row">
-            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
-              <div className="card">
-                <h3 className="card-title">Important Date</h3>
-                <div className="card-body">
-                  <img src="iconImportantDate.png" alt=".." />
-                  <h4 className="card-text">24</h4>
-                  <h5>Mei, 2024</h5>
+
+            {importantDates.map((date) => (
+              <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4" key={date.id}>
+                <div className="card">
+                  <h3 className="card-title">{date.activity}</h3>
+                  <div className="card-body">
+                    <img src={`http://localhost:8000${date.activity_icon}`} alt={date.activity} />
+                    <h4 className="card-text">{new Date(date.event_date).getDate()}</h4>
+                    <h5>{new Date(date.event_date).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}</h5>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
-              <div className="card">
-                <h3 className="card-title">Important Date</h3>
-                <div className="card-body">
-                  <img src="iconImportantDate.png" alt=".." />
-                  <h4 className="card-text">24</h4>
-                  <h5>Mei, 2024</h5>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
-              <div className="card">
-                <h3 className="card-title">Important Date</h3>
-                <div className="card-body">
-                  <img src="iconImportantDate.png" alt=".." />
-                  <h4 className="card-text">24</h4>
-                  <h5>Mei, 2024</h5>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
-              <div className="card">
-                <h3 className="card-title">Important Date</h3>
-                <div className="card-body">
-                  <img src="iconImportantDate.png" alt=".." />
-                  <h4 className="card-text">24</h4>
-                  <h5>Mei, 2024</h5>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
-              <div className="card">
-                <h3 className="card-title">Important Date</h3>
-                <div className="card-body">
-                  <img src="iconImportantDate.png" alt=".." />
-                  <h4 className="card-text">24</h4>
-                  <h5>Mei, 2024</h5>
-                </div>
-              </div>
-            </div>
-            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
-              <div className="card">
-                <h3 className="card-title">Important Date</h3>
-                <div className="card-body">
-                  <img src="iconImportantDate.png" alt=".." />
-                  <h4 className="card-text">24</h4>
-                  <h5>Mei, 2024</h5>
-                </div>
-              </div>
-            </div>
+            ))}
+
           </div>
           <a href="#" data-scroll-goto="2">
             <span></span>
@@ -375,84 +363,21 @@ export default function App() {
           </div>
           <div className="container content p-0">
             <div className="row m-0">
-              {/* Card 1 */}
-              <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0" id="cardArea">
-                <div className="card">
-                  <div className="card-title pb-2">
-                    <h3>01.</h3>
-                  </div>
-                  <div className="card-body p-0">
-                    <h4 className="card-text">Data Science</h4>
-                    <h5>Social Engineering, Cyber Ethics and Cyber Crime</h5>
-                    <h5>Social Engineering, Cyber Ethics and Cyber Crime</h5>
-                    <h5>Social Engineering, Cyber Ethics and Cyber Crime</h5>
-                    <h5>Social Engineering, Cyber Ethics and Cyber Crime</h5>
-                    <h5>Social Engineering, Cyber Ethics and Cyber Crime</h5>
+              {topics.map((topic) => (
+                <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0" key={topic.id}>
+                  <div className="card">
+                    <div className="card-title pb-2">
+                      <h3>{topic.topic_order}.</h3>
+                    </div>
+                    <div className="card-body p-0">
+                      <h4 className="card-text">{topic.topic_title}</h4>
+                      <h5>{topic.topic_list}</h5>
+                    </div>
                   </div>
                 </div>
-              </div>
-
-              {/* Card 2 */}
-              <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0">
-                <div className="card">
-                  <div className="card-title pb-2">
-                    <h3>02.</h3>
-                  </div>
-                  <div className="card-body p-0">
-                    <h4 className="card-text">Artificial Intelligence</h4>
-                    <h5>Machine Learning and Deep Learning</h5>
-                    <h5>Machine Learning and Deep Learning</h5>
-                    <h5>Machine Learning and Deep Learning</h5>
-                    <h5>Machine Learning and Deep Learning</h5>
-
-                  </div>
-                </div>
-              </div>
-
-              {/* Card 3 */}
-              <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0">
-                <div className="card">
-                  <div className="card-title pb-2">
-                    <h3>03.</h3>
-                  </div>
-                  <div className="card-body p-0">
-                    <h4 className="card-text">Cyber Security</h4>
-                    <h5>Cryptography and Network Security</h5>
-                    <h5>Machine Learning and Deep Learning</h5>
-                    <h5>Machine Learning and Deep Learning</h5>
-                    <h5>Machine Learning and Deep Learning</h5>
-                    <h5>Machine Learning and Deep Learning</h5>
-                  </div>
-                </div>
-              </div>
+              ))}
 
 
-              {/* Card 3 */}
-              <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0">
-                <div className="card">
-                  <div className="card-title pb-2">
-                    <h3>03.</h3>
-                  </div>
-                  <div className="card-body p-0">
-                    <h4 className="card-text">Cyber Security</h4>
-                    <h5>Cryptography and Network Security</h5>
-                  </div>
-                </div>
-              </div>
-
-
-              {/* Card 3 */}
-              <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0">
-                <div className="card">
-                  <div className="card-title pb-2">
-                    <h3>03.</h3>
-                  </div>
-                  <div className="card-body p-0">
-                    <h4 className="card-text">Cyber Security</h4>
-                    <h5>Cryptography and Network Security</h5>
-                  </div>
-                </div>
-              </div>
 
             </div>
           </div>

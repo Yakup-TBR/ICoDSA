@@ -26,9 +26,9 @@ export default function Dashboard() {
             } catch (error) {
                 if (error.response && error.response.status === 404) {
                     const newHome = {
-                        title: 'Judul Awal',
-                        place_date: 'Tanggal Awal',
-                        description: 'Deskripsi Awal',
+                        title: 'ICODSA',
+                        place_date: 'Place & Date',
+                        description: 'Description',
                         home_bg: 'background.jpg',
                     };
                     await axios.post('http://localhost:8000/api/homes', newHome);
@@ -318,6 +318,171 @@ export default function Dashboard() {
         }
     };
 
+    // ------------- Important Date -------------
+
+    const [importantDates, setImportantDates] = useState([]);
+    const [newImportantDate, setNewImportantDate] = useState({
+        activity: '',
+        activity_icon: '',
+        event_date: '',
+    });
+    const [selectedIcon, setSelectedIcon] = useState(null);
+    const [showModalImportantDate, setShowModalImportantDate] = useState(false);
+
+    // Fetch important dates from the API
+    useEffect(() => {
+        fetchImportantDates();
+    }, []);
+
+    // Function to fetch important dates from the API
+    const fetchImportantDates = () => {
+        axios.get('http://localhost:8000/api/important-dates')
+            .then(response => {
+                setImportantDates(response.data);
+            })
+            .catch(error => {
+                console.error('Error fetching important dates:', error);
+            });
+    };
+
+    // Function to handle input changes in the form
+    const handleInputChangeImportantDate = (event) => {
+        const { name, value } = event.target;
+        setNewImportantDate((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    // Function to handle file changes (icon upload)
+    const handleFileChangeImportantDate = (event) => {
+        setSelectedIcon(event.target.files[0]);
+    };
+
+    // Function to handle the submission of the new important date
+    const handleSubmitImportantDate = (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('activity_icon', selectedIcon);
+        formData.append('activity', newImportantDate.activity);
+        formData.append('event_date', newImportantDate.event_date);
+
+        axios.post('http://localhost:8000/api/important-dates', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then(response => {
+                setImportantDates([...importantDates, response.data]);
+                setShowModalImportantDate(false);
+                alert('Important date added successfully!');
+            })
+            .catch(error => {
+                console.error('Error adding important date:', error);
+            });
+    };
+
+    // Function to handle the deletion of an important date
+    const handleDeleteImportantDate = (id) => {
+        if (window.confirm('Are you sure you want to delete this important date?')) {
+            axios.delete(`http://localhost:8000/api/important-dates/${id}`)
+                .then(() => {
+                    setImportantDates(importantDates.filter(date => date.id !== id));
+                    alert('Important date deleted successfully!');
+                })
+                .catch(error => {
+                    console.error('Error deleting important date:', error);
+                });
+        }
+    };
+
+    // IMPORTANT DATE BG
+
+
+    // ---------- TOPICS ----------
+    const [topics, setTopics] = useState([]);
+    const [newTopic, setNewTopic] = useState({
+        topic_order: '',
+        topic_title: '',
+        topic_list: '',
+    });
+    const [showModalTopics, setShowModalTopics] = useState(false);
+    const [selectedTopicId, setSelectedTopicId] = useState(null);
+
+    // Fetch topics from the API
+    useEffect(() => {
+        fetchTopics();
+    }, []);
+
+    const fetchTopics = () => {
+        axios.get('http://localhost:8000/api/topics')
+            .then(response => {
+                setTopics(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleInputChangeTopics = (event) => {
+        const { name, value } = event.target;
+        setNewTopic((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmitTopics = (event) => {
+        event.preventDefault();
+        if (selectedTopicId) {
+            // Update existing topic
+            axios.put(`http://localhost:8000/api/topics/${selectedTopicId}`, newTopic)
+                .then(response => {
+                    setTopics(topics.map(topic => topic.id === selectedTopicId ? response.data : topic));
+                    setShowModalTopics(false);
+                    alert('Topic updated successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } else {
+            // Add new topic
+            axios.post('http://localhost:8000/api/topics', newTopic)
+                .then(response => {
+                    setTopics([...topics, response.data]);
+                    setShowModalTopics(false);
+                    alert('Topic added successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    };
+
+    const handleDeleteTopics = (id) => {
+        if (window.confirm('Are you sure you want to delete this topic?')) {
+            axios.delete(`http://localhost:8000/api/topics/${id}`)
+                .then(() => {
+                    setTopics(topics.filter(topic => topic.id !== id));
+                    alert('Topic deleted successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    };
+
+    const handleEditTopics = (topic) => {
+        setNewTopic({
+            topic_order: topic.topic_order,
+            topic_title: topic.topic_title,
+            topic_list: topic.topic_list,
+        });
+        setSelectedTopicId(topic.id);
+        setShowModalTopics(true);
+    };
+
+
     return (
         <div>
             {/* Section Home */}
@@ -526,12 +691,12 @@ export default function Dashboard() {
                 </div>
                 <div className="container">
                     <form onSubmit={handleSubmitTutorial}>
-                            <div className="container p-0" id="thumbnailImg">
-                                <img src={`http://localhost:8000/storage/${tutorialData.thumbail_img || 'placeholder.jpg'}`} alt="Tutorial Thumbnail" />
-                            </div>
-                            <div className="container" id="uploadThumbnail">
-                                <input type="file" accept="image/*" onChange={handleThumbnailImgUpload} />
-                            </div>
+                        <div className="container p-0" id="thumbnailImg">
+                            <img src={`http://localhost:8000/storage/${tutorialData.thumbail_img || 'placeholder.jpg'}`} alt="Tutorial Thumbnail" />
+                        </div>
+                        <div className="container" id="uploadThumbnail">
+                            <input type="file" accept="image/*" onChange={handleThumbnailImgUpload} />
+                        </div>
                         <div className="container p-0">
                             <textarea
                                 className="abstract-input" name="abstract" value={tutorialData.abstract} onChange={handleInputChangeTutorial}
@@ -541,6 +706,136 @@ export default function Dashboard() {
                     </form>
                 </div>
             </section>
+
+
+            <section className="importantDate" style={{ backgroundImage: `url('/coba.jpg')` }}>
+                <p>Input BG Disini</p>
+                <div className="container">
+                    <h2>Important Date</h2>
+                    <button className="btn btn-primary" onClick={() => setShowModalImportantDate(true)}>+ Add Important Date</button>
+                </div>
+
+                <div className="container">
+                    <div className="row">
+                        {importantDates.map((date) => (
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4" key={date.id}>
+                                <div className="card">
+                                    <h3 className="card-title">{date.activity}</h3>
+                                    <div className="card-body">
+                                        <img src={`http://localhost:8000${date.activity_icon}`} alt={date.activity} />
+                                        <h4 className="card-text">{new Date(date.event_date).getDate()}</h4>
+                                        <h5>{new Date(date.event_date).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}</h5>
+                                        <button className="btn btn-danger" onClick={() => handleDeleteImportantDate(date.id)}>Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+
+                {showModalImportantDate && (
+                    <div className="modal fade show" style={{ display: 'block' }}>
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title">Add New Important Date</h5>
+                                    <button type="button" className="btn-close" onClick={() => setShowModalImportantDate(false)}></button>
+                                </div>
+                                <form onSubmit={handleSubmitImportantDate}>
+                                    <div className="modal-body">
+                                        <div className="mb-3">
+                                            <label className="form-label">Activity</label>
+                                            <input type="text" className="form-control" name="activity" onChange={handleInputChangeImportantDate} required />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Upload Icon</label>
+                                            <input type="file" className="form-control" onChange={handleFileChangeImportantDate} required />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Event Date</label>
+                                            <input type="date" className="form-control" name="event_date" onChange={handleInputChangeImportantDate} required />
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-secondary" onClick={() => setShowModalImportantDate(false)}>Close</button>
+                                        <button type="submit" className="btn btn-primary">Add Important Date</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </section>
+
+            <section className="ourTopics">
+                <div className="container">
+                    <div className="section-header">
+                        <h5>Our</h5>
+                        <h2>Topics</h2>
+                        <button className="btn btn-primary" onClick={() => { setNewTopic({ topic_order: '', topic_title: '', topic_list: '' }); setSelectedTopicId(null); setShowModalTopics(true); }}>
+                            + Add Topic
+                        </button>
+                    </div>
+                    <div className="container content p-0">
+                        <div className="row m-0">
+                            {topics.map((topic) => (
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-4 mb-4 p-0" key={topic.id}>
+                                    <div className="card">
+                                        <div className="card-title pb-2">
+                                            <h3>{topic.topic_order}.</h3>
+                                        </div>
+                                        <div className="card-body p-0">
+                                            <h4 className="card-text">{topic.topic_title}</h4>
+                                            <h5>{topic.topic_list}</h5>
+                                            <button className="btn btn-danger" onClick={() => handleDeleteTopics(topic.id)}>
+                                                Delete
+                                            </button>
+                                            <button className="btn btn-secondary" onClick={() => handleEditTopics(topic)}>
+                                                Edit
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Modal for Adding/Editing Topic */}
+                {showModalTopics && (
+                    <div className="modal fade show" style={{ display: 'block' }}>
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title">{selectedTopicId ? 'Edit Topic' : 'Add New Topic'}</h5>
+                                    <button type="button" className="btn-close" onClick={() => setShowModalTopics(false)}></button>
+                                </div>
+                                <form onSubmit={handleSubmitTopics}>
+                                    <div className="modal-body">
+                                        <div className="mb-3">
+                                            <label className="form-label">Topic Order</label>
+                                            <input type="text" className="form-control" name="topic_order" value={newTopic.topic_order} onChange={handleInputChangeTopics} required />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Topic Title</label>
+                                            <input type="text" className="form-control" name="topic_title" value={newTopic.topic_title} onChange={handleInputChangeTopics} required />
+                                        </div>
+                                        <div className="mb-3">
+                                            <label className="form-label">Topic List</label>
+                                            <textarea className="form-control" name="topic_list" value={newTopic.topic_list} onChange={handleInputChangeTopics} required></textarea>
+                                        </div>
+                                    </div>
+                                    <div className="modal-footer">
+                                        <button type="button" className="btn btn-secondary" onClick={() => setShowModalTopics(false)}>Close</button>
+                                        <button type="submit" className="btn btn-primary">{selectedTopicId ? 'Update Topic' : 'Add Topic'}</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                )}
+            </section>
+
         </div>
     );
 }
