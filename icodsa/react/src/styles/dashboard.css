@@ -134,6 +134,13 @@ nav img {
     padding: 20px 200px;
 }
 
+#aboutImg {
+    object-fit: cover;
+    width: 350px;
+    height: 500px;
+    background-color: #2ba2d6;
+}
+
 #AboutUs h1 {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
@@ -241,7 +248,7 @@ nav img {
 #gambarAbout{
     background-color: #31cebd;
 }
-/* ------------ Speakers US START ------------ */
+/* ------------ SPEAKERS US START ------------ */
 .ourTopics .card {
     /* border: none; */
     width: auto;
@@ -265,4 +272,49 @@ nav img {
     letter-spacing: 2px;
     color: #343a3a;
     padding-left: 3px;
+}
+
+
+/* ------------ TUTORIAL US sta ------------ */
+
+.tutorial-dash{
+    margin-top: 100px;
+    margin-left: 190px;
+    margin-right: 190px;
+}
+
+#thumbnailImg{
+    background-color: #31cebd;
+    width: 100%;
+    height: 550px;
+}
+
+#thumbnailImg img{
+    width: 100%;
+    height: 100%;
+}
+
+#tutorial .container{
+    width: 100vh;
+}
+
+.abstract-input{
+    width: 100%;
+}
+
+.abstract-input{
+    border: 1px dotted rgba(0, 0, 0, 0.7); /* Border titik-titik */
+    background: transparent;
+    width: 100%;
+    height: 300px;
+    outline: none;
+    color: #000000;
+    margin-bottom: 20px;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0px;
+    resize: none;
+    overflow: auto;
 }

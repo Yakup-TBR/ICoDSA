@@ -65,7 +65,7 @@ class HomeController extends Controller
     {
         // Validasi file gambar
         $validatedData = $request->validate([
-            'home_bg' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Maksimal 2MB
+            'home_bg' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
         ]);
 
         // Menghapus gambar sebelumnya jika ada

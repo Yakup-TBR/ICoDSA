@@ -127,7 +127,7 @@ export default function Dashboard() {
     };
 
     // ------------- ABOUT US -------------
-    
+
     const [aboutData, setAboutData] = useState({
         about_img: null,
         about_desc: '',
@@ -156,7 +156,7 @@ export default function Dashboard() {
                 console.error(error);
             });
     };
-    
+
     const handleInputChangeAbout = (event) => {
         const { name, value } = event.target;
         setAboutData((prevData) => ({
@@ -168,10 +168,10 @@ export default function Dashboard() {
     const handleAboutImgUpload = async (event) => {
         const file = event.target.files[0];
         if (!file) return; // Pastikan file ada
-    
+
         const formData = new FormData();
         formData.append('about_img', file); // Simpan file gambar
-    
+
         try {
             const response = await axios.post('http://localhost:8000/api/abouts/1/about_img', formData, {
                 headers: {
@@ -179,13 +179,13 @@ export default function Dashboard() {
                 },
             });
             // Update about_img sesuai nama yang benar dalam response
-            setAboutData((prevData) => ({ ...prevData, about_img: response.data.about_img })); 
+            setAboutData((prevData) => ({ ...prevData, about_img: response.data.about_img }));
             alert('Image uploaded successfully!');
         } catch (error) {
             console.error(error);
         }
     };
-    
+
 
     // ------------- SPEAKERS -------------
     const [speakers, setSpeakers] = useState([]);
@@ -259,6 +259,64 @@ export default function Dashboard() {
         }
     };
 
+    // ------------- TUTORIAL -------------
+
+    const [tutorialData, setTutorialData] = useState({
+        thumbail_img: null,
+        abstract: '',
+    });
+
+    useEffect(() => {
+        // Mengambil data tutorial
+        axios.get('http://localhost:8000/api/tutorial/1')
+            .then(response => {
+                setTutorialData(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }, []);
+
+    const handleSubmitTutorial = (event) => {
+        event.preventDefault();
+        axios.put('http://localhost:8000/api/tutorial/1', tutorialData)
+            .then(response => {
+                setTutorialData(response.data);
+                alert('Tutorial updated successfully!');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleInputChangeTutorial = (event) => {
+        const { name, value } = event.target;
+        setTutorialData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleThumbnailImgUpload = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return; // Pastikan file ada
+
+        const formData = new FormData();
+        formData.append('thumbail_img', file); // Simpan file gambar
+
+        try {
+            const response = await axios.post('http://localhost:8000/api/tutorial/1/thumbail_img', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            // Update thumbail_img sesuai nama yang benar dalam response
+            setTutorialData((prevData) => ({ ...prevData, thumbail_img: response.data.thumbail_img }));
+            alert('Image uploaded successfully!');
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <div>
@@ -349,54 +407,53 @@ export default function Dashboard() {
 
             {/* Section About Us */}
             <section className="AboutUs">
-            <div className="container">
-                <form onSubmit={handleSubmitAbout}>
-                    <div className="row flex">
-                        <div className="confDay col-md-6 col-lg-5">
-                            <div className="container">
-                                {/* Ganti sumber gambar menjadi yang dinamis */}
-                                <img src={`http://localhost:8000/storage/${aboutData.about_img || 'bali.jpg'}`} alt="conf.date" id="confImg" />
-                            </div>
-                            <div className="container excellance-tag text-center p-4" id="excelance-tag">
-                                <div className="container excellance-text justify-content-center p-2">
-                                    <p>Conf. Date</p>
-                                    <div className="icon">
-                                        <div className="icon-home">
-                                            {/* SVG */}
+                <div className="container">
+                    <form onSubmit={handleSubmitAbout}>
+                        <div className="row flex">
+                            <div className="confDay col-md-6 col-lg-5">
+                                <div className="container" id="aboutImg">
+                                    <img src={`http://localhost:8000/storage/${aboutData.about_img || 'bali.jpg'}`} alt="conf.img" id="confImg" />
+                                </div>
+                                <div className="container excellance-tag text-center p-4" id="excelance-tag">
+                                    <div className="container excellance-text justify-content-center p-2">
+                                        <p>Conf. Date</p>
+                                        <div className="icon">
+                                            <div className="icon-home">
+                                                {/* SVG */}
+                                            </div>
+                                            <h3 id="confDate"><input
+                                                type="text"
+                                                className="eventDD-input editable-text"
+                                                name="event_dd" value={aboutData.event_dd} onChange={handleInputChangeAbout} placeholder="10-11"
+                                            /></h3>
+                                            <h4><input
+                                                type="text"
+                                                className="eventMMYY-input editable-text"
+                                                name="event_mmyy" value={aboutData.event_mmyy} onChange={handleInputChangeAbout} placeholder="July, 2025"
+                                            /></h4>
                                         </div>
-                                        <h3 id="confDate"><input
-                                            type="text"
-                                            className="eventDD-input editable-text"
-                                            name="event_dd" value={aboutData.event_dd} onChange={handleInputChangeAbout} placeholder="10-11"
-                                        /></h3>
-                                        <h4><input
-                                            type="text"
-                                            className="eventMMYY-input editable-text"
-                                            name="event_mmyy" value={aboutData.event_mmyy} onChange={handleInputChangeAbout} placeholder="July, 2025"
-                                        /></h4>
                                     </div>
                                 </div>
                             </div>
+                            <div className="col">
+                                <h1 className="mb-5" id="aboutUsH1">About Us</h1>
+                                <textarea
+                                    className="descAbout-input"
+                                    name="about_desc"
+                                    value={aboutData.about_desc}
+                                    onChange={handleInputChangeAbout}
+                                    placeholder="About Description"
+                                    rows="10"
+                                />
+                            </div>
                         </div>
-                        <div className="col">
-                            <h1 className="mb-5" id="aboutUsH1">About Us</h1>
-                            <textarea
-                                className="descAbout-input"
-                                name="about_desc"
-                                value={aboutData.about_desc}
-                                onChange={handleInputChangeAbout}
-                                placeholder="About Description"
-                                rows="10"
-                            />
+                        <div className="container" id='gambarAbout'>
+                            <input type="file" accept="image/*" onChange={handleAboutImgUpload} style={{ marginTop: '10px' }} />
                         </div>
-                    </div>
-                    <div className="container" id='gambarAbout'>
-                        <input type="file" accept="image/*" onChange={handleAboutImgUpload} style={{ marginTop: '10px' }} />
-                    </div>
-                    <button type="submit">Update About Us</button>
-                </form>
-            </div>
-        </section>
+                        <button type="submit">Update About Us</button>
+                    </form>
+                </div>
+            </section>
 
             {/* Section Speakers */}
             <section className="Speakers pt-100 pb-80">
@@ -461,6 +518,29 @@ export default function Dashboard() {
                     </div>
                 </div>
             )}
+
+            <section className="tutorial-dash">
+                <div className="section-header">
+                    <h5>Tutorial</h5>
+                    <h2>Session</h2>
+                </div>
+                <div className="container">
+                    <form onSubmit={handleSubmitTutorial}>
+                            <div className="container p-0" id="thumbnailImg">
+                                <img src={`http://localhost:8000/storage/${tutorialData.thumbail_img || 'placeholder.jpg'}`} alt="Tutorial Thumbnail" />
+                            </div>
+                            <div className="container" id="uploadThumbnail">
+                                <input type="file" accept="image/*" onChange={handleThumbnailImgUpload} />
+                            </div>
+                        <div className="container p-0">
+                            <textarea
+                                className="abstract-input" name="abstract" value={tutorialData.abstract} onChange={handleInputChangeTutorial}
+                                placeholder="Tutorial Description" rows="10" />
+                        </div>
+                        <button type="submit">Update Tutorial</button>
+                    </form>
+                </div>
+            </section>
         </div>
     );
 }

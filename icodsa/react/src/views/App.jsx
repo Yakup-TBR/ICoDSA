@@ -54,10 +54,9 @@ export default function App() {
 
   // ------------- ABOUT US -------------
   const [aboutData, setAboutData] = useState({
-    about_img: '',
+    about_img: null,
     about_desc: '',
     event_dd: '',
-    description: '',
     event_mmyy: ''
   });
 
@@ -88,6 +87,26 @@ export default function App() {
         console.error(error);
       });
   };
+
+  // ------------- TUTORIAL -------------
+
+
+  const [tutorialData, setTutorialData] = useState({
+    thumbail_img: null,
+    abstract: '',
+  });
+
+  useEffect(() => {
+    // Mengambil data tutorial
+    axios.get('http://localhost:8000/api/tutorial/1')
+      .then(response => {
+        setTutorialData(response.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, []);
+
 
   return (
     <body>
@@ -200,7 +219,7 @@ export default function App() {
 
           <div className="row flex">
             <div className="confDay col-md-6 col-lg-5">
-              <img src="/bali.jpg" alt="conf.date" id="confImg" />
+              <img src={`http://localhost:8000/storage/${aboutData.about_img || 'bali.jpg'}`} alt="conf.img" id="confImg" />
               <div className="container excellance-tag text-center p-4">
                 <div className="container excellance-text justtify-content-center p-2">
                   <p>Conf. Date</p>
@@ -263,16 +282,14 @@ export default function App() {
             <h5>Tutorial</h5>
             <h2>Session</h2>
           </div>
-          <div className="container p-2" id="tutor">
-            <img src="./public/tutoriall.png" alt="" />
+          <div className="container p-0" id="thumbnailImg">
+            <img src={`http://localhost:8000/storage/${tutorialData.thumbail_img || 'placeholder.jpg'}`} alt="Tutorial Thumbnail" />
           </div>
-          <div className="section-header">
+          <div className="section-header pt-5">
             <h2>Abstract</h2>
           </div>
-          <div className="container p-0">
-            <p>
-              The arrival of generative AI, especially ChatGPT, has revolutionized the educational landscape and offers unprecedented opportunities for personalized and interactive learning experiences. This tutorial examines the success of ChatGPT, powered by AI, as a learning assistant in data science and its wider applications. Using natural language processing capabilities, ChatGPT provides customized training, homework support, and real-time feedback, increasing understanding of complex data science concepts. The tutorial will assess effectiveness in supporting knowledge acquisition, engagement, and continuous learning.
-            </p>
+          <div className="container p-0 pt-4 pb-4">
+            <p> {tutorialData.abstract} </p>
           </div>
         </div>
       </section>

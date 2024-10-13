@@ -12,7 +12,7 @@ class HomeHostLogoController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'host_logo.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:2048', // Validasi array file gambar
+            'host_logo.*' => 'required|image|mimes:jpg,jpeg,png,webp|max:10240', // Validasi array file gambar
         ]);
 
         $logoPaths = [];

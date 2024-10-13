@@ -18,7 +18,7 @@ class SpeakerController extends Controller
     public function store(Request $request)
     {
         $validatedData = $request->validate([
-            'speakers_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:5120',
+            'speakers_img' => 'required|image|mimes:jpeg,png,jpg,gif,svg,webp|max:10240',
             'speakers_name' => 'required|string|max:255',
             'speakers_desc' => 'required|string',
         ]);

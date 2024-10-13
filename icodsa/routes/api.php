@@ -5,6 +5,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeHostLogoController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\SpeakerController;
+use App\Http\Controllers\TutorialController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,7 @@ Route::apiResource('posts', PostController::class);
 
 Route::apiResource('homes', HomeController::class);
 Route::post('homes/{home}/bg', [HomeController::class, 'uploadBg']);
+Route::apiResource('host_host_logos', HomeHostLogoController::class);
 
 
 Route::apiResource('abouts', AboutUsController::class);
@@ -23,7 +25,12 @@ Route::post('abouts/{about}/about_img', [AboutUsController::class, 'uploadImgAbo
 
 Route::apiResource('speakers', SpeakerController::class);
 
-Route::apiResource('host_host_logos', HomeHostLogoController::class);
+
+Route::apiResource('tutorial', TutorialController::class);
+Route::post('tutorial/{tutorial}/thumbail_img', [TutorialController::class, 'uploadThumbnailImg']);
+
+
+
 
 
 

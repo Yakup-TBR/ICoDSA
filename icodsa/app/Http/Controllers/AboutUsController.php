@@ -57,7 +57,7 @@ class AboutUsController extends Controller
     {
         // Validasi file gambar
         $validatedData = $request->validate([
-            'about_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'about_img' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:10240',
         ]);
     
         // Menghapus gambar sebelumnya jika ada
