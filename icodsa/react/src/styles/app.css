@@ -496,4 +496,62 @@ nav img {
     margin-top: 50px;
 }
 
+hr{
+    color: #7d7d7d;
+}
+
 /* ------------ REVIEWER START ------------ */
+.reviewer{
+    margin-top: 20px;
+    margin-left: 190px;
+    margin-right: 190px;
+}
+
+.reviewer h4{
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #777777;
+}
+
+/* ------------ PRICING START ------------ */
+.pricing{
+    margin-top: 200px;
+    margin-left: 190px;
+    margin-right: 190px;
+}
+
+.pricing-area{
+    width: 100%;
+}
+
+.priceCard{
+    background-color: #3684a7;
+    color: #ffffff;
+}
+
+.pricing hr {
+    border-top: 1px solid #ffffff;
+    width: 50%;
+}
+
+.priceCard h3{
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 24px;
+    color: #ffffff;
+}
+
+.priceCard h4{
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-size: 64px;
+    color: #ffffff;
+}
+
+.priceCard p{
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #ffffff;
+}

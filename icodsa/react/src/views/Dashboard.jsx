@@ -563,7 +563,7 @@ export default function Dashboard() {
                             />
                         </div>
 
-                        <input type="file" accept="image/*" onChange={handleBgUpload} style={{ marginTop: '10px' }} />
+                        <input type="file" accept="image/*" onChange={handleBgUpload} style={{ marginTop: '10px' }} /> 
 
                         <button type="submit">Update Home</button>
                     </form>

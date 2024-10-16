@@ -127,6 +127,10 @@ nav img {
     color: rgba(255, 255, 255, 0.5);
 }
 
+#inputHomeBg{
+    left: 50%;
+}
+
 /* ------------ ABOUT US START ------------ */
 .AboutUs {
     margin-top: 100px;
@@ -245,9 +249,7 @@ nav img {
     margin-bottom: 20px; /* Ruang di bawah setiap input */
 }
 
-#gambarAbout{
-    background-color: #31cebd;
-}
+
 /* ------------ SPEAKERS US START ------------ */
 .ourTopics .card {
     /* border: none; */
