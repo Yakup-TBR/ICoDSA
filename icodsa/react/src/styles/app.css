@@ -458,7 +458,10 @@ nav img {
     background-size: 200% 200%; /* Ukuran latar besar untuk efek bergerak */
     background-position: 0% 50%; /* Posisi awal */
     color: white;
-    transition: background-position 0.6s ease, background-size 0.6s ease, color 0.4s ease; /* Transisi halus */
+    transition:
+        background-position 0.6s ease,
+        background-size 0.6s ease,
+        color 0.4s ease; /* Transisi halus */
 }
 
 .AuthorInfo button:hover {
@@ -474,40 +477,40 @@ nav img {
     max-width: 100%;
 }
 
-.programComittee .content{
+.programComittee .content {
     margin-top: 35px;
 }
 
-.programComittee h3{
+.programComittee h3 {
     font-family: "Roboto", sans-serif;
     font-weight: 500;
     font-size: 16px;
     color: #777777;
 }
 
-.programComittee h4{
+.programComittee h4 {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-size: 16px;
     color: #777777;
 }
 
-.programComittee hr{
+.programComittee hr {
     margin-top: 50px;
 }
 
-hr{
+hr {
     color: #7d7d7d;
 }
 
 /* ------------ REVIEWER START ------------ */
-.reviewer{
+.reviewer {
     margin-top: 20px;
     margin-left: 190px;
     margin-right: 190px;
 }
 
-.reviewer h4{
+.reviewer h4 {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-size: 16px;
@@ -515,17 +518,17 @@ hr{
 }
 
 /* ------------ PRICING START ------------ */
-.pricing{
+.pricing {
     margin-top: 200px;
     margin-left: 190px;
     margin-right: 190px;
 }
 
-.pricing-area{
+.pricing-area {
     width: 100%;
 }
 
-.priceCard{
+.priceCard {
     background-color: #3684a7;
     color: #ffffff;
 }
@@ -535,23 +538,218 @@ hr{
     width: 50%;
 }
 
-.priceCard h3{
+.priceCard h3 {
     font-family: "Poppins", sans-serif;
     font-weight: 500;
     font-size: 24px;
     color: #ffffff;
 }
 
-.priceCard h4{
+.priceCard h4 {
     font-family: "Poppins", sans-serif;
     font-weight: 200;
     font-size: 64px;
     color: #ffffff;
 }
 
-.priceCard p{
+.priceCard p {
     font-family: "Poppins", sans-serif;
     font-weight: 500;
     font-size: 16px;
     color: #ffffff;
+}
+
+/* ------------ PAYMENT METHOD START ------------ */
+.payment {
+    margin-top: 20px;
+    margin-left: 190px;
+    margin-right: 190px;
+}
+
+.payment h3 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #777777;
+}
+
+.payment-method,
+.payment-addInfo {
+    border: none;
+}
+
+.payment .card h3 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #777777;
+}
+
+.payment .card .card-text {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    line-height: 24px;
+    font-size: 16px;
+    color: #777777;
+}
+
+/* ------------ ARTICLE START ------------ */
+.article {
+    margin-top: 20px;
+    margin-left: 190px;
+    margin-right: 190px;
+    margin-bottom: 50px;
+}
+
+.article h1 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: #343a3a;
+}
+
+.article-content .card {
+    width: 50%;
+}
+
+.article-content .card h5 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #000000;
+}
+
+.article-content .card p {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #777777;
+}
+
+.article-content .card a {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+/* ------------ DOCUMENT START ------------ */
+.documentation {
+    margin-top: 20px;
+    margin-left: 190px;
+    margin-right: 190px;
+    margin-bottom: 50px;
+}
+
+.documentation h1 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: #343a3a;
+}
+
+.documentation a {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.photo-area .row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.photo-documentation {
+    flex: 0 0 calc(33.33% - 20px); /* 3 elemen per baris dengan margin hanya 20px */
+    height: 230px;
+    background-color: #00afb9;
+    margin-bottom: 30px; /* Jarak antar baris */
+}
+
+.photo-documentation:not(:nth-child(3n)) {
+    margin-right: 30px; /* Hanya elemen di tengah yang diberi jarak kanan */
+}
+
+.photo-documentation img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* ------------ ADDRESS START ------------ */
+.address {
+    width: 100%;
+    margin: 0;
+}
+
+.address .container-fluid {
+    padding-left: 0; /* Menghilangkan padding kiri */
+    padding-right: 0; /* Menghilangkan padding kanan */
+}
+
+.address row.no-gutters {
+    margin-right: 0; /* Menghilangkan margin kanan pada row */
+    margin-left: 0; /* Menghilangkan margin kiri pada row */
+}
+
+.address-area {
+    width: 50%;
+    height: 410px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: #ffffff;
+    position: relative; /* Menambahkan posisi relatif untuk ::before */
+}
+
+.address-area::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #31cebd, #463e7d);
+    opacity: 0.8;
+    z-index: 1;
+}
+
+.address-place {
+    position: relative;
+    z-index: 2;
+    padding: 100px;
+}
+
+.address-place h5 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 28px;
+    color: #ffffff;
+}
+
+.address-city p {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.contact p {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.map-area {
+    position: relative;
+    width: 50%;
+    height: 410px;
+}
+
+.map-area iframe {
+    border: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }

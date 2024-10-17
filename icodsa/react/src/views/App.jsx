@@ -581,12 +581,185 @@ export default function App() {
                 </div>
             </section>
 
-            <section className="payment-method">
+            <section className="payment">
                 <div className="container">
+                    <div className="section-header">
+                        <h5>Please follow this information for completing your registration:</h5>
+                    </div>
+                    <div className="container px-4">
+                        <h3 className='pt-3'>Payment Method</h3>
+                        <hr />
+
+                        <div className="card payment-method">
+                            <div className="card-body">
+                                <h3 className="card-title">1) Virtual Account</h3>
+                                <div className='card-text'>
+                                    Virtual Account Number: 8321066202400006<br />
+                                    Account Holder Name: Telkom University<br />
+                                    Bank Name: Bank Negara Indonesia (BNI)<br />
+                                    Bank Branch: Perintis Kemerdekaan<br />
+                                    *Use BNI Mobile Apps or BNI ATM only
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card payment-method">
+                            <div className="card-body">
+                                <h3 className="card-title">1) Virtual Account</h3>
+                                <div className='card-text'>
+                                    Virtual Account Number: 8321066202400006<br />
+                                    Account Holder Name: Telkom University<br />
+                                    Bank Name: Bank Negara Indonesia (BNI)<br />
+                                    Bank Branch: Perintis Kemerdekaan<br />
+                                    *Use BNI Mobile Apps or BNI ATM only
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card payment-method">
+                            <div className="card-body">
+                                <h3 className="card-title">1) Virtual Account</h3>
+                                <div className='card-text'>
+                                    Virtual Account Number: 8321066202400006<br />
+                                    Account Holder Name: Telkom University<br />
+                                    Bank Name: Bank Negara Indonesia (BNI)<br />
+                                    Bank Branch: Perintis Kemerdekaan<br />
+                                    *Use BNI Mobile Apps or BNI ATM only
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card payment-addInfo">
+                            <div className="card-body">
+                                <div className='card-text'>
+                                    Additional Information for International Transfer:<br />
+                                    Contact: icodsa@telkomuniversity.ac.id
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card payment-addInfo">
+                            <div className="card-body">
+                                <div className='card-text'>
+                                    Please be noted that to be indexed by IEEE, the paper must be presented at the conference.
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section className="article">
+                <div className="container">
+                    <h1>Article</h1>
+                    <div className="container d-flex justify-content-center article-content text-center p-0">
+                        <div className="card mr-2">
+                            <img src="/public/article2.png" className="card-img-top" alt="" />
+                            <div className="card-body">
+                                <h5 className="card-title">updatebali.com</h5>
+                                <p className="card-text">Conference ICoDSA, Ajang Men Deliver Ilmu Pengetahuan Konsisten Digelar Hingga Tahun Ini</p>
+                                <a href="#">Read More</a>
+                            </div>
+                        </div>
+
+                        <div className="card ml-2">
+                            <img src="/public/article2.png" className="card-img-top" alt="" />
+                            <div className="card-body">
+                                <h5 className="card-title">updatebali.com</h5>
+                                <p className="card-text">Conference ICoDSA, Ajang Men Deliver Ilmu Pengetahuan Konsisten Digelar Hingga Tahun Ini</p>
+                                <a href="#">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section className="documentation">
+                <div className="container">
+                    <h1>Documentation</h1>
+                    <a href="#">LINK DOCUMENTATION</a>
+                    <div className="container photo-area">
+                        <div className="row">
+                            <div className="col-12 col-md-4 p-0 photo-documentation">
+                                <a href="#">
+                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                </a>
+                            </div>
+
+                            <div className="col-12 col-md-4 p-0 photo-documentation">
+                                <a href="#">
+                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                </a>
+                            </div>
+
+                            <div className="col-12 col-md-4 p-0 photo-documentation">
+                                <a href="#">
+                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                </a>
+                            </div>
+
+                            <div className="col-12 col-md-4 p-0 photo-documentation">
+                                <a href="#">
+                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                </a>
+                            </div>
+
+                            <div className="col-12 col-md-4 p-0 photo-documentation">
+                                <a href="#">
+                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                </a>
+                            </div>
+
+                            <div className="col-12 col-md-4 p-0 photo-documentation">
+                                <a href="#">
+                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="container video-documentation p-0">
+                        <iframe width="100%" height="400"
+                            src="https://www.youtube.com/embed/2KnuZaqjvo4"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowfullscreen>
+                        </iframe>
+                    </div>
 
                 </div>
             </section>
 
+            <section className="address">
+                <div className="container-fluid">
+                    <div className="row no-gutters">
+                        <div className="col-md-6 address-area" style={{ backgroundImage: `url('/bgfooter.jpg')` }}>
+                            <div className="address-place">
+                                <h5>
+                                    Venue: <br />
+                                    Aston Kuta Hotel & Residence
+                                </h5>
+                                <div className="address-city">
+                                    <p>
+                                        Bali, ID
+                                    </p>
+                                </div>
+                                <div className="contact">
+                                    <p>
+                                        Contacts: icodsa@telkomuniversity.ac.id
+                                        <br />
+                                        commdis.telkomuniversity.ac.id/icodsa/2024
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-md-6 map-area">
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15840.958936556244!2d107.6522965579938!3d-6.981012981163149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e9adf177bf8d%3A0x437398556f9fa03!2sUniversitas%20Telkom!5e0!3m2!1sid!2sid!4v1729189533259!5m2!1sid!2sid" allowfullscreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
         </body>
 
