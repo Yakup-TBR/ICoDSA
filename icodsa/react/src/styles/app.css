@@ -45,6 +45,25 @@ nav img {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
 
+/* Hide dropdown by default */
+.dropdown-menu {
+    display: none; /* Hide the dropdown by default */
+    opacity: 0; /* Set initial opacity to 0 */
+    transform: translateY(-10px); /* Shift dropdown up slightly */
+    border: none;
+    border-radius: 0;
+    transition:
+        opacity 0.5s ease,
+        transform 0.5s ease; /* Add transition for opacity and transform */
+}
+
+/* Show dropdown on hover */
+.nav-item:hover .dropdown-menu {
+    display: block; /* Make it block when hovering */
+    opacity: 1; /* Set opacity to 1 for smooth visibility */
+    transform: translateY(0); /* Reset the transform */
+}
+
 /* ------------ HOME START ------------ */
 
 .Home {

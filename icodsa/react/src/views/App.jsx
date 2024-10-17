@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "../styles/app.css";
 
+
 export default function App() {
 
 
@@ -159,42 +160,48 @@ export default function App() {
 
                     <div className="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
                         <ul className="navbar-nav">
+
                             <li className="nav-item">
-                                <Link to="/" className="nav-link">
-                                    Home
-                                </Link>
+                                <Link to="/" className="nav-link">Home</Link>
                             </li>
+
                             <li className="nav-item">
-                                <Link to="/dashboard" className="nav-link">
-                                    Abous Us
-                                </Link>
+                                <Link to="/dashboard" className="nav-link">Abous Us</Link>
                             </li>
+
                             <li className="nav-item">
-                                <Link to="/about" className="nav-link">
-                                    Speakers
-                                </Link>
+                                <Link to="/about" className="nav-link">Speakers</Link>
                             </li>
-                            <li className="nav-item">
-                                <Link to="/about" className="nav-link">
+
+                            <li className="nav-item dropdown">
+                                <a href="#" className="nav-link dropdown-toggle" id="navbarDropdown" role="button" aria-expanded="false">
                                     For Author
-                                </Link>
+                                </a>
+                                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <Link to="/submission-guidelines" className="dropdown-item">Submission Guidelines</Link>
+                                    </li>
+                                    <li>
+                                        <Link to="/author-resources" className="dropdown-item">Author Resources</Link>
+                                    </li>
+                                </ul>
                             </li>
+
+
                             <li className="nav-item">
-                                <Link to="/about" className="nav-link">
-                                    Committee
-                                </Link>
+                                <Link to="/about" className="nav-link">Committee </Link>
                             </li>
+
                             <li className="nav-item">
-                                <Link to="/about" className="nav-link">
-                                    Contacts
-                                </Link>
+                                <Link to="/about" className="nav-link">Contacts</Link>
                             </li>
+
                         </ul>
                     </div>
                 </div>
             </nav>
 
-            <section className="Home" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
+            <section className="Home" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} id="particles-js" >
                 <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
                     <div className="container" id="hostLogo">
                         {hostLogoData.length > 0 ? (
@@ -208,7 +215,6 @@ export default function App() {
                             <p></p>
                         )}
                     </div>
-
 
                     <div className="container" id="textHome">
                         <div className="container" id="textHome">
