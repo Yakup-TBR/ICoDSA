@@ -681,26 +681,26 @@ hr {
 .address {
     width: 100%;
     margin: 0;
+    margin-bottom: 45px;
 }
 
 .address .container-fluid {
-    padding-left: 0; /* Menghilangkan padding kiri */
-    padding-right: 0; /* Menghilangkan padding kanan */
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .address row.no-gutters {
-    margin-right: 0; /* Menghilangkan margin kanan pada row */
-    margin-left: 0; /* Menghilangkan margin kiri pada row */
+    margin-right: 0;
+    margin-left: 0;
 }
 
 .address-area {
-    width: 50%;
     height: 410px;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     color: #ffffff;
-    position: relative; /* Menambahkan posisi relatif untuk ::before */
+    position: relative;
 }
 
 .address-area::before {
@@ -741,15 +741,97 @@ hr {
 
 .map-area {
     position: relative;
-    width: 50%;
     height: 410px;
 }
 
 .map-area iframe {
     border: none;
     position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
+}
+
+/* ------------ FOOTER START ------------ */
+
+.footer {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    position: relative; /* Supaya .sponsored-area tidak menimpa seluruh konten */
+    z-index: 1;
+}
+
+.sponsored-area {
+    position: absolute; /* Menggunakan absolute agar tidak mengganggu layout normal */
+    top: -65px; /* Mengatur top untuk menempatkan sponsored-area di lokasi yang diinginkan */
+    width: 100%;
+    padding: 0 13%;
+    z-index: 10;
+}
+
+.sponsored {
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    background: linear-gradient(to right, #31cebd, #463e7d);
+    color: #ffffff;
+}
+
+.sponsored h3 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #ffffff;
+}
+
+.sponsored img {
+    height: 50px;
+    width: auto;
+    margin: 20px;
+}
+
+.footer-content {
+    background-color: #2e303c;
+    color: #777777;
+    width: 100%;
+    margin: 0;
+    padding-left: 190px;
+    padding-right: 190px;
+    padding-top: 100px; /* Kurangi jarak padding top */
+    padding-bottom: 0;
+}
+
+.icodsa-footer p {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #777777;
+}
+
+.icodsa-footer img {
+    height: 70px;
+    width: auto;
+    margin-bottom: 20px;
+}
+
+.footer-content h3 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 20px;
+    color: #ffffff;
+    margin: 20px;
+}
+
+.support-logo img {
+    height: 50px;
+    width: auto;
+    margin: 20px;
+}
+
+.footer p {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: #777777;
 }

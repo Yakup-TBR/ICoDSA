@@ -153,20 +153,11 @@ export default function App() {
                         <img src="./public/logo-icodis.png" alt="" />
                     </a>
                     <button
-                        className="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#navbarNav"
-                        aria-controls="navbarNav"
-                        aria-expanded="false"
-                        aria-label="Toggle navigation"
-                    >
+                        className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
-                    <div
-                        className="collapse navbar-collapse justify-content-end align-items-center"
-                        id="navbarNav"
-                    >
+
+                    <div className="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
                         <ul className="navbar-nav">
                             <li className="nav-item">
                                 <Link to="/" className="nav-link">
@@ -683,37 +674,37 @@ export default function App() {
                         <div className="row">
                             <div className="col-12 col-md-4 p-0 photo-documentation">
                                 <a href="#">
-                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                    <img src="/public/article2.png" alt="" />
                                 </a>
                             </div>
 
                             <div className="col-12 col-md-4 p-0 photo-documentation">
                                 <a href="#">
-                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                    <img src="/public/article2.png" alt="" />
                                 </a>
                             </div>
 
                             <div className="col-12 col-md-4 p-0 photo-documentation">
                                 <a href="#">
-                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                    <img src="/public/article2.png" alt="" />
                                 </a>
                             </div>
 
                             <div className="col-12 col-md-4 p-0 photo-documentation">
                                 <a href="#">
-                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                    <img src="/public/article2.png" alt="" />
                                 </a>
                             </div>
 
                             <div className="col-12 col-md-4 p-0 photo-documentation">
                                 <a href="#">
-                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                    <img src="/public/article2.png" alt="" />
                                 </a>
                             </div>
 
                             <div className="col-12 col-md-4 p-0 photo-documentation">
                                 <a href="#">
-                                    <img src="/public/article2.png" className="card-img-top" alt="" />
+                                    <img src="/public/article2.png" alt="" />
                                 </a>
                             </div>
                         </div>
@@ -732,7 +723,7 @@ export default function App() {
 
             <section className="address">
                 <div className="container-fluid">
-                    <div className="row no-gutters">
+                    <div className="row no-gutters m-0">
                         <div className="col-md-6 address-area" style={{ backgroundImage: `url('/bgfooter.jpg')` }}>
                             <div className="address-place">
                                 <h5>
@@ -760,6 +751,45 @@ export default function App() {
                     </div>
                 </div>
             </section>
+
+            <footer className="footer">
+
+
+                <div className="container-fluid footer-content">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col icodsa-footer">
+                                <img src="/public/logo-icodis.png" alt="" />
+                                <p>The International Conference on Data Science and Its Applications</p>
+                            </div>
+
+                            <div className="col">
+                                <h3 className='m-0'>Supported by :</h3>
+                                <div className="container-fluid support-logo p-0">
+                                    <img src="/public/logo-utm.png" alt="" />
+                                    <img src="/public/logo-telu.png" alt="" />
+                                    <img src="/public/logo-ieeeindo.png" alt="" />
+                                </div>
+                            </div>
+
+                            <div className="container text-center">
+                                <hr className="opacity-100" />
+                                <p>© Copyright 2024. ICoDSA</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="container-fluid justify-content-center align-items-center sponsored-area">
+                    <div className="sponsored d-flex align-items-center justify-content-center">
+                        <h3 className="m-0">Sponsored by:</h3>
+                        <img src="/public/logo-utm.png" alt="" />
+                        <img src="/public/logo-telu.png" alt="" />
+                        <img src="/public/logo-ieeeindo.png" alt="" />
+                    </div>
+                </div>
+            </footer>
 
         </body>
 
