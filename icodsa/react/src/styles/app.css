@@ -777,7 +777,6 @@ hr {
 .footer {
     margin: 0;
     padding: 0;
-    height: 100%;
     position: relative; /* Supaya .sponsored-area tidak menimpa seluruh konten */
     z-index: 1;
 }

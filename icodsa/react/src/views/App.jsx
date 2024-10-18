@@ -8,7 +8,7 @@ export default function App() {
 
 
 
-    
+
 
     // ------------- HOME START -------------
     const [homeData, setHomeData] = useState({
@@ -217,7 +217,7 @@ export default function App() {
                             <p></p>
                         )}
                     </div>
-                    
+
 
                     <div className="container" id="textHome">
                         <div className="container" id="textHome">
