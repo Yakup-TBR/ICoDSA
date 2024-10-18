@@ -4,9 +4,11 @@ import { useEffect, useState } from 'react';
 import { Link } from "react-router-dom";
 import "../styles/app.css";
 
-
 export default function App() {
 
+
+
+    
 
     // ------------- HOME START -------------
     const [homeData, setHomeData] = useState({
@@ -201,7 +203,7 @@ export default function App() {
                 </div>
             </nav>
 
-            <section className="Home" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} id="particles-js" >
+            <section className="Home" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
                 <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
                     <div className="container" id="hostLogo">
                         {hostLogoData.length > 0 ? (
@@ -215,6 +217,7 @@ export default function App() {
                             <p></p>
                         )}
                     </div>
+                    
 
                     <div className="container" id="textHome">
                         <div className="container" id="textHome">
