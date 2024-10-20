@@ -6,27 +6,8 @@ body {
     color: #000000;
 }
 
-nav {
-    background: linear-gradient(to right, #463e7d, #31cebd); /* Gradient dari kiri ke kanan */
-    color: #ffffff;
-    font-size: 16px;
-    font-weight: 400;
-    font-family: "Roboto", sans-serif;
-    line-height: 16px;
-    letter-spacing: 1px;
-}
+/* The navigation bar */
 
-nav img {
-    width: 125px;
-}
-
-.navbar-nav .nav-link {
-    color: #ffffff;
-}
-
-.navbar-nav .nav-link:hover {
-    color: #ddd;
-}
 
 /* ------------ HOME START ------------ */
 
@@ -127,12 +108,12 @@ nav img {
     color: rgba(255, 255, 255, 0.5);
 }
 
-#inputHomeBg{
+#inputHomeBg {
     left: 50%;
 }
 
 /* ------------ ABOUT US START ------------ */
-.AboutUs {
+.AboutUsDash {
     margin-top: 100px;
     margin-bottom: 100px;
     padding: 20px 200px;
@@ -145,7 +126,7 @@ nav img {
     background-color: #2ba2d6;
 }
 
-#AboutUs h1 {
+#AboutUsDash h1 {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-size: 32px;
@@ -205,7 +186,7 @@ nav img {
     letter-spacing: 0px;
 }
 
-#aboutUsH1 {
+#AboutUsDash H1 {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-size: 32px;
@@ -249,7 +230,6 @@ nav img {
     margin-bottom: 20px; /* Ruang di bawah setiap input */
 }
 
-
 /* ------------ SPEAKERS US START ------------ */
 .ourTopics .card {
     /* border: none; */
@@ -276,35 +256,29 @@ nav img {
     padding-left: 3px;
 }
 
-
 /* ------------ TUTORIAL US sta ------------ */
 
-.tutorial-dash{
+.tutorial-dash {
     margin-top: 100px;
     margin-left: 190px;
     margin-right: 190px;
 }
 
-#thumbnailImg{
-    background-color: #31cebd;
+#thumbnailImg {
     width: 100%;
     height: 550px;
 }
 
-#thumbnailImg img{
-    width: 100%;
-    height: 100%;
+#thumbnailImg img {
+    max-width: 100%;
+    height: auto; 
 }
 
-#tutorial .container{
-    width: 100vh;
-}
-
-.abstract-input{
+.abstract-input {
     width: 100%;
 }
 
-.abstract-input{
+.abstract-input {
     border: 1px dotted rgba(0, 0, 0, 0.7); /* Border titik-titik */
     background: transparent;
     width: 100%;

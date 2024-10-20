@@ -1,13 +1,12 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;200;300;400;500;600;700;800;900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
-
-
 body {
     background-color: #ffffff;
     color: #000000;
 }
 
+/* ------------ NAVBAR START ------------ */
 nav {
     background: linear-gradient(to right, #463e7d, #31cebd);
     color: #ffffff;
@@ -16,6 +15,10 @@ nav {
     font-family: "Roboto", sans-serif;
     line-height: 16px;
     letter-spacing: 1px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 3;
 }
 
 nav .container-fluid {
@@ -26,50 +29,116 @@ nav img {
     width: 125px;
 }
 
+.navbar {
+    padding: 20px 165px;
+    overflow: visible;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.navbar a {
+    color: #000000;
+    float: left;
+    display: block;
+}
+
 .navbar-nav .nav-link {
+    position: relative;
+    color: #ffffff;
+    padding: 10px 15px;
+    transition: color 0.3s ease; /* Tambahkan transisi untuk warna */
+}
+
+/* Tambahkan elemen animasi segitiga terbalik */
+.navbar-nav .nav-link::after {
+    content: "";
+    position: absolute;
+    width: 0; /* Tidak ada lebar */
+    height: 0; /* Tidak ada tinggi */
+    border-left: 13px solid transparent; /* Setel ukuran segitiga */
+    border-right: 13px solid transparent; /* Setel ukuran segitiga */
+    border-top: 13px solid #ffffff; /* Warna segitiga terbalik */
+    bottom: 100%; /* Posisi di atas teks */
+    left: 50%; /* Pusatkan segitiga */
+    transform: translateX(-50%) scaleY(0); /* Pusatkan dan sembunyikan */
+    transition: transform 0.5s ease; /* Transisi untuk efek */
+    z-index: 1; /* Pastikan di atas */
+}
+
+/* Efek hover untuk nav link */
+.navbar-nav .nav-link:hover {
+    color: #dddddd; /* Ubah warna teks saat hover */
+}
+
+.navbar-nav .nav-link:hover::after {
+    transform: translateX(-50%) scaleY(1); /* Tampilkan segitiga saat hover */
+}
+
+/* Tambahkan kelas aktif untuk menampilkan segitiga */
+.navbar-nav .nav-link.active::after {
+    transform: translateX(-50%) scaleY(1); /* Tampilkan segitiga saat link aktif */
+}
+
+/* Nav item (posisi untuk dropdown) */
+.navbar-nav .nav-item {
+    position: relative;
+}
+
+/* Dropdown tanpa segitiga */
+.dropdown-menu {
+    display: none;
+    border: none;
+    border-radius: 0;
+    z-index: 1050;
+    position: absolute;
+    top: 100%;
+    left: 0;
+}
+
+.nav-item:hover .dropdown-menu {
+    display: block;
+}
+
+.dropdown-menu-end {
+    z-index: 1050;
+}
+
+.navbar-nav .nav-link.active {
     color: #ffffff;
 }
 
-.navbar-nav .nav-link:hover {
-    color: #ddd;
+@media (max-width: 1024px) {
+    .navbar {
+        padding: 20px 50px;
+    }
 }
 
-.navbar {
-    padding: 20px 165px;
-
-    transition:
-        background-color 0.3s ease,
-        box-shadow 0.3s ease;
+@media (max-width: 1010px) {
+    .navbar {
+        padding: 20px;
+        margin: 0;
+    }
 }
 
-.navbar.scrolled {
-    background: linear-gradient(to right, #463e7d, #31cebd); /* Gaya seperti yang diinginkan */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+@media (max-width: 992px) {
+    .navbar-nav .nav-link::after {
+        display: none; /* Hilangkan segitiga */
+    }
 }
 
-/* Hide dropdown by default */
-.dropdown-menu {
-    display: none; /* Hide the dropdown by default */
-    opacity: 0; /* Set initial opacity to 0 */
-    transform: translateY(-10px); /* Shift dropdown up slightly */
-    border: none;
-    border-radius: 0;
-    transition:
-        opacity 0.5s ease,
-        transform 0.5s ease; /* Add transition for opacity and transform */
-}
-
-/* Show dropdown on hover */
-.nav-item:hover .dropdown-menu {
-    display: block; /* Make it block when hovering */
-    opacity: 1; /* Set opacity to 1 for smooth visibility */
-    transform: translateY(0); /* Reset the transform */
+@media (max-width: 663px) {
+    .navbar {
+        padding: 20px;
+        margin: 0;
+    }
 }
 
 /* ------------ HOME START ------------ */
 
 .Home {
-    margin-top: 0px;
+    padding-top: 84px;
+    padding-bottom: 84px;
     position: relative;
     height: 100vh;
     display: flex;
@@ -78,6 +147,10 @@ nav img {
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
+}
+
+.homecontent {
+    margin-top: 184px;
 }
 
 .Home::before {
@@ -165,23 +238,42 @@ nav img {
     letter-spacing: 1px;
 }
 
+@media (max-width: 768px) {
+    .Home h1 {
+        font-size: 44px;
+    }
+
+    .Home h2 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 200;
+        font-size: 24px;
+    }
+
+    .Home button {
+        margin: 10px;
+    }
+
+    .Home p {
+        font-size: 26px;
+    }
+}
+
 /* ------------ ABOUT US START ------------ */
 .AboutUs {
     margin-top: 100px;
-    margin-bottom: 100px;
+    padding-top: 100px;
+    padding-left: 200px;
+    padding-right: 200px;
+    padding-bottom: 10px;
 }
 
-#AboutUs h1 {
+#aboutUsH1 {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-size: 32px;
     line-height: 40px;
     letter-spacing: 2px;
 }
-
-/* .confDay {
-    background-color: #343a3a;
-} */
 
 .col-md-6.col-lg-5 {
     position: relative;
@@ -253,18 +345,172 @@ nav img {
     color: #777777;
 }
 
+@media (max-width: 1245px) {
+    .AboutUs {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    #confImg {
+        max-width: 100%;
+    }
+
+    .excellance-tag {
+        position: absolute;
+        top: 70%;
+        left: 30%;
+    }
+}
+
+@media (max-width: 1245px) {
+    .AboutUs {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    #confImg {
+        max-width: 100%;
+    }
+
+    .excellance-tag {
+        position: absolute;
+        top: 70%;
+        left: 50%;
+    }
+}
+
+@media (max-width: 1024px) {
+    .AboutUs {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    #confImg {
+        max-width: 100%;
+    }
+
+    .excellance-tag {
+        position: absolute;
+        top: 50%;
+        left: 40%;
+    }
+}
+
+@media (max-width: 991px) {
+    .AboutUs {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+    #confImg {
+        max-width: 100%;
+    }
+
+    .excellance-tag {
+        position: absolute;
+        top: 40%;
+        left: 30%;
+    }
+}
+
+@media (max-width: 843px) {
+    .AboutUs {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+
+    #aboutUsH1 {
+        font-size: 28px;
+    }
+
+    #aboutUsDesc {
+        font-size: 14px;
+    }
+}
+
+/* Ukuran layar <= 768px - Reorder .about1h1 dan .aboutUsDesc di atas .confDay */
+@media (max-width: 768px) {
+    .AboutUs {
+        padding-left: 30px;
+        padding-right: 30px;
+        margin-top: 50px;
+    }
+
+    .row.flex {
+        display: flex;
+        flex-direction: column-reverse; /* Balikkan urutan */
+    }
+
+    #aboutUsH1 {
+        font-size: 26px;
+    }
+
+    #aboutUsDesc {
+        font-size: 14px;
+    }
+
+    #confImg {
+        max-width: 90%;
+        margin: 0 auto; /* Pusatkan gambar */
+    }
+
+    .excellance-tag {
+        width: 180px;
+        height: 250px;
+        top: 75%;
+        left: 50%;
+        transform: translateX(-50%); /* Pusatkan di tengah */
+    }
+}
+
+/* Ukuran layar <= 480px */
+@media (max-width: 480px) {
+    .AboutUs {
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+
+    #aboutUsH1 {
+        font-size: 24px;
+    }
+
+    #aboutUsDesc {
+        font-size: 12px;
+    }
+
+    .confDay h3 {
+        font-size: 18px;
+    }
+
+    .confDay h4 {
+        font-size: 14px;
+    }
+
+    .excellance-tag {
+        width: 180px;
+        height: 250px;
+        top: 70%;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
 /* ------------ Speakers US START ------------ */
 .Speakers {
     margin-top: 200px;
     margin-left: 190px;
     margin-right: 190px;
+    padding-top: 100px;
 }
 
 .custom-card {
     margin-right: 20px;
     margin-left: 20px;
     width: 250px;
-    height: 600px;
+    min-height: 650px;
+    max-height: auto;
 }
 
 .section-header h5 {
@@ -303,14 +549,68 @@ nav img {
     color: #777777;
 }
 
-/* ------------ Tutorial START ------------ */
-.tutorial {
-    margin-top: 100px;
-    margin-left: 190px;
-    margin-right: 190px;
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .Speakers {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    .custom-card {
+        width: 230px;
+    }
 }
 
-#tutor img {
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .Speakers {
+        margin-left: 40px;
+        margin-right: 40px;
+    }
+    .custom-card {
+        width: 200px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .Speakers {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .custom-card {
+        width: 180px;
+        min-height: 600px;
+    }
+    .row {
+        justify-content: center;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 576px) {
+    .Speakers {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .custom-card {
+        width: 100%;
+        min-height: auto;
+        margin-left: 0;
+        margin-right: 0;
+    }
+    .row {
+        justify-content: center;
+    }
+}
+
+/* ------------ Tutorial START ------------ */
+.tutorial {
+    margin-left: 190px;
+    margin-right: 190px;
+    padding-top: 100px;
+}
+
+#tutorialSession img {
     width: 100%;
     margin-bottom: 50px;
 }
@@ -324,12 +624,49 @@ nav img {
     color: #777777;
 }
 
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .tutorial {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .tutorial {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .tutorial {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .tutorial {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-top: 50px;
+    }
+    #tutorialSession img {
+        margin-bottom: 30px;
+    }
+}
+
 /* ------------ IMPORTANT DATE START ------------ */
 .importantDate {
     position: relative;
     padding: 0;
     margin: 0;
     padding-top: 100px;
+    padding-bottom: 100px;
     padding-left: 190px;
     padding-right: 190px;
     background-position: center;
@@ -344,7 +681,7 @@ nav img {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: linear-gradient(to left, #463e7d, #31cebd); /* Gradient dari kiri ke kanan */
+    background-image: linear-gradient(to left, #463e7d, #31cebd);
     background-size: cover;
     background-position: center;
     opacity: 0.9;
@@ -361,7 +698,7 @@ nav img {
     width: 250px;
     height: 250px;
     border: #ffffff solid 2px;
-    padding: 30px 30px;
+    padding: 30px;
 }
 
 .importantDate .card-body {
@@ -398,6 +735,58 @@ nav img {
     margin-bottom: 20px;
 }
 
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1200px) {
+    .importantDate {
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .importantDate {
+        padding-left: 100px;
+        padding-right: 100px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .importantDate {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .importantDate .card {
+        width: 100%;
+        height: 220px;
+        padding: 20px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .importantDate {
+        padding-left: 20px;
+        padding-right: 20px;
+        padding-top: 50px;
+        padding-bottom: 50px;
+    }
+    .importantDate h2 {
+        font-size: 24px;
+        line-height: 30px;
+        margin-bottom: 30px;
+    }
+    .importantDate .card {
+        width: 100%;
+        height: 250px;
+        padding: 15px;
+    }
+    .importantDate img {
+        width: 40px;
+        height: 40px;
+        margin-bottom: 15px;
+    }
+}
 /* ------------ OUR TOPICS START ------------ */
 
 .ourTopics {
@@ -407,11 +796,13 @@ nav img {
     max-width: 100%;
 }
 
+/* Card styling */
 .ourTopics .row .card {
     margin-left: 0;
     border: none;
 }
 
+/* Title styling */
 .ourTopics h3 {
     font-family: "Roboto", sans-serif;
     font-weight: 500;
@@ -424,6 +815,7 @@ nav img {
     box-sizing: border-box;
 }
 
+/* Subtitle styling */
 .ourTopics .card h4 {
     font-family: "Poppins", sans-serif;
     font-weight: 500;
@@ -431,11 +823,73 @@ nav img {
     color: #343a3a;
 }
 
+/* Additional text styling */
 .ourTopics .card h5 {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
     font-size: 16px;
     color: #777777;
+}
+
+/* ------------ RESPONSIVE STYLING ------------ */
+
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .ourTopics {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    .ourTopics h3 {
+        font-size: 35px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .ourTopics {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    .ourTopics h3 {
+        font-size: 32px;
+    }
+    .ourTopics .card h4 {
+        font-size: 16px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .ourTopics {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .ourTopics h3 {
+        font-size: 30px;
+    }
+    .ourTopics .card h4 {
+        font-size: 15px;
+    }
+    .ourTopics .card h5 {
+        font-size: 14px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .ourTopics {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .ourTopics h3 {
+        font-size: 28px;
+    }
+    .ourTopics .card h4 {
+        font-size: 14px;
+    }
+    .ourTopics .card h5 {
+        font-size: 12px;
+    }
 }
 
 /* ------------ AUTHOR INFO START ------------ */
@@ -444,8 +898,10 @@ nav img {
     margin-left: 190px;
     margin-right: 190px;
     max-width: 100%;
+    padding-top: 50px;
 }
 
+/* Title h1 */
 .AuthorInfo h1 {
     font-family: "Poppins", sans-serif;
     font-weight: 500;
@@ -454,6 +910,7 @@ nav img {
     margin-top: 40px;
 }
 
+/* Subtitle h2 */
 .AuthorInfo h2 {
     font-family: "Poppins", sans-serif;
     font-weight: 500;
@@ -461,12 +918,15 @@ nav img {
     color: #343a3a;
     margin-top: 30px;
 }
+
+/* Paragraph styling */
 .AuthorInfo p {
     font-family: "Roboto", sans-serif;
     font-size: 16px;
     color: #777777;
 }
 
+/* Button styling */
 .AuthorInfo button {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
@@ -490,11 +950,201 @@ nav img {
     color: white;
 }
 
+/* ------------ RESPONSIVE STYLING ------------ */
+
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .AuthorInfo {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    .AuthorInfo h1 {
+        font-size: 28px;
+    }
+    .AuthorInfo h2 {
+        font-size: 18px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .AuthorInfo {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    .AuthorInfo h1 {
+        font-size: 26px;
+    }
+    .AuthorInfo h2 {
+        font-size: 17px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .AuthorInfo {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .AuthorInfo h1 {
+        font-size: 24px;
+    }
+    .AuthorInfo h2 {
+        font-size: 16px;
+    }
+    .AuthorInfo p {
+        font-size: 15px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .AuthorInfo {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .AuthorInfo h1 {
+        font-size: 22px;
+    }
+    .AuthorInfo h2 {
+        font-size: 15px;
+    }
+    .AuthorInfo p {
+        font-size: 14px;
+    }
+    .AuthorInfo button {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}
+
+/* ------------ REGISTRATION START ------------ */
+.registration {
+    margin-top: 100px;
+    margin-left: 190px;
+    margin-right: 190px;
+    max-width: 100%;
+    padding-top: 50px;
+}
+
+.registration h1 {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 32px;
+    color: #343a3a;
+    margin-top: 40px;
+}
+
+.registration h2 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 500;
+    font-size: 21px;
+    color: #777777;
+    margin-top: 30px;
+}
+
+.registration p {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    color: #777777;
+}
+
+.registration button {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 1px;
+    margin-top: 20px;
+    border: none;
+    background: linear-gradient(45deg, #363060, #00afb9);
+    background-size: 200% 200%;
+    background-position: 0% 50%;
+    color: white;
+    transition:
+        background-position 0.6s ease,
+        background-size 0.6s ease,
+        color 0.4s ease;
+}
+
+.registration button:hover {
+    background-position: 100% 50%;
+    color: white;
+}
+
+/* ------------ RESPONSIVE STYLING ------------ */
+
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .registration {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    .registration h1 {
+        font-size: 28px;
+    }
+    .registration h2 {
+        font-size: 20px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .registration {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    .registration h1 {
+        font-size: 26px;
+    }
+    .registration h2 {
+        font-size: 19px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .registration {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .registration h1 {
+        font-size: 24px;
+    }
+    .registration h2 {
+        font-size: 18px;
+    }
+    .registration p {
+        font-size: 15px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .registration {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .registration h1 {
+        font-size: 22px;
+    }
+    .registration h2 {
+        font-size: 17px;
+    }
+    .registration p {
+        font-size: 14px;
+    }
+    .registration button {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+}
 /* ------------ PROGRAM COMMITTEE START ------------ */
 .programComittee {
     margin-top: 100px;
     margin-left: 190px;
     margin-right: 190px;
+    padding-top: 90px;
     max-width: 100%;
 }
 
@@ -524,6 +1174,72 @@ hr {
     color: #7d7d7d;
 }
 
+/* ------------ RESPONSIVE STYLING ------------ */
+
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .programComittee {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    .programComittee h3 {
+        font-size: 15px;
+    }
+    .programComittee h4 {
+        font-size: 15px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .programComittee {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    .programComittee h3 {
+        font-size: 14px;
+    }
+    .programComittee h4 {
+        font-size: 14px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .programComittee {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .programComittee h3 {
+        font-size: 13px;
+    }
+    .programComittee h4 {
+        font-size: 13px;
+    }
+    .programComittee .row {
+        flex-direction: column;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .programComittee {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .programComittee h3 {
+        font-size: 12px;
+    }
+    .programComittee h4 {
+        font-size: 12px;
+    }
+    .programComittee .content {
+        margin-top: 20px;
+    }
+    .programComittee .row {
+        flex-direction: column;
+    }
+}
 /* ------------ REVIEWER START ------------ */
 .reviewer {
     margin-top: 20px;
@@ -538,11 +1254,61 @@ hr {
     color: #777777;
 }
 
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .reviewer {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    .reviewer h4 {
+        font-size: 15px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .reviewer {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    .reviewer h4 {
+        font-size: 14px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .reviewer {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .reviewer h4 {
+        font-size: 13px;
+    }
+    .reviewer .row {
+        flex-direction: column;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .reviewer {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .reviewer h4 {
+        font-size: 12px;
+    }
+    .reviewer .row {
+        flex-direction: column;
+    }
+}
 /* ------------ PRICING START ------------ */
 .pricing {
     margin-top: 200px;
     margin-left: 190px;
     margin-right: 190px;
+    padding-top: 90px;
 }
 
 .pricing-area {
@@ -580,6 +1346,76 @@ hr {
     color: #ffffff;
 }
 
+/* ------------ RESPONSIVE STYLING ------------ */
+
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .pricing {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    .priceCard h4 {
+        font-size: 56px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .pricing {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    .priceCard h4 {
+        font-size: 48px;
+    }
+    .priceCard h3 {
+        font-size: 22px;
+    }
+    .priceCard p {
+        font-size: 14px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .pricing {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .priceCard h4 {
+        font-size: 40px;
+    }
+    .priceCard h3 {
+        font-size: 20px;
+    }
+    .priceCard p {
+        font-size: 13px;
+    }
+    .pricing .row {
+        justify-content: center;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .pricing {
+        margin-left: 20px;
+        margin-right: 20px;
+        padding-top: 50px;
+    }
+    .priceCard h4 {
+        font-size: 32px;
+    }
+    .priceCard h3 {
+        font-size: 18px;
+    }
+    .priceCard p {
+        font-size: 12px;
+    }
+    .pricing .row {
+        justify-content: center;
+    }
+}
 /* ------------ PAYMENT METHOD START ------------ */
 .payment {
     margin-top: 20px;
@@ -614,6 +1450,75 @@ hr {
     color: #777777;
 }
 
+/* ------------ RESPONSIVE STYLING ------------ */
+
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .payment {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    .payment h3 {
+        font-size: 14px;
+    }
+    .payment .card h3 {
+        font-size: 14px;
+    }
+    .payment .card .card-text {
+        font-size: 14px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .payment {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    .payment h3 {
+        font-size: 14px;
+    }
+    .payment .card h3 {
+        font-size: 14px;
+    }
+    .payment .card .card-text {
+        font-size: 14px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .payment {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .payment h3 {
+        font-size: 14px;
+    }
+    .payment .card h3 {
+        font-size: 14px;
+    }
+    .payment .card .card-text {
+        font-size: 12px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .payment {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .payment h3 {
+        font-size: 12px;
+    }
+    .payment .card h3 {
+        font-size: 12px;
+    }
+    .payment .card .card-text {
+        font-size: 12px;
+    }
+}
 /* ------------ ARTICLE START ------------ */
 .article {
     margin-top: 20px;
@@ -652,6 +1557,74 @@ hr {
     font-weight: 400;
     font-size: 16px;
     text-decoration: none;
+}
+
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .article {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    .article h1 {
+        font-size: 28px;
+    }
+    .article-content .card {
+        width: 60%;
+    }
+    .article-content .card h5 {
+        font-size: 18px;
+    }
+    .article-content .card p,
+    .article-content .card a {
+        font-size: 14px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .article {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    .article h1 {
+        font-size: 26px;
+    }
+    .article-content .card {
+        width: 80%;
+        margin-bottom: 20px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .article {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .article h1 {
+        font-size: 24px;
+    }
+    .article-content .card {
+        width: 100%;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .article {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .article h1 {
+        font-size: 20px;
+    }
+    .article-content .card h5 {
+        font-size: 16px;
+    }
+    .article-content .card p,
+    .article-content .card a {
+        font-size: 12px;
+    }
 }
 
 /* ------------ DOCUMENT START ------------ */
@@ -698,10 +1671,73 @@ hr {
     object-fit: cover;
 }
 
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .documentation {
+        margin-left: 100px;
+        margin-right: 100px;
+    }
+    .documentation h1 {
+        font-size: 28px;
+    }
+    .documentation a {
+        font-size: 14px;
+    }
+
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .documentation {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    .documentation h1 {
+        font-size: 26px;
+    }
+    .documentation a {
+        font-size: 14px;
+    }
+    .photo-documentation {
+        flex: 0 0 calc(100% - 20px); /* 1 elemen per baris */
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .documentation {
+        margin-left: 50px;
+        margin-right: 50px;
+    }
+    .documentation h1 {
+        font-size: 24px;
+    }
+    .documentation a {
+        font-size: 14px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .documentation {
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .documentation h1 {
+        font-size: 20px;
+    }
+    .documentation a {
+        font-size: 12px;
+    }
+    .photo-documentation {
+        height: 180px; /* Mengurangi tinggi untuk layar kecil */
+    }
+}
 /* ------------ ADDRESS START ------------ */
 .address {
     width: 100%;
     margin: 0;
+    padding-top: 90px;
     margin-bottom: 45px;
 }
 
@@ -710,7 +1746,7 @@ hr {
     padding-right: 0;
 }
 
-.address row.no-gutters {
+.address .row.no-gutters {
     margin-right: 0;
     margin-left: 0;
 }
@@ -770,6 +1806,104 @@ hr {
     position: absolute;
     width: 100%;
     height: 100%;
+}
+
+/* ------------ RESPONSIVE STYLING ------------ */
+
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .address-area {
+        height: 350px;
+    }
+
+    .address-place {
+        padding: 70px;
+    }
+
+    .address-place h5 {
+        font-size: 24px;
+    }
+
+    .address-city p,
+    .contact p {
+        font-size: 14px;
+    }
+
+    .map-area {
+        height: 350px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .address-area {
+        height: 300px;
+    }
+
+    .address-place {
+        padding: 50px;
+    }
+
+    .address-place h5 {
+        font-size: 22px;
+    }
+
+    .address-city p,
+    .contact p {
+        font-size: 12px;
+    }
+
+    .map-area {
+        height: 300px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .address-area {
+        height: 250px;
+    }
+
+    .address-place {
+        padding: 30px;
+    }
+
+    .address-place h5 {
+        font-size: 20px;
+    }
+
+    .address-city p,
+    .contact p {
+        font-size: 12px;
+    }
+
+    .map-area {
+        height: 250px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .address-area {
+        height: 200px;
+    }
+
+    .address-place {
+        padding: 20px;
+    }
+
+    .address-place h5 {
+        font-size: 18px;
+    }
+
+    .address-city p,
+    .contact p {
+        font-size: 10px;
+    }
+
+    .map-area {
+        height: 200px;
+    }
 }
 
 /* ------------ FOOTER START ------------ */
@@ -854,4 +1988,94 @@ hr {
     font-weight: 400;
     font-size: 16px;
     color: #777777;
+}
+
+/* ------------ RESPONSIVE STYLING ------------ */
+
+/* Responsif untuk layar dengan lebar maksimal 1024px */
+@media (max-width: 1024px) {
+    .footer-content {
+        padding-left: 15%;
+        padding-right: 15%;
+        padding-top: 80px; /* Mengurangi padding top */
+    }
+
+    .icodsa-footer img {
+        height: 60px;
+    }
+
+    .sponsored h3 {
+        font-size: 18px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 843px */
+@media (max-width: 843px) {
+    .footer-content {
+        padding-left: 10%;
+        padding-right: 10%;
+        padding-top: 60px; /* Mengurangi padding top */
+    }
+
+    .icodsa-footer img {
+        height: 50px;
+    }
+
+    .sponsored h3 {
+        font-size: 16px;
+    }
+
+    .sponsored img {
+        height: 40px; /* Mengurangi tinggi gambar sponsor */
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 768px */
+@media (max-width: 768px) {
+    .footer-content {
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 40px; /* Mengurangi padding top */
+    }
+
+    .icodsa-footer p {
+        font-size: 14px;
+    }
+
+    .sponsored h3 {
+        font-size: 10px;
+    }
+
+    .sponsored img {
+        height: 30px; /* Mengurangi tinggi gambar sponsor */
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
+
+/* Responsif untuk layar dengan lebar maksimal 480px */
+@media (max-width: 480px) {
+    .footer-content {
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 20px; /* Mengurangi padding top */
+        text-align: center; /* Menyejajarkan teks di tengah */
+    }
+
+    .icodsa-footer img {
+        height: 40px;
+    }
+
+    .icodsa-footer p {
+        font-size: 12px;
+    }
+
+    .sponsored h3 {
+        font-size: 12px;
+    }
+
+    .sponsored img {
+        height: 25px; /* Mengurangi tinggi gambar sponsor */
+        margin: 10px; /* Mengurangi margin gambar sponsor */
+    }
 }
