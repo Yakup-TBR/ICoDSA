@@ -5,7 +5,6 @@ body {
     background-color: #ffffff;
     color: #000000;
 }
-
 /* ------------ NAVBAR START ------------ */
 nav {
     background: linear-gradient(to right, #463e7d, #31cebd);
@@ -54,12 +53,12 @@ nav img {
 .navbar-nav .nav-link::after {
     content: "";
     position: absolute;
-    width: 0; /* Tidak ada lebar */
-    height: 0; /* Tidak ada tinggi */
+    width: 0;
+    height: 0;
     border-left: 13px solid transparent; /* Setel ukuran segitiga */
     border-right: 13px solid transparent; /* Setel ukuran segitiga */
     border-top: 13px solid #ffffff; /* Warna segitiga terbalik */
-    bottom: 100%; /* Posisi di atas teks */
+    bottom: 130%; /* Posisi di atas teks */
     left: 50%; /* Pusatkan segitiga */
     transform: translateX(-50%) scaleY(0); /* Pusatkan dan sembunyikan */
     transition: transform 0.5s ease; /* Transisi untuk efek */
@@ -104,8 +103,41 @@ nav img {
     z-index: 1050;
 }
 
+/* Gaya untuk link dropdown */
+.dropdown-item {
+    color: #000000; /* Ubah warna teks dropdown */
+}
+
+.dropdown-item:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Ubah latar belakang saat hover */
+}
+
+/* Pastikan tidak ada warna biru saat diklik */
+.navbar-nav .nav-link:focus,
+.navbar-nav .nav-link:active {
+    outline: none; /* Menghilangkan outline default */
+    color: #ffffff; /* Pastikan warnanya tetap putih */
+}
+
 .navbar-nav .nav-link.active {
-    color: #ffffff;
+    color: #ffffff; /* Warna aktif */
+}
+
+.dropdown-menu {
+    display: none;
+    border: none;
+    border-radius: 0;
+    z-index: 1050;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan */
+}
+
+
+.dropdown a{
+    text-decoration: none;
+    padding-bottom: 20px;
 }
 
 @media (max-width: 1024px) {
@@ -856,8 +888,6 @@ nav img {
     font-size: 16px;
     color: #777777;
 }
-
-/* ------------ RESPONSIVE STYLING ------------ */
 
 /* Responsif untuk layar dengan lebar maksimal 1024px */
 @media (max-width: 1024px) {
@@ -2099,5 +2129,112 @@ hr {
     .sponsored img {
         height: 25px; /* Mengurangi tinggi gambar sponsor */
         margin: 10px; /* Mengurangi margin gambar sponsor */
+    }
+}
+
+/* 
+---------------------- */
+.fade-out {
+    -webkit-animation: move 5s forwards;
+    animation: move 5s forwards;
+    animation-delay: 5s;
+}
+
+@keyframes move {
+    0% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+
+    to {
+        visibility: hidden;
+    }
+}
+@-webkit-keyframes move {
+    0% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+
+    to {
+        visibility: hidden;
+    }
+}
+
+.fade-in {
+    -ms-animation: fadeIn ease 0.5s backwards;
+    -webkit-animation: fadeIn ease 0.3s backwards;
+    -moz-animation: fadeIn ease 0.5s backwards;
+    -o-animation: fadeIn ease 0.5s backwards;
+    animation: fadeIn ease 0.5s backwards;
+    animation-delay: 1s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+@-moz-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-o-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@-ms-keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
     }
 }

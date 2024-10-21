@@ -1,6 +1,7 @@
 import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from 'react';
+import Particle from '../Particle';
 import "../styles/app.css";
 
 export default function App() {
@@ -253,8 +254,9 @@ export default function App() {
 
             <div className='content'>
                 <section className="Home" id="homeSection" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
-
                     <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center homecontent">
+                    <Particle />
+
                         <div className="container" id="hostLogo">
                             {hostLogoData.length > 0 ? (
                                 hostLogoData.map((logo) => (
@@ -289,7 +291,7 @@ export default function App() {
                             <div className="container typing-demo" id="descHome">
                                 <p className='sec-text'>
                                     <span className="typing-text">{homeData.description}</span>
-                                    <span className="cursor">|</span> 
+                                    <span className="cursor">|</span>
                                 </p>
                             </div>
                         </div>
@@ -619,7 +621,7 @@ export default function App() {
                             <div className="container p-0">
                                 <div className="row">
 
-                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4">
+                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in">
                                         <div className="card priceCard">
                                             <div className="card-body">
                                                 <h3 className="card-title">Author</h3>
@@ -631,7 +633,7 @@ export default function App() {
                                         </div>
                                     </div>
 
-                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4">
+                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in">
                                         <div className="card priceCard">
                                             <div className="card-body">
                                                 <h3 className="card-title">Author</h3>
@@ -643,7 +645,7 @@ export default function App() {
                                         </div>
                                     </div>
 
-                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4">
+                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in">
                                         <div className="card priceCard">
                                             <div className="card-body">
                                                 <h3 className="card-title">Author</h3>
@@ -655,7 +657,7 @@ export default function App() {
                                         </div>
                                     </div>
 
-                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4">
+                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in">
                                         <div className="card priceCard">
                                             <div className="card-body">
                                                 <h3 className="card-title">Author</h3>
@@ -667,7 +669,7 @@ export default function App() {
                                         </div>
                                     </div>
 
-                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4">
+                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in">
                                         <div className="card priceCard">
                                             <div className="card-body">
                                                 <h3 className="card-title">Author</h3>
@@ -911,5 +913,6 @@ export default function App() {
     );
 }
 
-// SCRIPT
+// SCRIPT 
+
 
