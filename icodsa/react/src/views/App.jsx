@@ -285,9 +285,18 @@ export default function App() {
                             </button>
                         </div>
 
-                        <div className="container" id="descHome">
-                            <p>{homeData.description}</p>
+                        <div className="wrapper">
+                            <div className="container typing-demo" id="descHome">
+                                <p className='sec-text'>
+                                    <span className="typing-text">{homeData.description}</span>
+                                    <span className="cursor">|</span> 
+                                </p>
+                            </div>
                         </div>
+
+
+
+
                         <br />
                         <br />
                         <br />

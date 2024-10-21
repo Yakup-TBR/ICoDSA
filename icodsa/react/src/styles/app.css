@@ -229,8 +229,10 @@ nav img {
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
-
-.Home p {
+.typing-demo {
+    position: relative;
+    white-space: nowrap;
+    overflow: hidden;
     font-family: "Poppins", sans-serif;
     font-weight: 200;
     font-size: 36px;
@@ -238,24 +240,48 @@ nav img {
     letter-spacing: 1px;
 }
 
-@media (max-width: 768px) {
-    .Home h1 {
-        font-size: 44px;
+/* Animasi pengetikan */
+@keyframes typing {
+    from {
+        width: 0;
     }
+    to {
+        width: 71ch;
+    }
+}
 
-    .Home h2 {
-        font-family: "Poppins", sans-serif;
-        font-weight: 200;
-        font-size: 24px;
+/* Animasi untuk menghapus teks */
+@keyframes delete {
+    0% {
+        width: 71ch;
     }
+    100% {
+        width: 0ch;
+        opacity: 0;
+    }
+}
 
-    .Home button {
-        margin: 10px;
+/* Animasi kedip kursor */
+@keyframes blink {
+    0%,
+    100% {
+        opacity: 1; /* Cursor terlihat */
     }
+    50% {
+        opacity: 0; /* Cursor menghilang */
+    }
+}
 
-    .Home p {
-        font-size: 26px;
-    }
+.cursor {
+    display: inline-block;
+    animation: blink 0.5s step-end infinite;
+}
+
+.typing-demo {
+    animation:
+        typing 7s steps(71) forwards,
+        /* Animasi pengetikan, pakai typing 7s forwards untuk smooth, pakai typing 7s steps(71) forwards agar ngetik */
+            delete 6s steps(71) forwards 10s; /* Hapus teks setelah pengetikan */
 }
 
 /* ------------ ABOUT US START ------------ */
@@ -1683,7 +1709,6 @@ hr {
     .documentation a {
         font-size: 14px;
     }
-
 }
 
 /* Responsif untuk layar dengan lebar maksimal 843px */
@@ -1990,9 +2015,6 @@ hr {
     color: #777777;
 }
 
-/* ------------ RESPONSIVE STYLING ------------ */
-
-/* Responsif untuk layar dengan lebar maksimal 1024px */
 @media (max-width: 1024px) {
     .footer-content {
         padding-left: 15%;
