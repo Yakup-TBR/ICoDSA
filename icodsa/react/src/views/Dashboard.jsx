@@ -490,7 +490,7 @@ export default function Dashboard() {
 
         <div>
 
-        
+
             <div className="main">
                 {/* Section Home */}
                 <section className="Home" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
@@ -532,21 +532,13 @@ export default function Dashboard() {
                             {/* Form untuk data home */}
                             <div className="container" id="textHome">
                                 <input
-                                    type="text"
-                                    className="title-input editable-text"
-                                    name="title"
-                                    value={homeData.title}
-                                    onChange={handleInputChange}
-                                    placeholder="Event Name"
+                                    type="text" className="title-input editable-text" name="title"
+                                    value={homeData.title} onChange={handleInputChange} placeholder="Event Name"
                                 />
 
                                 <input
-                                    type="text"
-                                    className="place-date-input editable-text"
-                                    name="place_date"
-                                    value={homeData.place_date}
-                                    onChange={handleInputChange}
-                                    placeholder="Place, Date"
+                                    type="text" className="place-date-input editable-text mb-0" name="place_date"
+                                    value={homeData.place_date} onChange={handleInputChange} placeholder="Place, Date"
                                 />
                             </div>
 
@@ -560,17 +552,13 @@ export default function Dashboard() {
                             </div>
 
                             <div className="container" id="descHome">
-                                <input
-                                    type="text"
-                                    className="description-input editable-text"
-                                    name="description"
-                                    value={homeData.description}
-                                    onChange={handleInputChange}
-                                    placeholder="Short Description"
-                                />
+                                <textarea
+                                    className="description-input editable-text mb-0" value={homeData.description}
+                                    onChange={handleInputChange} placeholder="Short Description" rows="3"
+                                ></textarea>
                             </div>
 
-                            <input type="file" accept="image/*" onChange={handleBgUpload} style={{ marginTop: '10px' }} />
+                            <input type="file" accept="image/*" onChange={handleBgUpload} />
 
                             <button type="submit">Update Home</button>
                         </form>
@@ -583,8 +571,8 @@ export default function Dashboard() {
                         <form onSubmit={handleSubmitAbout}>
                             <div className="row flex">
                                 <div className="confDay col-md-6 col-lg-5">
-                                    <div className="container" id="aboutImg">
-                                        <img src={`http://localhost:8000/storage/${aboutData.about_img || 'bali.jpg'}`} alt="conf.img" id="confImg" />
+                                    <div className="container p-0" id="aboutImg">
+                                        <img src={`http://localhost:8000/storage/${aboutData.about_img || 'bali.jpg'}`} alt="conf.img" id="confImgDash" />
                                     </div>
                                     <div className="container excellance-tag text-center p-4" id="excelance-tag">
                                         <div className="container excellance-text justify-content-center p-2">
@@ -594,14 +582,15 @@ export default function Dashboard() {
                                                     {/* SVG */}
                                                 </div>
                                                 <h3 id="confDate"><input
-                                                    type="text"
-                                                    className="eventDD-input editable-text"
-                                                    name="event_dd" value={aboutData.event_dd} onChange={handleInputChangeAbout} placeholder="10-11"
-                                                /></h3>
+                                                    type="text" className="eventDD-input editable-text mb-0" name="event_dd"
+                                                    value={aboutData.event_dd} onChange={handleInputChangeAbout} placeholder="10-11" />
+                                                </h3>
+                                                <svg width="61" height="61" viewBox="0 0 61 61" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M10.1667 30.5001L30.5 10.1667L50.8334 30.5001M15.25 26.6876V48.2917C15.25 48.9658 15.5178 49.6123 15.9945 50.089C16.4711 50.5656 17.1176 50.8334 17.7917 50.8334H25.4167V43.2084C25.4167 42.5343 25.6845 41.8878 26.1611 41.4112C26.6378 40.9345 27.2843 40.6667 27.9584 40.6667H33.0417C33.7158 40.6667 34.3623 40.9345 34.8389 41.4112C35.3156 41.8878 35.5834 42.5343 35.5834 43.2084V50.8334H43.2084C43.8824 50.8334 44.5289 50.5656 45.0056 50.089C45.4822 49.6123 45.75 48.9658 45.75 48.2917V26.6876" stroke="white" />
+                                                </svg>
                                                 <h4><input
-                                                    type="text"
-                                                    className="eventMMYY-input editable-text"
-                                                    name="event_mmyy" value={aboutData.event_mmyy} onChange={handleInputChangeAbout} placeholder="July, 2025"
+                                                    type="text" className="eventMMYY-input editable-text" name="event_mmyy"
+                                                    value={aboutData.event_mmyy} onChange={handleInputChangeAbout} placeholder="July, 2025"
                                                 /></h4>
                                             </div>
                                         </div>
@@ -843,8 +832,6 @@ export default function Dashboard() {
                     )}
                 </section>
             </div>
-
-
 
         </div>
     );

@@ -134,8 +134,7 @@ nav img {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Menambahkan bayangan */
 }
 
-
-.dropdown a{
+.dropdown a {
     text-decoration: none;
     padding-bottom: 20px;
 }
@@ -214,7 +213,6 @@ nav img {
 }
 
 #hostLogo img {
-    width: 165px;
     margin: 20px 10px;
 }
 
@@ -261,7 +259,16 @@ nav img {
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
 }
-.typing-demo {
+
+.Home p {
+    font-family: "Poppins", sans-serif;
+    font-weight: 200;
+    font-size: 36px;
+    line-height: 45px;
+    letter-spacing: 1px;
+}
+
+/* .typing-demo p {
     position: relative;
     white-space: nowrap;
     overflow: hidden;
@@ -270,20 +277,20 @@ nav img {
     font-size: 36px;
     line-height: 45px;
     letter-spacing: 1px;
-}
+} */
 
 /* Animasi pengetikan */
-@keyframes typing {
+/* @keyframes typing {
     from {
         width: 0;
     }
     to {
         width: 71ch;
     }
-}
+} */
 
 /* Animasi untuk menghapus teks */
-@keyframes delete {
+/* @keyframes delete {
     0% {
         width: 71ch;
     }
@@ -291,29 +298,63 @@ nav img {
         width: 0ch;
         opacity: 0;
     }
-}
+} */
 
 /* Animasi kedip kursor */
-@keyframes blink {
+/* @keyframes blink {
     0%,
     100% {
-        opacity: 1; /* Cursor terlihat */
+        opacity: 1; 
     }
     50% {
-        opacity: 0; /* Cursor menghilang */
+        opacity: 0; 
     }
-}
+} */
 
-.cursor {
+/* .cursor {
     display: inline-block;
     animation: blink 0.5s step-end infinite;
-}
+} */
 
-.typing-demo {
+/* .typing-demo {
     animation:
         typing 7s steps(71) forwards,
         /* Animasi pengetikan, pakai typing 7s forwards untuk smooth, pakai typing 7s steps(71) forwards agar ngetik */
-            delete 6s steps(71) forwards 10s; /* Hapus teks setelah pengetikan */
+/* delete 6s steps(71) forwards 10s; /* Hapus teks setelah pengetikan */
+/* }  */
+
+@media (max-width: 480px) {
+    .Home h1 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 200;
+        font-size: 44px;
+        line-height: 80px;
+        letter-spacing: 1px;
+    }
+
+    .Home h2 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 200;
+        font-size: 24px;
+        line-height: 30px;
+        letter-spacing: 1px;
+    }
+
+    .Home p {
+        font-family: "Poppins", sans-serif;
+        font-weight: 200;
+        font-size: 20px;
+        letter-spacing: 1px;
+    }
+
+    .Home button {
+        font-family: "Poppins", sans-serif;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 24px;
+        letter-spacing: 1px;
+        margin: 10px;
+    }
 }
 
 /* ------------ ABOUT US START ------------ */
@@ -695,7 +736,10 @@ nav img {
     .tutorial {
         margin-left: 80px;
         margin-right: 80px;
+        padding-top: 50px;
     }
+
+
 }
 
 /* Responsif untuk layar dengan lebar maksimal 768px */
@@ -712,10 +756,18 @@ nav img {
         margin-left: 20px;
         margin-right: 20px;
         padding-top: 50px;
+        margin-bottom: 0px;
+        padding-bottom: 0px;
     }
     #tutorialSession img {
-        margin-bottom: 30px;
+        margin-bottom: 10px;
     }
+    
+    .tutorial .section-header{
+        margin-top: 0;
+        padding-top: 0;
+    }
+
 }
 
 /* ------------ IMPORTANT DATE START ------------ */
@@ -808,7 +860,25 @@ nav img {
     }
 }
 
+
+@media (max-width: 843px) {
+    .importantDate {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+    .importantDate .card {
+        width: 100%;
+        height: 220px;
+        padding: 20px;
+        padding-left: 50px;
+        padding-right: 50px;
+
+    }
+}
+
 /* Responsif untuk layar dengan lebar maksimal 768px */
+
+
 @media (max-width: 768px) {
     .importantDate {
         padding-left: 50px;
@@ -1006,7 +1076,6 @@ nav img {
     color: white;
 }
 
-/* ------------ RESPONSIVE STYLING ------------ */
 
 /* Responsif untuk layar dengan lebar maksimal 1024px */
 @media (max-width: 1024px) {
@@ -1027,6 +1096,8 @@ nav img {
     .AuthorInfo {
         margin-left: 80px;
         margin-right: 80px;
+        margin-top: 20px;
+        padding-top: 0px;
     }
     .AuthorInfo h1 {
         font-size: 26px;
@@ -1058,6 +1129,8 @@ nav img {
     .AuthorInfo {
         margin-left: 20px;
         margin-right: 20px;
+        margin-top: 30px;
+        margin-bottom: 30px;
     }
     .AuthorInfo h1 {
         font-size: 22px;
@@ -1180,6 +1253,7 @@ nav img {
     .registration {
         margin-left: 20px;
         margin-right: 20px;
+        margin-top: 30px;
     }
     .registration h1 {
         font-size: 22px;
@@ -1197,7 +1271,7 @@ nav img {
 }
 /* ------------ PROGRAM COMMITTEE START ------------ */
 .programComittee {
-    margin-top: 100px;
+    margin-top: 120px;
     margin-left: 190px;
     margin-right: 190px;
     padding-top: 90px;
@@ -1253,10 +1327,10 @@ hr {
         margin-right: 80px;
     }
     .programComittee h3 {
-        font-size: 14px;
+        font-size: 20px;
     }
     .programComittee h4 {
-        font-size: 14px;
+        font-size: 15px;
     }
 }
 
@@ -1346,6 +1420,19 @@ hr {
     }
 }
 
+@media (max-width: 843px) {
+    .reviewer {
+        margin-left: 80px;
+        margin-right: 80px;
+    }
+    .reviewer h3 {
+        font-size: 20px;
+    }
+    .reviewer h4 {
+        font-size: 15px;
+    }
+}
+
 /* Responsif untuk layar dengan lebar maksimal 480px */
 @media (max-width: 480px) {
     .reviewer {
@@ -1420,6 +1507,8 @@ hr {
     .pricing {
         margin-left: 80px;
         margin-right: 80px;
+        margin-top: 50px;
+        padding-top: 20px;
     }
     .priceCard h4 {
         font-size: 48px;
@@ -1452,12 +1541,15 @@ hr {
     }
 }
 
+
+
 /* Responsif untuk layar dengan lebar maksimal 480px */
 @media (max-width: 480px) {
     .pricing {
         margin-left: 20px;
         margin-right: 20px;
         padding-top: 50px;
+        margin-top: 30px;
     }
     .priceCard h4 {
         font-size: 32px;
@@ -1532,13 +1624,13 @@ hr {
         margin-right: 80px;
     }
     .payment h3 {
-        font-size: 14px;
+        font-size: 17px;
     }
     .payment .card h3 {
-        font-size: 14px;
+        font-size: 16px;
     }
     .payment .card .card-text {
-        font-size: 14px;
+        font-size: 15px;
     }
 }
 
@@ -1562,8 +1654,8 @@ hr {
 /* Responsif untuk layar dengan lebar maksimal 480px */
 @media (max-width: 480px) {
     .payment {
-        margin-left: 20px;
-        margin-right: 20px;
+        margin-left: 10px;
+        margin-right: 10px;
     }
     .payment h3 {
         font-size: 12px;
@@ -1675,7 +1767,7 @@ hr {
         font-size: 20px;
     }
     .article-content .card h5 {
-        font-size: 16px;
+        font-size: 15px;
     }
     .article-content .card p,
     .article-content .card a {
@@ -1863,7 +1955,6 @@ hr {
     height: 100%;
 }
 
-/* ------------ RESPONSIVE STYLING ------------ */
 
 /* Responsif untuk layar dengan lebar maksimal 1024px */
 @media (max-width: 1024px) {
@@ -1953,7 +2044,7 @@ hr {
 
     .address-city p,
     .contact p {
-        font-size: 10px;
+        font-size: 12px;
     }
 
     .map-area {
@@ -2123,12 +2214,14 @@ hr {
     }
 
     .sponsored h3 {
-        font-size: 12px;
+        font-size: 10px;
+        padding-left: 5px;
     }
 
     .sponsored img {
-        height: 25px; /* Mengurangi tinggi gambar sponsor */
+        height: 20px; /* Mengurangi tinggi gambar sponsor */
         margin: 10px; /* Mengurangi margin gambar sponsor */
+        margin-bottom: 16px;
     }
 }
 
@@ -2237,4 +2330,8 @@ hr {
     100% {
         opacity: 1;
     }
+}
+
+#aboutSection .tsparticles {
+    display: none; /* Sembunyikan Particles di About Us */
 }

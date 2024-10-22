@@ -8,7 +8,6 @@ body {
 
 /* The navigation bar */
 
-
 /* ------------ HOME START ------------ */
 
 #inputLogo {
@@ -97,11 +96,20 @@ body {
     letter-spacing: 1px;
 }
 
+#descHomeEdit{
+    width: 100%; /* Pastikan lebar container diatur sesuai kebutuhan */
+     /* Batasi lebar maksimal container */
+}
+
 .description-input {
     font-family: "Poppins", sans-serif;
     font-weight: 200;
     font-size: 36px;
     letter-spacing: 1px;
+    width: 100%;
+    resize: none; /* Hapus opsi resize manual jika diinginkan */
+    box-sizing: border-box; /* Pastikan padding tidak mempengaruhi lebar total */
+
 }
 
 .editable-text::placeholder {
@@ -110,6 +118,14 @@ body {
 
 #inputHomeBg {
     left: 50%;
+}
+
+@media (max-width: 480px) {
+    #hostLogo img {
+        width: auto;
+        height: 30px;
+        margin-bottom: 10px;
+    }
 }
 
 /* ------------ ABOUT US START ------------ */
@@ -140,10 +156,10 @@ body {
 
 #excelance-tag {
     position: absolute;
-    top: 45%; /* Atur sesuai kebutuhan */
-    left: 30%; /* Atur sesuai kebutuhan */
+    top: 40%; /* Atur sesuai kebutuhan */
+    left: 40%; /* Atur sesuai kebutuhan */
     width: 200px;
-    height: 330px;
+    height: 310px;
     border: #ffffff;
     border-style: solid;
     background-color: #3584a7;
@@ -156,8 +172,8 @@ body {
     border-style: solid;
 }
 
-#confImg {
-    max-width: 80%;
+#confImgDash {
+    max-width: 100%;
     object-fit: cover;
     z-index: 0; /* Pastikan gambar di bawah tag */
 }
@@ -269,9 +285,23 @@ body {
     height: 550px;
 }
 
+@media (max-width: 843px) {
+    #thumbnailImg {
+        width: 100%;
+        height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    #thumbnailImg {
+        width: 100%;
+        height: 200px;
+    }
+}
+
 #thumbnailImg img {
     max-width: 100%;
-    height: auto; 
+    height: auto;
 }
 
 .abstract-input {

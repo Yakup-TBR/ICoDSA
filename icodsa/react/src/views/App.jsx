@@ -1,7 +1,7 @@
 import axios from 'axios';
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useEffect, useState } from 'react';
-import Particle from '../Particle';
+// import Particle from '../Particle';
 import "../styles/app.css";
 
 export default function App() {
@@ -255,7 +255,7 @@ export default function App() {
             <div className='content'>
                 <section className="Home" id="homeSection" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
                     <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center homecontent">
-                    <Particle />
+                    {/* <Particle className="tsparticles"/> */}
 
                         <div className="container" id="hostLogo">
                             {hostLogoData.length > 0 ? (
@@ -291,14 +291,10 @@ export default function App() {
                             <div className="container typing-demo" id="descHome">
                                 <p className='sec-text'>
                                     <span className="typing-text">{homeData.description}</span>
-                                    <span className="cursor">|</span>
+                                    <span className="cursor"></span>
                                 </p>
                             </div>
                         </div>
-
-
-
-
                         <br />
                         <br />
                         <br />
@@ -398,7 +394,7 @@ export default function App() {
                         <div className="row">
 
                             {importantDates.map((date) => (
-                                <div className="col-12  col-xxl-3 col-xl-4 col-lg-4 mb-4 " key={date.id}>
+                                <div className="col-12  col-xxl-3 col-xl-4 col-lg-4 col-md-4 mb-4 " key={date.id}>
                                     <div className="card">
                                         <h3 className="card-title">{date.activity}</h3>
                                         <div className="card-body">
@@ -479,6 +475,24 @@ export default function App() {
                         </h1>
                     </div>
 
+
+                    <div className="container">
+                        <h2>
+                            PDF Express
+                        </h2>
+                    </div>
+                    <div className="container mt-0">
+                        <p>
+                            Prospective authors are invited to submit full papers of 4-6 pages (including tables, figures and references) in standard IEEE double-column format. Please submit your paper via https://edas.info/newPaper.php?c=32055. New users are required to register with EDAS before paper submission. Each full registration for the conference will cover one paper.
+                        </p>
+                    </div>
+
+                    <div className="container">
+                        <button type="button" className="btn btn-primary">
+                            Submit Here
+                        </button>
+
+                    </div>
 
                     <div className="container">
                         <h2>
