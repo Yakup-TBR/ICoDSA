@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\AuthorInformationController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeHostLogoController;
 use App\Http\Controllers\ImportantDateBgController;
@@ -39,6 +40,8 @@ Route::post('important_date_bg/{id}/important_date_bg', [ImportantDateBgControll
 
 
 Route::apiResource('topics', TopicsController::class);
+
+Route::apiResource('author-information', AuthorInformationController::class);
 
 
 

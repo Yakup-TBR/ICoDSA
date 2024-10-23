@@ -399,7 +399,8 @@ export default function Dashboard() {
     // IMPORTANT DATE BG
 
 
-    // ---------- TOPICS ----------
+    // ---------- OUT TOPICS ----------
+
     const [topics, setTopics] = useState([]);
     const [newTopic, setNewTopic] = useState({
         topic_order: '',
@@ -482,6 +483,112 @@ export default function Dashboard() {
         setShowModalTopics(true);
     };
 
+    // ---------- AUTHOR INFORMATION ----------
+    const [authorData, setAuthorData] = useState([]);
+    const [newAuthorData, setNewAuthorData] = useState({
+        author_subtitle: '',
+        author_text: '',
+        author_button_link: '',
+        author_add: ''
+    });
+    const [showModalAuthor, setShowModal] = useState(false);
+    const [selectedType, setSelectedType] = useState('');
+    const [selectedId, setSelectedId] = useState(null);
+
+    // Fetch author information
+    useEffect(() => {
+        fetchAuthorData();
+    }, []);
+
+    const fetchAuthorData = () => {
+        axios.get('http://localhost:8000/api/author-information')
+            .then(response => {
+                setAuthorData(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleSubmitAuthor = (event) => {
+        event.preventDefault();
+        if (selectedId) {
+            // Update existing author data
+            axios.put(`http://localhost:8000/api/author-information/${selectedId}`, newAuthorData)
+                .then(response => {
+                    setAuthorData(authorData.map(data => data.id === selectedId ? response.data : data));
+                    setShowModal(false);
+                    alert('Author data updated successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } else {
+            // Add new author data
+            axios.post('http://localhost:8000/api/author-information', newAuthorData)
+                .then(response => {
+                    setAuthorData([...authorData, response.data]);
+                    setShowModal(false);
+                    alert('Author data added successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    };
+
+    const handleDeleteAuthor = (id) => {
+        if (window.confirm('Are you sure you want to delete this author entry?')) {
+            axios.delete(`http://localhost:8000/api/author-information/${id}`)
+                .then(() => {
+                    setAuthorData(authorData.filter(data => data.id !== id));
+                    alert('Author data deleted successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    };
+
+    const handleAddSubtitleAuthor = () => {
+        setNewAuthorData({
+            author_subtitle: '',
+            author_text: '',
+            author_button_link: '',
+            author_add: 'subtitle'
+        });
+        setSelectedType('subtitle');
+        setSelectedId(null);
+        setShowModal(true);
+    };
+
+    const handleAddTextAuthor = () => {
+        setNewAuthorData({
+            author_subtitle: '',
+            author_text: '',
+            author_button_link: '',
+            author_add: 'text'
+        });
+        setSelectedType('text');
+        setSelectedId(null);
+        setShowModal(true);
+    };
+
+    const handleAddButtonLinkAuthor = () => {
+        setNewAuthorData({
+            author_subtitle: '',
+            author_text: '',
+            author_button_link: '',
+            author_add_text: '',
+            author_add: 'button'
+        });
+        setSelectedType('button');
+        setSelectedId(null);
+        setShowModal(true);
+    };
+
+
+
 
     return (
 
@@ -501,8 +608,7 @@ export default function Dashboard() {
                                     <div id="logo-container" key={logo.id} className="logo-container position-relative"> {/* Tambahkan position-relative */}
                                         <img src={`http://localhost:8000/storage/${logo.host_logo}`} alt="Host Logo" className="mx-2" />
                                         <svg
-                                            type="button" width="24"
-                                            height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                            type="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
                                             onClick={() => handleLogoDelete(logo.id)} className="delete-icon"
                                         > <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" fill="white" /> <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" stroke="#DE5858" /> <path d="M6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19V7H6V19ZM8 9H16V19H8V9ZM15.5 4L14.5 3H9.5L8.5 4H5V6H19V4H15.5Z" fill="#DE5858" />
                                         </svg>
@@ -554,8 +660,8 @@ export default function Dashboard() {
                             <div className="container" id="descHome">
                                 <textarea
                                     className="description-input editable-text mb-0" value={homeData.description}
-                                    onChange={handleInputChange} placeholder="Short Description" rows="3"
-                                ></textarea>
+                                    onChange={handleInputChange} placeholder="Short Description" rows="3">
+                                </textarea>
                             </div>
 
                             <input type="file" accept="image/*" onChange={handleBgUpload} />
@@ -599,19 +705,15 @@ export default function Dashboard() {
                                 <div className="col">
                                     <h1 className="mb-5" id="aboutUsH1">About Us</h1>
                                     <textarea
-                                        className="descAbout-input"
-                                        name="about_desc"
-                                        value={aboutData.about_desc}
-                                        onChange={handleInputChangeAbout}
-                                        placeholder="About Description"
-                                        rows="10"
+                                        className="descAbout-input" name="about_desc" value={aboutData.about_desc}
+                                        onChange={handleInputChangeAbout} placeholder="About Description" rows="10"
                                     />
+                                    <button type="submit">Update About Us</button>
                                 </div>
                             </div>
                             <div className="container" id='gambarAbout'>
-                                <input type="file" accept="image/*" onChange={handleAboutImgUpload} style={{ marginTop: '10px' }} />
+                                <input type="file" accept="image/*" onChange={handleAboutImgUpload} />
                             </div>
-                            <button type="submit">Update About Us</button>
                         </form>
                     </div>
                 </section>
@@ -831,6 +933,76 @@ export default function Dashboard() {
                         </div>
                     )}
                 </section>
+
+                <section className="AuthorInfo" id="authorInformation">
+                    <div className="container">
+                        <h1>Author Information</h1>
+                        <button onClick={handleAddSubtitleAuthor} className="btn btn-primary">+ Add Subtitle</button>
+                        <button onClick={handleAddTextAuthor} className="btn btn-secondary">+ Add Text</button>
+                        <button onClick={handleAddButtonLinkAuthor} className="btn btn-success">+ Add Button Link</button>
+                    </div>
+
+                    <div className="container mt-3">
+                        {authorData.map((data) => (
+                            <div key={data.id}>
+                                {data.author_add === 'subtitle' && <h2>{data.author_subtitle}</h2>}
+                                {data.author_add === 'text' && <p>{data.author_text}</p>}
+                                {data.author_add === 'button' && (
+                                    <a href={data.author_button_link} className="btn btn-primary">{data.author_add_text || 'Visit'}</a>
+                                )}
+                                <button onClick={() => handleDeleteAuthor(data.id)} className="btn btn-danger">Delete</button>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Modal for adding/editing */}
+                    {showModalAuthor && (
+                        <div className="modal fade show" style={{ display: 'block' }}>
+                            <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">Add {selectedType}</h5>
+                                        <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                                    </div>
+                                    <form onSubmit={handleSubmitAuthor}>
+                                        <div className="modal-body">
+                                            {selectedType === 'subtitle' && (
+                                                <input type="text" className="form-control" placeholder="Subtitle" value={newAuthorData.author_subtitle} onChange={(e) => setNewAuthorData({ ...newAuthorData, author_subtitle: e.target.value })} />
+                                            )}
+                                            {selectedType === 'text' && (
+                                                <textarea className="form-control" placeholder="Text" value={newAuthorData.author_text} onChange={(e) => setNewAuthorData({ ...newAuthorData, author_text: e.target.value })}></textarea>
+                                            )}
+                                            {selectedType === 'button' && (
+                                                <>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        placeholder="Button Text"
+                                                        value={newAuthorData.author_add_text}
+                                                        onChange={(e) => setNewAuthorData({ ...newAuthorData, author_add_text: e.target.value })}
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        className="form-control mt-3"
+                                                        placeholder="Button Link"
+                                                        value={newAuthorData.author_button_link}
+                                                        onChange={(e) => setNewAuthorData({ ...newAuthorData, author_button_link: e.target.value })}
+                                                    />
+                                                </>
+                                            )}
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
+                                            <button type="submit" className="btn btn-primary">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </section>
+
+
             </div>
 
         </div>
