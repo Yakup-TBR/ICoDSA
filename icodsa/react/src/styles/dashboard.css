@@ -96,9 +96,8 @@ body {
     letter-spacing: 1px;
 }
 
-#descHomeEdit{
-    width: 100%; /* Pastikan lebar container diatur sesuai kebutuhan */
-     /* Batasi lebar maksimal container */
+#descHomeEdit {
+    width: 100%;
 }
 
 .description-input {
@@ -109,7 +108,6 @@ body {
     width: 100%;
     resize: none; /* Hapus opsi resize manual jika diinginkan */
     box-sizing: border-box; /* Pastikan padding tidak mempengaruhi lebar total */
-
 }
 
 .editable-text::placeholder {
@@ -140,6 +138,44 @@ body {
     width: 350px;
     height: 500px;
     background-color: #2ba2d6;
+    position: relative; /* Pastikan gambar punya posisi relative */
+    z-index: 1; /* Letakkan gambar di belakang */
+}
+
+#inputImgAbout {
+    position: absolute; /* Membuat elemen ini berada di atas */
+    top: 15%; /* Sesuaikan posisi top sesuai keinginan */
+    left: 30%; /* Sesuaikan posisi left sesuai keinginan */
+    width: 200px;
+    height: auto;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    z-index: 2; /* Pastikan z-index lebih tinggi dari gambar */
+    object-fit: cover;
+}
+
+#inputImgAbout label {
+    margin-top: 20px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+}
+
+#inputImgAbout input[type="file"] {
+    display: none; /* Hide the actual file input */
+}
+
+.custom-file-upload-about {
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #3584a7; /* Button color */
+    color: white;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+    width: auto;
 }
 
 #AboutUsDash h1 {
@@ -246,12 +282,12 @@ body {
     margin-bottom: 20px; /* Ruang di bawah setiap input */
 }
 
-/* ------------ SPEAKERS US START ------------ */
 .ourTopics .card {
     /* border: none; */
     width: auto;
     margin: 20px;
 }
+/* ------------ SPEAKERS US START ------------ */
 
 .Speakers h5 {
     font-family: "Poppins", sans-serif;
@@ -272,6 +308,10 @@ body {
     padding-left: 3px;
 }
 
+#buttonAddSpeaker {
+    border: none;
+    background-color: transparent;
+}
 /* ------------ TUTORIAL US sta ------------ */
 
 .tutorial-dash {
@@ -283,26 +323,51 @@ body {
 #thumbnailImg {
     width: 100%;
     height: 550px;
-}
-
-@media (max-width: 843px) {
-    #thumbnailImg {
-        width: 100%;
-        height: 400px;
-    }
-}
-
-@media (max-width: 480px) {
-    #thumbnailImg {
-        width: 100%;
-        height: 200px;
-    }
+    position: relative;
+    margin-bottom: 30px;
 }
 
 #thumbnailImg img {
     max-width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
 }
+
+#uploadThumbnail {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+}
+
+#uploadThumbnail input {
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #3584a7; /* Button color */
+    color: white;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+    width: auto;
+}
+
+#labelThumbnail{
+    width: auto;
+}
+
+#uploadThumbnail label {
+    margin-top: 20px;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 11px;
+}
+
+#uploadThumbnail input[type="file"] {
+    display: none; /* Hide the actual file input */
+}
+
 
 .abstract-input {
     width: 100%;
@@ -323,4 +388,18 @@ body {
     letter-spacing: 0px;
     resize: none;
     overflow: auto;
+}
+
+@media (max-width: 843px) {
+    #thumbnailImg {
+        width: 100%;
+        height: 400px;
+    }
+}
+
+@media (max-width: 480px) {
+    #thumbnailImg {
+        width: 100%;
+        height: 200px;
+    }
 }

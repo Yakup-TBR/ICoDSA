@@ -31,7 +31,7 @@ export default function Dashboard() {
                         description: 'Description',
                         home_bg: 'background.jpg',
                     };
-                    await axios.post('http://localhost:8000/api/homes', newHome);
+                    await axios.post('http://localhost:8000/api/homes/1', newHome);
                     setHomeData(newHome);
                 } else {
                     console.error(error);
@@ -489,6 +489,7 @@ export default function Dashboard() {
         author_subtitle: '',
         author_text: '',
         author_button_link: '',
+        author_button_text: '',
         author_add: ''
     });
     const [showModalAuthor, setShowModal] = useState(false);
@@ -498,7 +499,8 @@ export default function Dashboard() {
     // Fetch author information
     useEffect(() => {
         fetchAuthorData();
-    }, []);
+    }, []); // Menggunakan array kosong agar hanya berjalan sekali
+
 
     const fetchAuthorData = () => {
         axios.get('http://localhost:8000/api/author-information')
@@ -516,7 +518,9 @@ export default function Dashboard() {
             // Update existing author data
             axios.put(`http://localhost:8000/api/author-information/${selectedId}`, newAuthorData)
                 .then(response => {
-                    setAuthorData(authorData.map(data => data.id === selectedId ? response.data : data));
+                    setAuthorData(authorData.map(data =>
+                        data.id === selectedId ? response.data : data
+                    ));
                     setShowModal(false);
                     alert('Author data updated successfully!');
                 })
@@ -527,7 +531,7 @@ export default function Dashboard() {
             // Add new author data
             axios.post('http://localhost:8000/api/author-information', newAuthorData)
                 .then(response => {
-                    setAuthorData([...authorData, response.data]);
+                    setAuthorData([...authorData, response.data]); // Update state langsung
                     setShowModal(false);
                     alert('Author data added successfully!');
                 })
@@ -535,6 +539,15 @@ export default function Dashboard() {
                     console.error(error);
                 });
         }
+    };
+
+
+    const handleInputChangeAuthor = (e) => {
+        const { name, value } = e.target;
+        setNewAuthorData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
     };
 
     const handleDeleteAuthor = (id) => {
@@ -555,6 +568,7 @@ export default function Dashboard() {
             author_subtitle: '',
             author_text: '',
             author_button_link: '',
+            author_button_text: '',
             author_add: 'subtitle'
         });
         setSelectedType('subtitle');
@@ -567,6 +581,7 @@ export default function Dashboard() {
             author_subtitle: '',
             author_text: '',
             author_button_link: '',
+            author_button_text: '',
             author_add: 'text'
         });
         setSelectedType('text');
@@ -579,7 +594,7 @@ export default function Dashboard() {
             author_subtitle: '',
             author_text: '',
             author_button_link: '',
-            author_add_text: '',
+            author_button_text: '',
             author_add: 'button'
         });
         setSelectedType('button');
@@ -657,12 +672,11 @@ export default function Dashboard() {
                                 </button>
                             </div>
 
-                            <div className="container" id="descHome">
-                                <textarea
-                                    className="description-input editable-text mb-0" value={homeData.description}
-                                    onChange={handleInputChange} placeholder="Short Description" rows="3">
-                                </textarea>
-                            </div>
+                            <textarea
+                                name="description" className="description-input editable-text mb-0"
+                                value={homeData.description} onChange={handleInputChange} placeholder="Short Description" rows="3">
+                            </textarea>
+
 
                             <input type="file" accept="image/*" onChange={handleBgUpload} />
 
@@ -701,6 +715,20 @@ export default function Dashboard() {
                                             </div>
                                         </div>
                                     </div>
+
+                                    <div className="container" id="inputImgAbout">
+                                        <svg width="87" height="87" viewBox="0 0 87 87" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M35.3546 38.0625C36.4257 38.0625 37.4863 37.8515 38.4759 37.4416C39.4655 37.0318 40.3646 36.431 41.122 35.6736C41.8793 34.9162 42.4801 34.0171 42.89 33.0275C43.2999 32.0379 43.5109 30.9773 43.5109 29.9062C43.5109 28.8352 43.2999 27.7745 42.89 26.785C42.4801 25.7954 41.8793 24.8963 41.122 24.1389C40.3646 23.3815 39.4655 22.7807 38.4759 22.3709C37.4863 21.961 36.4257 21.75 35.3546 21.75C33.1915 21.75 31.1169 22.6093 29.5873 24.1389C28.0577 25.6685 27.1984 27.7431 27.1984 29.9062C27.1984 32.0694 28.0577 34.144 29.5873 35.6736C31.1169 37.2032 33.1915 38.0625 35.3546 38.0625Z" fill="#868686" />
+                                            <path d="M76.125 76.125C76.125 79.0092 74.9792 81.7753 72.9398 83.8148C70.9003 85.8542 68.1342 87 65.25 87H21.75C18.8658 87 16.0997 85.8542 14.0602 83.8148C12.0208 81.7753 10.875 79.0092 10.875 76.125V10.875C10.875 7.99077 12.0208 5.22467 14.0602 3.18521C16.0997 1.14576 18.8658 0 21.75 0L51.6562 0L76.125 24.4688V76.125ZM21.75 5.4375C20.3079 5.4375 18.9248 6.01038 17.9051 7.03011C16.8854 8.04984 16.3125 9.43289 16.3125 10.875V65.25L28.4055 53.157C28.8341 52.7295 29.3931 52.4572 29.9939 52.3833C30.5947 52.3094 31.203 52.4382 31.7224 52.7492L43.5 59.8125L55.2287 43.3913C55.4582 43.0703 55.7548 42.8032 56.0979 42.6083C56.441 42.4135 56.8224 42.2958 57.2156 42.2632C57.6088 42.2306 58.0044 42.2839 58.3749 42.4196C58.7454 42.5552 59.082 42.7699 59.3612 43.0487L70.6875 54.375V24.4688H59.8125C57.6493 24.4688 55.5748 23.6094 54.0452 22.0798C52.5156 20.5502 51.6562 18.4757 51.6562 16.3125V5.4375H21.75Z" fill="#868686" />
+                                        </svg>
+
+                                        <label htmlFor="file-upload-about" className="custom-file-upload-about">
+                                            Choose a 3:4 image
+                                        </label>
+                                        <input id="file-upload-about" type="file" onChange={handleAboutImgUpload} />
+                                    </div>
+
+
                                 </div>
                                 <div className="col">
                                     <h1 className="mb-5" id="aboutUsH1">About Us</h1>
@@ -711,9 +739,7 @@ export default function Dashboard() {
                                     <button type="submit">Update About Us</button>
                                 </div>
                             </div>
-                            <div className="container" id='gambarAbout'>
-                                <input type="file" accept="image/*" onChange={handleAboutImgUpload} />
-                            </div>
+
                         </form>
                     </div>
                 </section>
@@ -724,9 +750,6 @@ export default function Dashboard() {
                         <div className="section-header">
                             <h5>Keynote</h5>
                             <h2>Speakers</h2>
-                            <button className="btn btn-primary" onClick={() => setShowModalSpeakers(true)}>
-                                + Add Speaker
-                            </button>
                         </div>
 
                         <div className="row">
@@ -744,9 +767,27 @@ export default function Dashboard() {
                                     </div>
                                 </div>
                             ))}
+
+                            {/* Tambahkan tombol "Add Speaker" sebagai elemen terakhir setelah semua card */}
+                            <div className="col-md-4 d-flex justify-content-center align-items-center">
+                                <button className="btn w-50" onClick={() => setShowModalSpeakers(true)} id="buttonAddSpeaker">
+                                    <button onClick={() => setShowModalSpeakers(true)} id="buttonAddSpeaker">
+                                        <svg width="130" height="130" viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M105.625 16.25H24.375C22.2201 16.25 20.1535 17.106 18.6298 18.6298C17.106 20.1535 16.25 22.2201 16.25 24.375V105.625C16.25 107.78 17.106 109.847 18.6298 111.37C20.1535 112.894 22.2201 113.75 24.375 113.75H105.625C107.78 113.75 109.847 112.894 111.37 111.37C112.894 109.847 113.75 107.78 113.75 105.625V24.375C113.75 22.2201 112.894 20.1535 111.37 18.6298C109.847 17.106 107.78 16.25 105.625 16.25ZM93.4375 69.0625H69.0625V93.4375C69.0625 94.5149 68.6345 95.5483 67.8726 96.3101C67.1108 97.072 66.0774 97.5 65 97.5C63.9226 97.5 62.8892 97.072 62.1274 96.3101C61.3655 95.5483 60.9375 94.5149 60.9375 93.4375V69.0625H36.5625C35.4851 69.0625 34.4517 68.6345 33.6899 67.8726C32.928 67.1108 32.5 66.0774 32.5 65C32.5 63.9226 32.928 62.8892 33.6899 62.1274C34.4517 61.3655 35.4851 60.9375 36.5625 60.9375H60.9375V36.5625C60.9375 35.4851 61.3655 34.4517 62.1274 33.6899C62.8892 32.928 63.9226 32.5 65 32.5C66.0774 32.5 67.1108 32.928 67.8726 33.6899C68.6345 34.4517 69.0625 35.4851 69.0625 36.5625V60.9375H93.4375C94.5149 60.9375 95.5483 61.3655 96.3101 62.1274C97.072 62.8892 97.5 63.9226 97.5 65C97.5 66.0774 97.072 67.1108 96.3101 67.8726C95.5483 68.6345 94.5149 69.0625 93.4375 69.0625Z" fill="url(#paint0_linear_80_396)" />
+                                            <defs>
+                                                <linearGradient id="paint0_linear_80_396" x1="65" y1="16.25" x2="65" y2="113.75" gradientUnits="userSpaceOnUse">
+                                                    <stop stopColor="#463F7D" />
+                                                    <stop offset="1" stopColor="#31CDBC" />
+                                                </linearGradient>
+                                            </defs>
+                                        </svg>
+                                    </button>
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </section>
+
 
                 {/* Modal for Adding New Speaker */}
                 {showModal && (
@@ -789,12 +830,26 @@ export default function Dashboard() {
                     </div>
                     <div className="container">
                         <form onSubmit={handleSubmitTutorial}>
-                            <div className="container p-0" id="thumbnailImg">
-                                <img src={`http://localhost:8000/storage/${tutorialData.thumbail_img || 'placeholder.jpg'}`} alt="Tutorial Thumbnail" />
+                            <div className="container position-relative p-0" id="thumbnailImg">
+                                <img
+                                    src={`http://localhost:8000/storage/${tutorialData.thumbail_img || 'placeholder.jpg'}`}
+                                    alt="Tutorial Thumbnail"
+                                />
+                                <div className="container position-absolute d-flex flex-column justify-content-center align-items-center" id="uploadThumbnail">
+                                    <svg width="84" height="83" viewBox="0 0 84 83" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M34.1355 36.3125C35.1697 36.3125 36.1937 36.1112 37.1491 35.7202C38.1046 35.3291 38.9727 34.756 39.704 34.0334C40.4352 33.3109 41.0153 32.4531 41.411 31.509C41.8068 30.5649 42.0105 29.5531 42.0105 28.5312C42.0105 27.5094 41.8068 26.4976 41.411 25.5535C41.0153 24.6094 40.4352 23.7516 39.704 23.0291C38.9727 22.3065 38.1046 21.7334 37.1491 21.3423C36.1937 20.9513 35.1697 20.75 34.1355 20.75C32.0469 20.75 30.0439 21.5698 28.567 23.0291C27.0902 24.4883 26.2605 26.4675 26.2605 28.5312C26.2605 30.595 27.0902 32.5742 28.567 34.0334C30.0439 35.4927 32.0469 36.3125 34.1355 36.3125Z" fill="#868686" />
+                                        <path d="M73.5 72.625C73.5 75.3766 72.3937 78.0155 70.4246 79.9612C68.4555 81.9069 65.7848 83 63 83H21C18.2152 83 15.5445 81.9069 13.5754 79.9612C11.6062 78.0155 10.5 75.3766 10.5 72.625V10.375C10.5 7.62338 11.6062 4.98446 13.5754 3.03877C15.5445 1.09308 18.2152 0 21 0L49.875 0L73.5 23.3438V72.625ZM21 5.1875C19.6076 5.1875 18.2723 5.73404 17.2877 6.70688C16.3031 7.67973 15.75 8.99919 15.75 10.375V62.25L27.426 50.713C27.8398 50.3051 28.3795 50.0454 28.9596 49.9749C29.5397 49.9044 30.127 50.0272 30.6285 50.3239L42 57.0625L53.3242 41.3963C53.5458 41.0901 53.8322 40.8352 54.1635 40.6493C54.4948 40.4635 54.863 40.3511 55.2427 40.32C55.6223 40.2889 56.0043 40.3399 56.362 40.4693C56.7197 40.5987 57.0447 40.8035 57.3142 41.0694L68.25 51.875V23.3438H57.75C55.6614 23.3438 53.6584 22.5239 52.1815 21.0647C50.7047 19.6054 49.875 17.6262 49.875 15.5625V5.1875H21Z" fill="#868686" />
+                                    </svg>
+
+                                    <label htmlFor="thumbnail-upload" className="custom-file-upload" id="labelThumbnail">
+                                        Choose a 16:9 image
+                                    </label>
+                                    <input id="thumbnail-upload" type="file" onChange={handleThumbnailImgUpload} />
+                                </div>
                             </div>
-                            <div className="container" id="uploadThumbnail">
-                                <input type="file" accept="image/*" onChange={handleThumbnailImgUpload} />
-                            </div>
+
+
+
                             <div className="container p-0">
                                 <textarea
                                     className="abstract-input" name="abstract" value={tutorialData.abstract} onChange={handleInputChangeTutorial}
@@ -945,10 +1000,23 @@ export default function Dashboard() {
                     <div className="container mt-3">
                         {authorData.map((data) => (
                             <div key={data.id}>
-                                {data.author_add === 'subtitle' && <h2>{data.author_subtitle}</h2>}
-                                {data.author_add === 'text' && <p>{data.author_text}</p>}
+                                {data.author_add === 'subtitle' && <h2>
+                                    {data.author_subtitle.split('\n').map((line, index) => (
+                                        <span key={index}>{line}<br /></span>
+                                    ))}
+                                </h2>
+                                }
+                                {data.author_add === 'text' && <p>
+                                    {data.author_text.split('\n').map((line, index) => (
+                                        <span key={index}>
+                                            {line}
+                                            <br />
+                                        </span>
+                                    ))}
+                                </p>
+                                }
                                 {data.author_add === 'button' && (
-                                    <a href={data.author_button_link} className="btn btn-primary">{data.author_add_text || 'Visit'}</a>
+                                    <a href={data.author_button_link} className="btn btn-primary">{data.author_button_text || 'Visit'}</a>
                                 )}
                                 <button onClick={() => handleDeleteAuthor(data.id)} className="btn btn-danger">Delete</button>
                             </div>
@@ -976,20 +1044,23 @@ export default function Dashboard() {
                                                 <>
                                                     <input
                                                         type="text"
+                                                        name="author_button_text"
                                                         className="form-control"
                                                         placeholder="Button Text"
-                                                        value={newAuthorData.author_add_text}
-                                                        onChange={(e) => setNewAuthorData({ ...newAuthorData, author_add_text: e.target.value })}
+                                                        value={newAuthorData.author_button_text}
+                                                        onChange={handleInputChangeAuthor} // Menambahkan handleInputChange
                                                     />
                                                     <input
                                                         type="text"
+                                                        name="author_button_link"
                                                         className="form-control mt-3"
                                                         placeholder="Button Link"
                                                         value={newAuthorData.author_button_link}
-                                                        onChange={(e) => setNewAuthorData({ ...newAuthorData, author_button_link: e.target.value })}
+                                                        onChange={handleInputChangeAuthor} // Menambahkan handleInputChange
                                                     />
                                                 </>
                                             )}
+
                                         </div>
                                         <div className="modal-footer">
                                             <button type="button" className="btn btn-secondary" onClick={() => setShowModal(false)}>Close</button>
@@ -1001,6 +1072,8 @@ export default function Dashboard() {
                         </div>
                     )}
                 </section>
+
+
 
 
             </div>

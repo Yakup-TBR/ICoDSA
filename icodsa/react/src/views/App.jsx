@@ -152,6 +152,28 @@ export default function App() {
     });
 
 
+    // ------------- AUTHOR INFORMATION -------------
+    const [authorData, setAuthorData] = useState([]);
+
+
+
+    // Fetch author information
+    useEffect(() => {
+        fetchAuthorData();
+    }, []); // Menggunakan array kosong agar hanya berjalan sekali
+
+
+    const fetchAuthorData = () => {
+        axios.get('http://localhost:8000/api/author-information')
+            .then(response => {
+                setAuthorData(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+
     // ------------- NAVBAR -------------
     const navLinks = document.querySelectorAll('.nav-link');
 
@@ -255,7 +277,7 @@ export default function App() {
             <div className='content'>
                 <section className="Home" id="homeSection" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
                     <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center homecontent">
-                    {/* <Particle className="tsparticles"/> */}
+                        {/* <Particle className="tsparticles"/> */}
 
                         <div className="container" id="hostLogo">
                             {hostLogoData.length > 0 ? (
@@ -332,8 +354,14 @@ export default function App() {
                                     About Us
                                 </h1>
                                 <h5 id="aboutUsDesc">
-                                    {aboutData.about_desc}
+                                    {aboutData.about_desc.split('\n').map((line, index) => (
+                                        <span key={index}>
+                                            {line}
+                                            <br />
+                                        </span>
+                                    ))}
                                 </h5>
+
                             </div>
 
                         </div>
@@ -381,7 +409,14 @@ export default function App() {
                             <h2>Abstract</h2>
                         </div>
                         <div className="container p-0 pt-4 pb-4">
-                            <p> {tutorialData.abstract} </p>
+                            <p>
+                                {tutorialData.abstract.split('\n').map((line, index) => (
+                                    <span key={index}>
+                                        {line}
+                                        <br />
+                                    </span>
+                                ))}
+                            </p>
                         </div>
                     </div>
                 </section>
@@ -429,7 +464,15 @@ export default function App() {
                                             </div>
                                             <div className="card-body p-0">
                                                 <h4 className="card-text">{topic.topic_title}</h4>
-                                                <h5>{topic.topic_list}</h5>
+                                                <h5>
+                                                    {topic.topic_list.split('\n').map((line, index) => (
+                                                        <span key={index}>
+                                                            {line}
+                                                            <br />
+                                                        </span>
+                                                    ))}
+                                                </h5>
+
                                             </div>
                                         </div>
                                     </div>
@@ -448,23 +491,31 @@ export default function App() {
                         </h1>
                     </div>
 
-                    <div className="container">
-                        <h2>
-                            Paper Submission
-                        </h2>
-                    </div>
-
-                    <div className="container mt-0">
-                        <p>
-                            Prospective authors are invited to submit full papers of 4-6 pages (including tables, figures and references) in standard IEEE double-column format. Please submit your paper via https://edas.info/newPaper.php?c=32055. New users are required to register with EDAS before paper submission. Each full registration for the conference will cover one paper.
-                        </p>
-                    </div>
-
-                    <div className="container">
-                        <button type="button" className="btn btn-primary">
-                            Submit Here
-                        </button>
-
+                    <div className="container mt-3">
+                        {authorData.map((data) => (
+                            <div key={data.id}>
+                                {data.author_add === 'subtitle' && <h2>
+                                    {data.author_subtitle.split('\n').map((line, index) => (
+                                        <span key={index}>{line}<br /></span>
+                                    ))}
+                                </h2>
+                                }
+                                {data.author_add === 'text' && <p>
+                                    {data.author_text.split('\n').map((line, index) => (
+                                        <span key={index}>
+                                            {line}
+                                            <br />
+                                        </span>
+                                    ))}
+                                </p>
+                                }
+                                {data.author_add === 'button' && (
+                                    <button type='button' className='btn btn-primary'>
+                                        <a href={data.author_button_link} target="_blank" >{data.author_button_text || 'Visit'}</a>
+                                    </button>
+                                )}
+                            </div>
+                        ))}
                     </div>
                 </section>
 
@@ -478,18 +529,16 @@ export default function App() {
 
                     <div className="container">
                         <h2>
-                            PDF Express
-                        </h2>
+                            Subtitle registration                        </h2>
                     </div>
                     <div className="container mt-0">
                         <p>
-                            Prospective authors are invited to submit full papers of 4-6 pages (including tables, figures and references) in standard IEEE double-column format. Please submit your paper via https://edas.info/newPaper.php?c=32055. New users are required to register with EDAS before paper submission. Each full registration for the conference will cover one paper.
-                        </p>
+                            regisration text                        </p>
                     </div>
 
                     <div className="container">
                         <button type="button" className="btn btn-primary">
-                            Submit Here
+                            Button here
                         </button>
 
                     </div>

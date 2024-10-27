@@ -17,7 +17,7 @@ class AuthorInformationController extends Controller
         $data = $request->validate([
             'author_subtitle' => 'nullable|string',
             'author_text' => 'nullable|string',
-            'author_add_text' => 'nullable|string',
+            'author_button_text' => 'nullable|string',
             'author_button_link' => 'nullable|string',
             'author_add' => 'required|in:subtitle,text,button',
         ]);
@@ -34,6 +34,7 @@ class AuthorInformationController extends Controller
             'author_add' => 'required|in:subtitle,text,button',
             'author_subtitle' => 'nullable|string',
             'author_text' => 'nullable|string',
+            'author_button_text' => 'nullable|string',
             'author_button_link' => 'nullable|url'
         ]);
 

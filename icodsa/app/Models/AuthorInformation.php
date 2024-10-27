@@ -16,7 +16,7 @@ class AuthorInformation extends Model
         'author_subtitle',
         'author_text',
         'author_button_link',
-        'author_add_text',
+        'author_button_text',
         'author_add'
     ];
     

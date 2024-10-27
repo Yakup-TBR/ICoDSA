@@ -380,7 +380,7 @@ nav img {
 
 .excellance-tag {
     position: absolute;
-    top: 80%;
+    top: 50%;
     left: 30%;
     width: 200px;
     height: 250px;
@@ -442,6 +442,7 @@ nav img {
     line-height: 28px;
     letter-spacing: 0px;
     color: #777777;
+    height: 100vh;
 }
 
 @media (max-width: 1245px) {
@@ -738,8 +739,6 @@ nav img {
         margin-right: 80px;
         padding-top: 50px;
     }
-
-
 }
 
 /* Responsif untuk layar dengan lebar maksimal 768px */
@@ -762,12 +761,11 @@ nav img {
     #tutorialSession img {
         margin-bottom: 10px;
     }
-    
-    .tutorial .section-header{
+
+    .tutorial .section-header {
         margin-top: 0;
         padding-top: 0;
     }
-
 }
 
 /* ------------ IMPORTANT DATE START ------------ */
@@ -860,7 +858,6 @@ nav img {
     }
 }
 
-
 @media (max-width: 843px) {
     .importantDate {
         padding-left: 50px;
@@ -872,12 +869,10 @@ nav img {
         padding: 20px;
         padding-left: 50px;
         padding-right: 50px;
-
     }
 }
 
 /* Responsif untuk layar dengan lebar maksimal 768px */
-
 
 @media (max-width: 768px) {
     .importantDate {
@@ -955,6 +950,7 @@ nav img {
 .ourTopics .card h5 {
     font-family: "Roboto", sans-serif;
     font-weight: 400;
+    line-height: 28px;
     font-size: 16px;
     color: #777777;
 }
@@ -1071,11 +1067,15 @@ nav img {
         color 0.4s ease; /* Transisi halus */
 }
 
+.AuthorInfo button a{
+    text-decoration: none;
+    color: #ffffff;
+}
+
 .AuthorInfo button:hover {
     background-position: 100% 50%; /* Geser gradien untuk memberikan efek bergerak */
     color: white;
 }
-
 
 /* Responsif untuk layar dengan lebar maksimal 1024px */
 @media (max-width: 1024px) {
@@ -1541,8 +1541,6 @@ hr {
     }
 }
 
-
-
 /* Responsif untuk layar dengan lebar maksimal 480px */
 @media (max-width: 480px) {
     .pricing {
@@ -1954,7 +1952,6 @@ hr {
     width: 100%;
     height: 100%;
 }
-
 
 /* Responsif untuk layar dengan lebar maksimal 1024px */
 @media (max-width: 1024px) {

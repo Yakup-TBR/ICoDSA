@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('author_subtitle')->nullable();
             $table->text('author_text')->nullable();
-            $table->string('author_add_text')->nullable();
+            $table->string('author_button_text')->nullable();
             $table->string('author_button_link')->nullable();
             $table->enum('author_add', ['subtitle', 'text', 'button'])->default('subtitle');
             $table->timestamps();
