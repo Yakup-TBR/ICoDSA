@@ -396,8 +396,47 @@ export default function Dashboard() {
         }
     };
 
-    // IMPORTANT DATE BG
+    // ---------- IMPORTANT DATE BG ----------
+    const [importantDateData, setImportantDateData] = useState({
+        important_date_bg: null,
+    });
 
+    useEffect(() => {
+        const fetchImportantDateData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/important_date_bg/1');
+                setImportantDateData(response.data);
+            } catch (error) {
+                if (error.response && error.response.status === 404) {
+                    const newImportantDate = { important_date_bg: null };
+                    const createResponse = await axios.post('http://localhost:8000/api/important_date_bg', newImportantDate);
+                    setImportantDateData(createResponse.data);
+                } else {
+                    console.error(error);
+                }
+            }
+        };
+
+        fetchImportantDateData();
+    }, []);
+
+    const handleBgUploadImportantBg = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('background', file);
+
+        try {
+            const response = await axios.post(`http://localhost:8000/api/important_date_bg/1/bg`, formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            setImportantDateData((prevData) => ({ ...prevData, important_date_bg: response.data.background_url }));
+            alert('Background image uploaded successfully!');
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     // ---------- OUT TOPICS ----------
 
@@ -484,6 +523,7 @@ export default function Dashboard() {
     };
 
     // ---------- AUTHOR INFORMATION ----------
+
     const [authorData, setAuthorData] = useState([]);
     const [newAuthorData, setNewAuthorData] = useState({
         author_subtitle: '',
@@ -603,16 +643,123 @@ export default function Dashboard() {
     };
 
 
+    // ---------- REGISTRATION ----------
+    const [registrationData, setRegistrationData] = useState([]);
+    const [newRegistrationData, setNewRegistrationData] = useState({
+        registration_subtitle: '',
+        registration_text: '',
+        registration_button_link: '',
+        registration_button_text: '',
+        registration_add: ''
+    });
+    const [showModalRegistration, setShowModalRegistration] = useState(false);
+    const [selectedRegistrationType, setSelectedRegistrationType] = useState('');
+    const [selectedRegistrationId, setSelectedRegistrationId] = useState(null);
+
+    useEffect(() => {
+        fetchRegistrationData();
+    }, []);
+
+    const fetchRegistrationData = () => {
+        axios.get('http://localhost:8000/api/registration')
+            .then(response => {
+                setRegistrationData(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleSubmitRegistration = (event) => {
+        event.preventDefault();
+        if (selectedRegistrationId) {
+            axios.put(`http://localhost:8000/api/registration/${selectedRegistrationId}`, newRegistrationData)
+                .then(response => {
+                    setRegistrationData(registrationData.map(data =>
+                        data.id === selectedRegistrationId ? response.data : data
+                    ));
+                    setShowModalRegistration(false);
+                    alert('Registration data updated successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } else {
+            axios.post('http://localhost:8000/api/registration', newRegistrationData)
+                .then(response => {
+                    setRegistrationData([...registrationData, response.data]);
+                    setShowModalRegistration(false);
+                    alert('Registration data added successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    };
+
+    const handleInputChangeRegistration = (e) => {
+        const { name, value } = e.target;
+        setNewRegistrationData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleDeleteRegistration = (id) => {
+        if (window.confirm('Are you sure you want to delete this registration entry?')) {
+            axios.delete(`http://localhost:8000/api/registration/${id}`)
+                .then(() => {
+                    setRegistrationData(registrationData.filter(data => data.id !== id));
+                    alert('Registration data deleted successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    };
+
+    const handleAddSubtitleRegistration = () => {
+        setNewRegistrationData({
+            registration_subtitle: '',
+            registration_text: '',
+            registration_button_link: '',
+            registration_button_text: '',
+            registration_add: 'subtitle'
+        });
+        setSelectedRegistrationType('subtitle');
+        setSelectedRegistrationId(null);
+        setShowModalRegistration(true);
+    };
+
+    const handleAddTextRegistration = () => {
+        setNewRegistrationData({
+            registration_subtitle: '',
+            registration_text: '',
+            registration_button_link: '',
+            registration_button_text: '',
+            registration_add: 'text'
+        });
+        setSelectedRegistrationType('text');
+        setSelectedRegistrationId(null);
+        setShowModalRegistration(true);
+    };
+
+    const handleAddButtonLinkRegistration = () => {
+        setNewRegistrationData({
+            registration_subtitle: '',
+            registration_text: '',
+            registration_button_link: '',
+            registration_button_text: '',
+            registration_add: 'button'
+        });
+        setSelectedRegistrationType('button');
+        setSelectedRegistrationId(null);
+        setShowModalRegistration(true);
+    };
 
 
     return (
-
-
-
-
         <div>
-
-
             <div className="main">
                 {/* Section Home */}
                 <section className="Home" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
@@ -755,7 +902,7 @@ export default function Dashboard() {
                         <div className="row">
                             {speakers.map((speaker) => (
                                 <div className="col-md-4" key={speaker.id}>
-                                    <div className="card mb-4">
+                                    <div className="card mb-4" id="cardSpeaker-dashboard">
                                         <img src={`http://localhost:8000${speaker.speakers_img}`} className="card-img-top" alt={speaker.speakers_name} />
                                         <div className="card-body">
                                             <h5 className="card-title">{speaker.speakers_name}</h5>
@@ -855,14 +1002,15 @@ export default function Dashboard() {
                                     className="abstract-input" name="abstract" value={tutorialData.abstract} onChange={handleInputChangeTutorial}
                                     placeholder="Tutorial Description" rows="10" />
                             </div>
-                            <button type="submit">Update Tutorial</button>
+                            <button type="submit" className='mb-3'>Update Tutorial</button>
                         </form>
                     </div>
                 </section>
 
 
-                <section className="importantDate" style={{ backgroundImage: `url('/coba.jpg')` }}>
-                    <p>Input BG Disini</p>
+                <section className="importantDate" style={{ backgroundImage: `url(${importantDateData.important_date_bg})` }}>
+                    <input type="file" onChange={handleBgUploadImportantBg} style={{ display: 'block', margin: '10px 0' }} />
+
                     <div className="container">
                         <h2>Important Date</h2>
                         <button className="btn btn-primary" onClick={() => setShowModalImportantDate(true)}>+ Add Important Date</button>
@@ -1073,6 +1221,62 @@ export default function Dashboard() {
                     )}
                 </section>
 
+                <section className="registration" id="registration">
+                    <div className="container">
+                        <h1>Registration</h1>
+                        <button onClick={handleAddSubtitleRegistration} className="btn btn-primary">+ Add Subtitle</button>
+                        <button onClick={handleAddTextRegistration} className="btn btn-secondary">+ Add Text</button>
+                        <button onClick={handleAddButtonLinkRegistration} className="btn btn-success">+ Add Button Link</button>
+                    </div>
+
+                    <div className="container mt-3">
+                        {registrationData.map((data) => (
+                            <div key={data.id}>
+                                {data.registration_add === 'subtitle' && <h2>{data.registration_subtitle}</h2>}
+                                {data.registration_add === 'text' && <p>{data.registration_text}</p>}
+                                {data.registration_add === 'button' && (
+                                    <a href={data.registration_button_link} className="btn btn-primary">
+                                        {data.registration_button_text || 'Visit'}
+                                    </a>
+                                )}
+                                <button onClick={() => handleDeleteRegistration(data.id)} className="btn btn-danger">Delete</button>
+                            </div>
+                        ))}
+                    </div>
+
+                    {showModalRegistration && (
+                        <div className="modal fade show" style={{ display: 'block' }}>
+                            <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">Add {selectedRegistrationType}</h5>
+                                        <button type="button" className="btn-close" onClick={() => setShowModalRegistration(false)}></button>
+                                    </div>
+                                    <form onSubmit={handleSubmitRegistration}>
+                                        <div className="modal-body">
+                                            {selectedRegistrationType === 'subtitle' && (
+                                                <input type="text" className="form-control" placeholder="Subtitle" name="registration_subtitle" value={newRegistrationData.registration_subtitle} onChange={handleInputChangeRegistration} />
+                                            )}
+                                            {selectedRegistrationType === 'text' && (
+                                                <textarea className="form-control" placeholder="Text" name="registration_text" value={newRegistrationData.registration_text} onChange={handleInputChangeRegistration}></textarea>
+                                            )}
+                                            {selectedRegistrationType === 'button' && (
+                                                <>
+                                                    <input type="text" name="registration_button_text" className="form-control" placeholder="Button Text" value={newRegistrationData.registration_button_text} onChange={handleInputChangeRegistration} />
+                                                    <input type="text" name="registration_button_link" className="form-control mt-3" placeholder="Button Link" value={newRegistrationData.registration_button_link} onChange={handleInputChangeRegistration} />
+                                                </>
+                                            )}
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" onClick={() => setShowModalRegistration(false)}>Close</button>
+                                            <button type="submit" className="btn btn-primary">Save</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </section>
 
 
 

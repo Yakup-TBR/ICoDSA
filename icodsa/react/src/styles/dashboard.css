@@ -134,13 +134,20 @@ body {
 }
 
 #aboutImg {
-    object-fit: cover;
     width: 350px;
     height: 500px;
     background-color: #2ba2d6;
-    position: relative; /* Pastikan gambar punya posisi relative */
-    z-index: 1; /* Letakkan gambar di belakang */
+    position: relative;
+    z-index: 1;
+    overflow: hidden; /* Untuk memastikan gambar yang meluap akan dipotong */
 }
+
+#aboutImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
 
 #inputImgAbout {
     position: absolute; /* Membuat elemen ini berada di atas */
@@ -312,6 +319,19 @@ body {
     border: none;
     background-color: transparent;
 }
+
+.card-img-top{
+    height: 330px;
+    
+}
+
+#cardSpeaker-dashboard{
+    margin-right: 20px;
+    margin-left: 20px;
+    width: 250px;
+    min-height: 650px;
+    max-height: auto;
+}
 /* ------------ TUTORIAL US sta ------------ */
 
 .tutorial-dash {
@@ -353,7 +373,7 @@ body {
     width: auto;
 }
 
-#labelThumbnail{
+#labelThumbnail {
     width: auto;
 }
 
@@ -368,10 +388,10 @@ body {
     display: none; /* Hide the actual file input */
 }
 
-
 .abstract-input {
     width: 100%;
 }
+
 
 .abstract-input {
     border: 1px dotted rgba(0, 0, 0, 0.7); /* Border titik-titik */
@@ -403,3 +423,11 @@ body {
         height: 200px;
     }
 }
+
+/* IMPORTANT DATE */
+
+/* AUTHOR INFORMATION */
+
+
+/* REGISTRATION */
+

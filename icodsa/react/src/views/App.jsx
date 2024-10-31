@@ -125,6 +125,32 @@ export default function App() {
             });
     };
 
+
+    // IMPORTANT DATE BG
+
+    const [importantDateData, setImportantDateData] = useState({
+        important_date_bg: null,
+    });
+
+    useEffect(() => {
+        const fetchImportantDateData = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/important_date_bg/1');
+                setImportantDateData(response.data);
+            } catch (error) {
+                if (error.response && error.response.status === 404) {
+                    const newImportantDate = { important_date_bg: null };
+                    const createResponse = await axios.post('http://localhost:8000/api/important_date_bg', newImportantDate);
+                    setImportantDateData(createResponse.data);
+                } else {
+                    console.error(error);
+                }
+            }
+        };
+
+        fetchImportantDateData();
+    }, []);
+
     // ------------- OUR TOPICS -------------
     const [topics, setTopics] = useState([]);
     useEffect(() => {
@@ -202,6 +228,23 @@ export default function App() {
     // Set initial position of triangle on page load
     document.addEventListener('DOMContentLoaded', updateActiveLink);
 
+
+    // ------------- REGISTRATION -------------
+    const [registrationData, setRegistrationData] = useState([]);
+
+    useEffect(() => {
+        fetchRegistrationData();
+    }, []);
+
+    const fetchRegistrationData = () => {
+        axios.get('http://localhost:8000/api/registration')
+            .then(response => {
+                setRegistrationData(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
 
 
 
@@ -332,7 +375,9 @@ export default function App() {
 
                         <div className="row flex">
                             <div className="confDay col-md-6 col-lg-5">
-                                <img src={`http://localhost:8000/storage/${aboutData.about_img || 'bali.jpg'}`} alt="conf.img" id="confImg" />
+                                <div className="container p-0" id="aboutImg">
+                                    <img src={`http://localhost:8000/storage/${aboutData.about_img || 'bali.jpg'}`} alt="conf.img" id="confImgDash" />
+                                </div>
                                 <div className="container excellance-tag text-center p-4">
                                     <div className="container excellance-text justtify-content-center p-2">
                                         <p>Conf. Date</p>
@@ -421,7 +466,7 @@ export default function App() {
                     </div>
                 </section>
 
-                <section className="importantDate" id="importantDate" style={{ backgroundImage: `url('/coba.jpg')` }}>
+                <section className="importantDate" style={{ backgroundImage: `url(${importantDateData.important_date_bg})` }}>
                     <div className="container">
                         <h2>Important Date</h2>
                     </div>
@@ -527,38 +572,38 @@ export default function App() {
                     </div>
 
 
-                    <div className="container">
-                        <h2>
-                            Subtitle registration                        </h2>
-                    </div>
-                    <div className="container mt-0">
-                        <p>
-                            regisration text                        </p>
-                    </div>
+                    <div className="container mt-3">
+                        {registrationData.map((data) => (
+                            <div key={data.id}>
+                                {data.registration_add === 'subtitle' && (
+                                    <h2>
+                                        {data.registration_subtitle.split('\n').map((line, index) => (
+                                            <span key={index}>
+                                                {line}
+                                                <br />
+                                            </span>
+                                        ))}
+                                    </h2>
+                                )}
 
-                    <div className="container">
-                        <button type="button" className="btn btn-primary">
-                            Button here
-                        </button>
+                                {data.registration_add === 'text' && (
+                                    <p>
+                                        {data.registration_text.split('\n').map((line, index) => (
+                                            <span key={index}>
+                                                {line}
+                                                <br />
+                                            </span>
+                                        ))}
+                                    </p>
+                                )}
 
-                    </div>
-
-                    <div className="container">
-                        <h2>
-                            PDF Express
-                        </h2>
-                    </div>
-                    <div className="container mt-0">
-                        <p>
-                            Prospective authors are invited to submit full papers of 4-6 pages (including tables, figures and references) in standard IEEE double-column format. Please submit your paper via https://edas.info/newPaper.php?c=32055. New users are required to register with EDAS before paper submission. Each full registration for the conference will cover one paper.
-                        </p>
-                    </div>
-
-                    <div className="container">
-                        <button type="button" className="btn btn-primary">
-                            Submit Here
-                        </button>
-
+                                {data.registration_add === 'button' && (
+                                    <button type='button' className='btn btn-primary' >
+                                        <a href={data.registration_button_link} target="_blank">{data.registration_button_text || 'Visit'}</a>
+                                    </button>
+                                )}
+                            </div>
+                        ))}
                     </div>
                 </section>
 
