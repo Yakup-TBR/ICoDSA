@@ -246,7 +246,62 @@ export default function App() {
             });
     };
 
+    // PROGRAM COMMITTEE
+    const [committees, setCommittees] = useState([]);
 
+    // Fetch committees from the API
+    useEffect(() => {
+        fetchCommittees();
+    }, []);
+
+    const fetchCommittees = () => {
+        axios.get('http://localhost:8000/api/program-committees')
+            .then(response => {
+                setCommittees(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    // Bagi komite menjadi dua kolom
+    const splitCommittees = (committees) => {
+        const midIndex = Math.ceil(committees.length / 2);
+        return [committees.slice(0, midIndex), committees.slice(midIndex)];
+    };
+
+    const [leftColumn, rightColumn] = splitCommittees(committees);
+
+
+
+    // REVIEWER
+    const [savedReviewers, setSavedReviewers] = useState([]); // Persisted list from database
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/api/reviewers')
+            .then(response => {
+                setSavedReviewers(response.data.map(reviewer => reviewer.reviewer_name));
+            })
+            .catch(error => console.error("Error fetching reviewers:", error));
+    }, []);
+
+
+    // --------------------------------------------------- PRICING --------------------------------------------------
+    const [pricings, setPricings] = useState([]);
+
+    useEffect(() => {
+        fetchPricing();
+    }, []);
+
+    const fetchPricing = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/pricing');
+            console.log(response.data); // Log the response data
+            setPricings(Array.isArray(response.data) ? response.data : []);
+        } catch (error) {
+            console.error("Error fetching pricing data:", error);
+        }
+    };
 
     return (
 
@@ -618,66 +673,30 @@ export default function App() {
                             <div className="row">
                                 {/* Kolom Kiri */}
                                 <div className="col-md-6">
-                                    <div className="content">
-                                        <div className="content-head">
-                                            <h3>Steering Committee:</h3>
+                                    {leftColumn.map(committee => (
+                                        <div className="content" key={committee.id}>
+                                            <div className="content-head">
+                                                <h3>{committee.committee_position}</h3>
+                                            </div>
+                                            <div className="content-body">
+                                                <h4>{committee.committee_members}</h4>
+                                            </div>
                                         </div>
-                                        <div className="content-body">
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                        </div>
-                                    </div>
-
-                                    <div className="content">
-                                        <div className="content-head">
-                                            <h3>Steering Committee:</h3>
-                                        </div>
-                                        <div className="content-body">
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
 
                                 {/* Kolom Kanan */}
                                 <div className="col-md-6">
-                                    <div className="content">
-                                        <div className="content-head">
-                                            <h3>Steering Committee:</h3>
+                                    {rightColumn.map(committee => (
+                                        <div className="content" key={committee.id}>
+                                            <div className="content-head">
+                                                <h3>{committee.committee_position}</h3>
+                                            </div>
+                                            <div className="content-body">
+                                                <h4>{committee.committee_members}</h4>
+                                            </div>
                                         </div>
-                                        <div className="content-body">
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                        </div>
-                                    </div>
-
-                                    <div className="content">
-                                        <div className="content-head">
-                                            <h3>Steering Committee:</h3>
-                                        </div>
-                                        <div className="content-body">
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                            <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                        </div>
-                                    </div>
+                                    ))}
                                 </div>
                             </div>
                             <hr />
@@ -695,24 +714,24 @@ export default function App() {
                             <div className="row">
                                 {/* Kolom Kiri */}
                                 <div className="col-md-6">
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
+                                    {savedReviewers
+                                        .slice(0, Math.ceil(savedReviewers.length / 2))
+                                        .map((reviewer, index) => (
+                                            <h4 key={index}>
+                                                {reviewer}
+                                            </h4>
+                                        ))}
                                 </div>
 
                                 {/* Kolom Kanan */}
                                 <div className="col-md-6">
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
-                                    <h4>Prof. Dr. Adiwijaya (Telkom University, Indonesia)</h4>
+                                    {savedReviewers
+                                        .slice(Math.ceil(savedReviewers.length / 2))
+                                        .map((reviewer, index) => (
+                                            <h4 key={index + Math.ceil(savedReviewers.length / 2)}>
+                                                {reviewer}
+                                            </h4>
+                                        ))}
                                 </div>
                             </div>
                         </div>
@@ -729,65 +748,29 @@ export default function App() {
                             <div className="container p-0">
                                 <div className="row">
 
-                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in">
-                                        <div className="card priceCard">
-                                            <div className="card-body">
-                                                <h3 className="card-title">Author</h3>
-                                                <h3>(Non-Member)</h3>
-                                                <hr className="opacity-100" />
-                                                <h4>$400</h4>
-                                                <p className="card-text mt-4">(6000K IDR)</p>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in">
-                                        <div className="card priceCard">
-                                            <div className="card-body">
-                                                <h3 className="card-title">Author</h3>
-                                                <h3>(Non-Member)</h3>
-                                                <hr className="opacity-100" />
-                                                <h4>$400</h4>
-                                                <p className="card-text mt-4">(6000K IDR)</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {Array.isArray(pricings) && pricings.map((pricing) => (
+                                        <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in" key={pricing.id}>
+                                            <div className="card priceCard">
+                                                <div className="card-body">
+                                                    <div className="card-head">
+                                                        <h3 className="card-title">
+                                                            {pricing.price_label.split('\n').map((line, index) => (
+                                                                <span key={index}>
+                                                                    {line}
+                                                                    <br />
+                                                                </span>
+                                                            ))}
+                                                        </h3>
+                                                    </div>
 
-                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in">
-                                        <div className="card priceCard">
-                                            <div className="card-body">
-                                                <h3 className="card-title">Author</h3>
-                                                <h3>(Non-Member)</h3>
-                                                <hr className="opacity-100" />
-                                                <h4>$400</h4>
-                                                <p className="card-text mt-4">(6000K IDR)</p>
+                                                    <hr className="opacity-100" />
+                                                    <h4>${pricing.price}</h4>
+                                                    <p className="card-text mt-4">{pricing.price_idr}</p>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-
-                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in">
-                                        <div className="card priceCard">
-                                            <div className="card-body">
-                                                <h3 className="card-title">Author</h3>
-                                                <h3>(Non-Member)</h3>
-                                                <hr className="opacity-100" />
-                                                <h4>$400</h4>
-                                                <p className="card-text mt-4">(6000K IDR)</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in">
-                                        <div className="card priceCard">
-                                            <div className="card-body">
-                                                <h3 className="card-title">Author</h3>
-                                                <h3>(Non-Member)</h3>
-                                                <hr className="opacity-100" />
-                                                <h4>$400</h4>
-                                                <p className="card-text mt-4">(6000K IDR)</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    ))}
 
                                 </div>
                             </div>

@@ -1475,6 +1475,12 @@ hr {
 .priceCard {
     background-color: #3684a7;
     color: #ffffff;
+    height: 250px;
+}
+
+.priceCard .card-head{
+    min-height: 65px;
+    max-height: 65px;
 }
 
 .pricing hr {

@@ -7,7 +7,10 @@ use App\Http\Controllers\HomeHostLogoController;
 use App\Http\Controllers\ImportantDateBgController;
 use App\Http\Controllers\ImportantDateController;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\PricingController;
+use App\Http\Controllers\ProgramCommitteeController;
 use App\Http\Controllers\RegistrationController;
+use App\Http\Controllers\ReviewersController;
 use App\Http\Controllers\SpeakerController;
 use App\Http\Controllers\TopicsController;
 use App\Http\Controllers\TutorialController;
@@ -46,9 +49,12 @@ Route::apiResource('topics', TopicsController::class);
 
 Route::apiResource('author-information', AuthorInformationController::class);
 
-Route::apiResource('registration', RegistrationController   ::class);
+Route::apiResource('registration', RegistrationController::class);
 
+Route::apiResource('program-committees', ProgramCommitteeController::class);
 
+Route::post('/reviewers', [ReviewersController::class, 'store']);
+Route::get('/reviewers', [ReviewersController::class, 'index']);
 
-
+Route::apiResource('pricing', PricingController::class);
 

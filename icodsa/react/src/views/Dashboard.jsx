@@ -758,6 +758,202 @@ export default function Dashboard() {
     };
 
 
+    // PROGRAM COMMITEE
+    const [committees, setCommittees] = useState([]);
+    const [newCommittee, setNewCommittee] = useState({
+        committee_position: '',
+        committee_members: '',
+    });
+    const [selectedCommitteeId, setSelectedCommitteeId] = useState(null);
+
+    // Fetch committees from the API
+    useEffect(() => {
+        fetchCommittees();
+    }, []);
+
+    const fetchCommittees = () => {
+        axios.get('http://localhost:8000/api/program-committees')
+            .then(response => {
+                setCommittees(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleInputChangeCommittee = (event) => {
+        const { name, value } = event.target;
+        setNewCommittee((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleSubmitCommittee = (event) => {
+        event.preventDefault();
+        if (selectedCommitteeId) {
+            // Update existing committee
+            axios.put(`http://localhost:8000/api/program-committees/${selectedCommitteeId}`, newCommittee)
+                .then(response => {
+                    setCommittees(committees.map(committee => committee.id === selectedCommitteeId ? response.data : committee));
+                    resetForm();
+                    alert('Committee updated successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        } else {
+            // Add new committee
+            axios.post('http://localhost:8000/api/program-committees', newCommittee)
+                .then(response => {
+                    setCommittees([...committees, response.data]);
+                    resetForm();
+                    alert('Committee added successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    };
+
+    const handleDeleteCommittee = (id) => {
+        if (window.confirm('Are you sure you want to delete this committee?')) {
+            axios.delete(`http://localhost:8000/api/program-committees/${id}`)
+                .then(() => {
+                    setCommittees(committees.filter(committee => committee.id !== id));
+                    alert('Committee deleted successfully!');
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+        }
+    };
+
+    const handleEditCommittee = (committee) => {
+        setNewCommittee({
+            committee_position: committee.committee_position,
+            committee_members: committee.committee_members,
+        });
+        setSelectedCommitteeId(committee.id);
+        // Open modal programmatically
+        window.$('#addCommitteeModal').modal('show');
+    };
+
+    const resetForm = () => {
+        setNewCommittee({
+            committee_position: '',
+            committee_members: '',
+        });
+        setSelectedCommitteeId(null);
+        // Close modal programmatically
+        window.$('#addCommitteeModal').modal('hide');
+    };
+
+
+    // REVIEWER
+    const [modalReviewers, setModalReviewers] = useState([]); // List of reviewer names in modal
+    const [savedReviewers, setSavedReviewers] = useState([]); // Persisted list from database
+    const [modalReviewerName, setModalReviewerName] = useState(""); // New reviewer name input
+    const [showModalReviewer, setShowModalReviewer] = useState(false); // Modal visibility
+
+    // Load saved reviewers from database when the component mounts
+    useEffect(() => {
+        axios.get('http://localhost:8000/api/reviewers')
+            .then(response => {
+                setSavedReviewers(response.data.map(reviewer => reviewer.reviewer_name));
+            })
+            .catch(error => console.error("Error fetching reviewers:", error));
+    }, []);
+
+    // Add a new reviewer to the list in the modal
+    const handleModalReviewerAdd = () => {
+        if (modalReviewerName.trim()) {
+            setModalReviewers([...modalReviewers, modalReviewerName]);
+            setModalReviewerName("");
+        }
+    };
+
+    // Remove a specific reviewer from the list in the modal
+    const handleModalReviewerRemove = (index) => {
+        setModalReviewers(modalReviewers.filter((_, i) => i !== index));
+    };
+
+    // Save reviewers to the database
+    const handleModalReviewerSave = () => {
+        axios.post('http://localhost:8000/api/reviewers', { reviewers: modalReviewers })
+            .then(() => {
+                setSavedReviewers(modalReviewers); // Update displayed reviewers
+                setShowModalReviewer(false); // Close modal
+            })
+            .catch(error => console.error("Error saving reviewers:", error));
+    };
+
+    // Open modal with saved reviewers loaded
+    const handleOpenModal = () => {
+        setModalReviewers(savedReviewers); // Load saved reviewers into modal
+        setShowModalReviewer(true);
+    };
+
+
+    // --------------------------------------------------- PRICING --------------------------------------------------
+    
+    const [pricings, setPricings] = useState([]);
+    
+    const [modalVisiblePricing, setModalVisiblePricing] = useState(false);
+    const [currentPricing, setCurrentPricing] = useState({ id: null, price_label: '', price: '', price_idr: '' });
+
+    useEffect(() => {
+        fetchPricing();
+    }, []);
+
+    const fetchPricing = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/pricing');
+            console.log(response.data); // Log the response data
+            setPricings(Array.isArray(response.data) ? response.data : []);
+        } catch (error) {
+            console.error("Error fetching pricing data:", error);
+        }
+    };
+
+    const handleInputChangePricing = (e) => {
+        const { name, value } = e.target;
+        setCurrentPricing({ ...currentPricing, [name]: value });
+    };
+
+    const handleSubmitPricing = async (e) => {
+        e.preventDefault();
+        try {
+            if (currentPricing.id) {
+                // Update existing pricing
+                await axios.put(`http://localhost:8000/api/pricing/${currentPricing.id}`, currentPricing);
+            } else {
+                // Create new pricing
+                await axios.post('http://localhost:8000/api/pricing', currentPricing);
+            }
+            setModalVisiblePricing(false);
+            setCurrentPricing({ id: null, price_label: '', price: '', price_idr: '' });
+            fetchPricing();
+        } catch (error) {
+            console.error("Error submitting pricing data:", error);
+        }
+    };
+
+    const handleEditPricing = (pricing) => {
+        setCurrentPricing(pricing);
+        setModalVisiblePricing(true);
+    };
+
+    const handleDeletePricing = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8000/api/pricing/${id}`);
+            fetchPricing();
+        } catch (error) {
+            console.error("Error deleting pricing data:", error);
+        }
+    };
+
+
     return (
         <div>
             <div className="main">
@@ -970,6 +1166,7 @@ export default function Dashboard() {
                     </div>
                 )}
 
+                {/* TUTORIAL */}
                 <section className="tutorial-dash">
                     <div className="section-header">
                         <h5>Tutorial</h5>
@@ -1007,7 +1204,7 @@ export default function Dashboard() {
                     </div>
                 </section>
 
-
+                {/* IMPORTANT DATES */}
                 <section className="importantDate" style={{ backgroundImage: `url(${importantDateData.important_date_bg})` }}>
                     <input type="file" onChange={handleBgUploadImportantBg} style={{ display: 'block', margin: '10px 0' }} />
 
@@ -1068,6 +1265,7 @@ export default function Dashboard() {
                     )}
                 </section>
 
+                {/* OUT TOPICS */}
                 <section className="ourTopics">
                     <div className="container">
                         <div className="section-header">
@@ -1137,6 +1335,7 @@ export default function Dashboard() {
                     )}
                 </section>
 
+                {/* AUTHOR INFORMATION */}
                 <section className="AuthorInfo" id="authorInformation">
                     <div className="container">
                         <h1>Author Information</h1>
@@ -1221,6 +1420,7 @@ export default function Dashboard() {
                     )}
                 </section>
 
+                {/* REGISTRATION */}
                 <section className="registration" id="registration">
                     <div className="container">
                         <h1>Registration</h1>
@@ -1278,7 +1478,253 @@ export default function Dashboard() {
                     )}
                 </section>
 
+                {/* PROGRAM COMMITTEE */}
+                <section className="programComittee" id="programCommittee">
+                    <div className="container">
+                        <div className="section-header pb-1">
+                            <h2>Program Committee</h2>
+                            <button
+                                type="button"
+                                className="btn btn-secondary"
+                                onClick={() => window.$('#addCommitteeModal').modal('show')}
+                            >
+                                ADD Committee
+                            </button>
+                        </div>
 
+                        <div className="committee-list">
+                            {committees.map(committee => (
+                                <div key={committee.id} className="committee-item">
+                                    <h4>{committee.committee_position}</h4>
+                                    <p>{committee.committee_members}</p>
+                                    <button onClick={() => handleEditCommittee(committee)}>Edit</button>
+                                    <button onClick={() => handleDeleteCommittee(committee.id)}>Delete</button>
+                                </div>
+                            ))}
+                        </div>
+
+                        {/* Modal */}
+                        <div className="modal fade" id="addCommitteeModal" tabIndex="-1" role="dialog" aria-labelledby="addCommitteeModalLabel" aria-hidden="true">
+                            <div className="modal-dialog" role="document">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title" id="addCommitteeModalLabel">{selectedCommitteeId ? 'Edit Committee' : 'Add Committee'}</h5>
+                                        <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={resetForm}>
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form onSubmit={handleSubmitCommittee}>
+                                        <div className="modal-body">
+                                            <div className="container ModalCommittee_Position">
+                                                <label>
+                                                    Position:
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        name="committee_position"
+                                                        value={newCommittee.committee_position}
+                                                        onChange={handleInputChangeCommittee}
+                                                        required
+                                                    />
+                                                </label>
+                                            </div>
+                                            <div className="container ModalCommitteeMember">
+                                                <label>
+                                                    Members:
+                                                    <textarea
+                                                        className="form-control"
+                                                        name="committee_members"
+                                                        value={newCommittee.committee_members}
+                                                        onChange={handleInputChangeCommittee}
+                                                        required
+                                                    />
+                                                </label>
+                                            </div>
+
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="submit" className="btn btn-primary">Save</button>
+                                            <button type="button" className="btn btn-secondary" onClick={resetForm}>Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* REVIEWER */}
+                <section className="reviewer">
+                    <div className="container">
+                        <div className="section-header pb-1 mb-5">
+                            <h2>Reviewer</h2>
+                        </div>
+                        <div className="container content-area p-3 border border-dashed rounded">
+                            <div className="row">
+                                {/* Kolom Kiri */}
+                                <div className="col-md-6">
+                                    {savedReviewers
+                                        .slice(0, Math.ceil(savedReviewers.length / 2))
+                                        .map((reviewer, index) => (
+                                            <h4
+                                                key={index}
+                                                onClick={handleOpenModal}
+                                                className="reviewer-name"
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                {reviewer}
+                                            </h4>
+                                        ))}
+                                </div>
+
+                                {/* Kolom Kanan */}
+                                <div className="col-md-6">
+                                    {savedReviewers
+                                        .slice(Math.ceil(savedReviewers.length / 2))
+                                        .map((reviewer, index) => (
+                                            <h4
+                                                key={index + Math.ceil(savedReviewers.length / 2)}
+                                                onClick={handleOpenModal}
+                                                className="reviewer-name"
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                {reviewer}
+                                            </h4>
+                                        ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Modal for Adding or Viewing Reviewers */}
+                        {showModalReviewer && (
+                            <div className="modal show d-block" tabIndex="-1">
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title">Manage Reviewers</h5>
+                                            <button type="button" className="btn-close" onClick={() => setShowModalReviewer(false)}></button>
+                                        </div>
+                                        <div className="modal-body">
+                                            {/* Form tambah reviewer */}
+                                            <div className="mb-3">
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    placeholder="Enter reviewer name"
+                                                    value={modalReviewerName}
+                                                    onChange={(e) => setModalReviewerName(e.target.value)}
+                                                />
+                                                <button className="btn btn-primary mt-2" onClick={handleModalReviewerAdd}>
+                                                    Add Reviewer
+                                                </button>
+                                            </div>
+
+                                            {/* Daftar reviewer yang ditambahkan */}
+                                            <div className="list-group">
+                                                {modalReviewers.map((reviewer, index) => (
+                                                    <div key={index} className="list-group-item d-flex justify-content-between align-items-center">
+                                                        {reviewer}
+                                                        <button
+                                                            className="btn btn-danger btn-sm"
+                                                            onClick={() => handleModalReviewerRemove(index)}
+                                                        >
+                                                            Remove
+                                                        </button>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button className="btn btn-secondary" onClick={() => setShowModalReviewer(false)}>Cancel</button>
+                                            <button className="btn btn-primary" onClick={handleModalReviewerSave}>Save</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
+
+                {/* PRICING */}
+                <div className="container">
+                    <h2>Pricing</h2>
+                    <button type="button" className="btn btn-primary" onClick={() => setModalVisiblePricing(true)}>Add Pricing</button>
+
+
+                    <div className="row">
+                        {Array.isArray(pricings) && pricings.map((pricing) => (
+                            <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4" key={pricing.id}>
+                                <div className="card priceCard">
+                                    <div className="card-body">
+                                        <h3 className="card-title">{pricing.price_label}</h3>
+                                        <h4>${pricing.price}</h4>
+                                        <p className="card-text">{pricing.price_idr}</p>
+                                        <button onClick={() => handleEditPricing(pricing)}>Edit</button>
+                                        <button onClick={() => handleDeletePricing(pricing.id)}>Delete</button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {modalVisiblePricing && (
+                        <div className="modal fade show" style={{ display: 'block' }}>
+                            <div className="modal-dialog">
+                                <div className="modal-content">
+                                    <div className="modal-header">
+                                        <h5 className="modal-title">{currentPricing.id ? 'Edit Pricing' : 'Add Pricing'}</h5>
+                                        <button type="button" className="btn-close" onClick={() => setModalVisiblePricing(false)}></button>
+                                    </div>
+                                    <form onSubmit={handleSubmitPricing}>
+                                        <div className="modal-body">
+                                            <div className="mb-3">
+                                                <label className="form-label">Price Label</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="price_label"
+                                                    placeholder="Price Label"
+                                                    value={currentPricing.price_label}
+                                                    onChange={handleInputChangePricing}
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="form-label">Price</label>
+                                                <input
+                                                    type="number"
+                                                    className="form-control"
+                                                    name="price"
+                                                    placeholder="Price"
+                                                    value={currentPricing.price}
+                                                    onChange={handleInputChangePricing}
+                                                    required
+                                                />
+                                            </div>
+                                            <div className="mb-3">
+                                                <label className="form-label">Price IDR</label>
+                                                <input
+                                                    type="text"
+                                                    className="form-control"
+                                                    name="price_idr"
+                                                    placeholder="Price IDR"
+                                                    value={currentPricing.price_idr}
+                                                    onChange={handleInputChangePricing}
+                                                    required
+                                                />
+                                            </div>
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" onClick={() => setModalVisiblePricing(false)}>Cancel</button>
+                                            <button type="submit" className="btn btn-primary">{currentPricing.id ? 'Update' : 'Add'}</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                </div>
 
             </div>
 
