@@ -17,7 +17,6 @@ export default function App() {
     const [hostLogoData, setHostLogoData] = useState([]);
 
     useEffect(() => {
-        // Mengambil data home dan logo
         const fetchHomeData = async () => {
             try {
                 const homeResponse = await axios.get('http://localhost:8000/api/homes/1');
@@ -72,7 +71,6 @@ export default function App() {
     // ------------- SPEAKERS -------------
     const [speakers, setSpeakers] = useState([]);
 
-    // Fetch speakers from the API
     useEffect(() => {
         fetchSpeakers();
     }, []);
@@ -96,7 +94,6 @@ export default function App() {
     });
 
     useEffect(() => {
-        // Mengambil data tutorial
         axios.get('http://localhost:8000/api/tutorial/1')
             .then(response => {
                 setTutorialData(response.data);
@@ -114,7 +111,6 @@ export default function App() {
         fetchImportantDates();
     }, []);
 
-    // Function to fetch important dates from the API
     const fetchImportantDates = () => {
         axios.get('http://localhost:8000/api/important-dates')
             .then(response => {
@@ -183,10 +179,9 @@ export default function App() {
 
 
 
-    // Fetch author information
     useEffect(() => {
         fetchAuthorData();
-    }, []); // Menggunakan array kosong agar hanya berjalan sekali
+    }, []); 
 
 
     const fetchAuthorData = () => {
@@ -205,7 +200,6 @@ export default function App() {
 
     const setActiveTriangle = (link) => {
         const { left, width } = link.getBoundingClientRect();
-        // Mengatur posisi segitiga
         link.style.setProperty('--triangle-left', `${left + width / 2}px`);
     };
 
@@ -249,7 +243,6 @@ export default function App() {
     // PROGRAM COMMITTEE
     const [committees, setCommittees] = useState([]);
 
-    // Fetch committees from the API
     useEffect(() => {
         fetchCommittees();
     }, []);
@@ -296,7 +289,7 @@ export default function App() {
     const fetchPricing = async () => {
         try {
             const response = await axios.get('http://localhost:8000/api/pricing');
-            console.log(response.data); // Log the response data
+            console.log(response.data); 
             setPricings(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
             console.error("Error fetching pricing data:", error);

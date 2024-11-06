@@ -1,9 +1,58 @@
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import '../styles/dashboard.css';
 
 export default function Dashboard() {
+
+
+    //Auth and Logout
+    const [user, setUser] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            navigate('/login'); // Jika tidak ada token, arahkan ke login
+            return;
+        }
+
+        // Ambil data pengguna dari API
+        const fetchData = async () => {
+            const response = await fetch('http://localhost/api/dashboard', {
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setUser(data.user);
+            } else {
+                navigate('/login'); // Jika token tidak valid, arahkan ke login
+            }
+        };
+
+        fetchData();
+    }, [navigate]);
+
+    const handleLogout = () => {
+        const token = localStorage.getItem('token');
+        fetch('http://localhost/api/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(() => {
+                localStorage.removeItem('token');
+                navigate('/login');  // Logout dan arahkan ke login
+            });
+    };
+
+
 
     // ------------- HOME START -------------
 
@@ -18,7 +67,6 @@ export default function Dashboard() {
     const [hostLogoData, setHostLogoData] = useState([]);
 
     useEffect(() => {
-        // Mengambil data home dan logo
         const fetchHomeData = async () => {
             try {
                 const homeResponse = await axios.get('http://localhost:8000/api/homes/1');
@@ -896,9 +944,9 @@ export default function Dashboard() {
 
 
     // --------------------------------------------------- PRICING --------------------------------------------------
-    
+
     const [pricings, setPricings] = useState([]);
-    
+
     const [modalVisiblePricing, setModalVisiblePricing] = useState(false);
     const [currentPricing, setCurrentPricing] = useState({ id: null, price_label: '', price: '', price_idr: '' });
 
@@ -957,6 +1005,15 @@ export default function Dashboard() {
     return (
         <div>
             <div className="main">
+
+                <div>
+                    <h1>Dashboard</h1>
+                    {user ? <p>Welcome, {user.name}</p> : <p>Loading...</p>}
+                    <button onClick={handleLogout}>Logout</button>
+                </div>
+
+
+
                 {/* Section Home */}
                 <section className="Home" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
                     <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
@@ -1210,24 +1267,49 @@ export default function Dashboard() {
 
                     <div className="container">
                         <h2>Important Date</h2>
-                        <button className="btn btn-primary" onClick={() => setShowModalImportantDate(true)}>+ Add Important Date</button>
                     </div>
 
                     <div className="container">
                         <div className="row">
                             {importantDates.map((date) => (
-                                <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4" key={date.id}>
+                                <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4" key={date.id} style={{ position: 'relative' }}>
                                     <div className="card">
+                                        <button
+                                            className="btn delete-date" style={{ position: 'absolute', top: '0px', right: '0px', zIndex: 1 }}
+                                            onClick={() => handleDeleteImportantDate(date.id)}
+                                        >
+                                            <svg width="49" height="49" viewBox="0 0 49 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="0.5" y="0.5" width="48" height="48" rx="9.5" stroke="#DE5858" />
+                                                <path d="M12.25 38.7917C12.25 39.8746 12.6802 40.9132 13.446 41.679C14.2117 42.4448 15.2504 42.875 16.3333 42.875H32.6667C33.7496 42.875 34.7882 42.4448 35.554 41.679C36.3198 40.9132 36.75 39.8746 36.75 38.7917V14.2917H12.25V38.7917ZM16.3333 18.375H32.6667V38.7917H16.3333V18.375ZM31.6458 8.16667L29.6042 6.125H19.3958L17.3542 8.16667H10.2083V12.25H38.7917V8.16667H31.6458Z" fill="#DE5858" />
+                                            </svg>
+                                        </button>
+
                                         <h3 className="card-title">{date.activity}</h3>
                                         <div className="card-body">
                                             <img src={`http://localhost:8000${date.activity_icon}`} alt={date.activity} />
                                             <h4 className="card-text">{new Date(date.event_date).getDate()}</h4>
                                             <h5>{new Date(date.event_date).toLocaleDateString('id-ID', { month: 'long', year: 'numeric' })}</h5>
-                                            <button className="btn btn-danger" onClick={() => handleDeleteImportantDate(date.id)}>Delete</button>
                                         </div>
                                     </div>
                                 </div>
                             ))}
+
+
+                            {/* Tombol Add Important Date berada setelah semua card */}
+                            <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
+                                <button className="btn" onClick={() => setShowModalImportantDate(true)}>
+                                    <svg width="130" height="130" viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M105.625 16.25H24.375C22.2201 16.25 20.1535 17.106 18.6298 18.6298C17.106 20.1535 16.25 22.2201 16.25 24.375V105.625C16.25 107.78 17.106 109.847 18.6298 111.37C20.1535 112.894 22.2201 113.75 24.375 113.75H105.625C107.78 113.75 109.847 112.894 111.37 111.37C112.894 109.847 113.75 107.78 113.75 105.625V24.375C113.75 22.2201 112.894 20.1535 111.37 18.6298C109.847 17.106 107.78 16.25 105.625 16.25ZM93.4375 69.0625H69.0625V93.4375C69.0625 94.5149 68.6345 95.5483 67.8726 96.3101C67.1108 97.072 66.0774 97.5 65 97.5C63.9226 97.5 62.8892 97.072 62.1274 96.3101C61.3655 95.5483 60.9375 94.5149 60.9375 93.4375V69.0625H36.5625C35.4851 69.0625 34.4517 68.6345 33.6899 67.8726C32.928 67.1108 32.5 66.0774 32.5 65C32.5 63.9226 32.928 62.8892 33.6899 62.1274C34.4517 61.3655 35.4851 60.9375 36.5625 60.9375H60.9375V36.5625C60.9375 35.4851 61.3655 34.4517 62.1274 33.6899C62.8892 32.928 63.9226 32.5 65 32.5C66.0774 32.5 67.1108 32.928 67.8726 33.6899C68.6345 34.4517 69.0625 35.4851 69.0625 36.5625V60.9375H93.4375C94.5149 60.9375 95.5483 61.3655 96.3101 62.1274C97.072 62.8892 97.5 63.9226 97.5 65C97.5 66.0774 97.072 67.1108 96.3101 67.8726C95.5483 68.6345 94.5149 69.0625 93.4375 69.0625Z" fill="url(#paint0_linear_80_283)" />
+                                        <defs>
+                                            <linearGradient id="paint0_linear_80_283" x1="65" y1="16.25" x2="65" y2="113.75" gradientUnits="userSpaceOnUse">
+                                                <stop stopColor="#EBE9F6" />
+                                                <stop offset="1" stopColor="#31CDBC" />
+                                            </linearGradient>
+                                        </defs>
+                                    </svg>
+
+                                </button>
+                            </div>
                         </div>
                     </div>
 
@@ -1646,85 +1728,87 @@ export default function Dashboard() {
                 </section>
 
                 {/* PRICING */}
-                <div className="container">
-                    <h2>Pricing</h2>
-                    <button type="button" className="btn btn-primary" onClick={() => setModalVisiblePricing(true)}>Add Pricing</button>
+                <section className="pricing" id="pricing">
+                    <div className="container">
+                        <h2>Pricing</h2>
+                        <button type="button" className="btn btn-primary" onClick={() => setModalVisiblePricing(true)}>Add Pricing</button>
 
 
-                    <div className="row">
-                        {Array.isArray(pricings) && pricings.map((pricing) => (
-                            <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4" key={pricing.id}>
-                                <div className="card priceCard">
-                                    <div className="card-body">
-                                        <h3 className="card-title">{pricing.price_label}</h3>
-                                        <h4>${pricing.price}</h4>
-                                        <p className="card-text">{pricing.price_idr}</p>
-                                        <button onClick={() => handleEditPricing(pricing)}>Edit</button>
-                                        <button onClick={() => handleDeletePricing(pricing.id)}>Delete</button>
+                        <div className="row">
+                            {Array.isArray(pricings) && pricings.map((pricing) => (
+                                <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4" key={pricing.id}>
+                                    <div className="card priceCard">
+                                        <div className="card-body">
+                                            <h3 className="card-title">{pricing.price_label}</h3>
+                                            <h4>${pricing.price}</h4>
+                                            <p className="card-text">{pricing.price_idr}</p>
+                                            <button onClick={() => handleEditPricing(pricing)}>Edit</button>
+                                            <button onClick={() => handleDeletePricing(pricing.id)}>Delete</button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        ))}
-                    </div>
-
-                    {modalVisiblePricing && (
-                        <div className="modal fade show" style={{ display: 'block' }}>
-                            <div className="modal-dialog">
-                                <div className="modal-content">
-                                    <div className="modal-header">
-                                        <h5 className="modal-title">{currentPricing.id ? 'Edit Pricing' : 'Add Pricing'}</h5>
-                                        <button type="button" className="btn-close" onClick={() => setModalVisiblePricing(false)}></button>
-                                    </div>
-                                    <form onSubmit={handleSubmitPricing}>
-                                        <div className="modal-body">
-                                            <div className="mb-3">
-                                                <label className="form-label">Price Label</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="price_label"
-                                                    placeholder="Price Label"
-                                                    value={currentPricing.price_label}
-                                                    onChange={handleInputChangePricing}
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">Price</label>
-                                                <input
-                                                    type="number"
-                                                    className="form-control"
-                                                    name="price"
-                                                    placeholder="Price"
-                                                    value={currentPricing.price}
-                                                    onChange={handleInputChangePricing}
-                                                    required
-                                                />
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">Price IDR</label>
-                                                <input
-                                                    type="text"
-                                                    className="form-control"
-                                                    name="price_idr"
-                                                    placeholder="Price IDR"
-                                                    value={currentPricing.price_idr}
-                                                    onChange={handleInputChangePricing}
-                                                    required
-                                                />
-                                            </div>
-                                        </div>
-                                        <div className="modal-footer">
-                                            <button type="button" className="btn btn-secondary" onClick={() => setModalVisiblePricing(false)}>Cancel</button>
-                                            <button type="submit" className="btn btn-primary">{currentPricing.id ? 'Update' : 'Add'}</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                            ))}
                         </div>
-                    )}
 
-                </div>
+                        {modalVisiblePricing && (
+                            <div className="modal fade show" style={{ display: 'block' }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title">{currentPricing.id ? 'Edit Pricing' : 'Add Pricing'}</h5>
+                                            <button type="button" className="btn-close" onClick={() => setModalVisiblePricing(false)}></button>
+                                        </div>
+                                        <form onSubmit={handleSubmitPricing}>
+                                            <div className="modal-body">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Price Label</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        name="price_label"
+                                                        placeholder="Price Label"
+                                                        value={currentPricing.price_label}
+                                                        onChange={handleInputChangePricing}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label">Price</label>
+                                                    <input
+                                                        type="number"
+                                                        className="form-control"
+                                                        name="price"
+                                                        placeholder="Price"
+                                                        value={currentPricing.price}
+                                                        onChange={handleInputChangePricing}
+                                                        required
+                                                    />
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label">Price IDR</label>
+                                                    <input
+                                                        type="text"
+                                                        className="form-control"
+                                                        name="price_idr"
+                                                        placeholder="Price IDR"
+                                                        value={currentPricing.price_idr}
+                                                        onChange={handleInputChangePricing}
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" onClick={() => setModalVisiblePricing(false)}>Cancel</button>
+                                                <button type="submit" className="btn btn-primary">{currentPricing.id ? 'Update' : 'Add'}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
+
 
             </div>
 

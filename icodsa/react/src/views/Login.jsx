@@ -2,6 +2,7 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
 import "../styles/login.css";
 
 export default function Login() {
@@ -12,8 +13,61 @@ export default function Login() {
         setShowPassword(!showPassword);
     };
 
+
+    // ----------------- Auth -----------------
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const navigate = useNavigate();
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+        // Kirimkan email dan password ke API login Laravel
+        const response = await fetch('http://localhost/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            // Simpan token ke localStorage
+            localStorage.setItem('token', data.token);
+            navigate('/dashboard');  // Arahkan ke dashboard setelah login sukses
+        } else {
+            alert('Login failed: ' + data.error);  // Tampilkan error jika login gagal
+        }
+    };
+
     return (
         <body style={{ backgroundImage: `url('/bgfooter.jpg')` }}>
+
+<div>
+            <form onSubmit={handleLogin}>
+                <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                />
+                <button type="submit">Login</button>
+            </form>
+        </div>
+
+
+
+
             <div >
                 <div className="login">
                     <div className="container login-area text-center p-3 m-3">
