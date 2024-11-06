@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeHostLogoController;
 use App\Http\Controllers\ImportantDateBgController;
 use App\Http\Controllers\ImportantDateController;
+use App\Http\Controllers\PaymentMethodController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\PricingController;
 use App\Http\Controllers\ProgramCommitteeController;
@@ -20,6 +21,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
 Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+Route::middleware('auth:sanctum')->get('/dashboard', [AuthController::class, 'dashboard']);
 
 Route::apiResource('posts', PostController::class);
 
@@ -33,17 +35,13 @@ Route::post('abouts/{about}/about_img', [AboutUsController::class, 'uploadImgAbo
 
 Route::apiResource('speakers', SpeakerController::class);
 
-
 Route::apiResource('tutorial', TutorialController::class);
 Route::post('tutorial/{tutorial}/thumbail_img', [TutorialController::class, 'uploadThumbnailImg']);
-
 
 Route::apiResource('important-dates', ImportantDateController::class);
 
 Route::apiResource('important_date_bg', ImportantDateBgController::class);
 Route::post('important_date_bg/{importantDateBg}/bg', [ImportantDateBgController::class, 'uploadBg']);
-
-
 
 Route::apiResource('topics', TopicsController::class);
 
@@ -57,3 +55,9 @@ Route::post('/reviewers', [ReviewersController::class, 'store']);
 Route::get('/reviewers', [ReviewersController::class, 'index']);
 
 Route::apiResource('pricing', PricingController::class);
+
+
+Route::apiResource('payment-methods', PaymentMethodController::class);
+Route::put('payment-methods/{id}', [PaymentMethodController::class, 'update']);
+
+

@@ -2,59 +2,40 @@ import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+
 import '../styles/dashboard.css';
 
 export default function Dashboard() {
 
+    // --------------------------------------------------- NAVBAR ---------------------------------------------------
+    const navLinks = document.querySelectorAll('.nav-link');
 
-    //Auth and Logout
-    const [user, setUser] = useState(null);
-    const navigate = useNavigate();
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (!token) {
-            navigate('/login'); // Jika tidak ada token, arahkan ke login
-            return;
-        }
-
-        // Ambil data pengguna dari API
-        const fetchData = async () => {
-            const response = await fetch('http://localhost/api/dashboard', {
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                setUser(data.user);
-            } else {
-                navigate('/login'); // Jika token tidak valid, arahkan ke login
-            }
-        };
-
-        fetchData();
-    }, [navigate]);
-
-    const handleLogout = () => {
-        const token = localStorage.getItem('token');
-        fetch('http://localhost/api/logout', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(response => response.json())
-            .then(() => {
-                localStorage.removeItem('token');
-                navigate('/login');  // Logout dan arahkan ke login
-            });
+    const setActiveTriangle = (link) => {
+        const { left, width } = link.getBoundingClientRect();
+        link.style.setProperty('--triangle-left', `${left + width / 2}px`);
     };
 
+    const updateActiveLink = () => {
+        navLinks.forEach(link => {
+            const section = document.querySelector(link.getAttribute('href'));
+            const rect = section.getBoundingClientRect();
+
+            if (rect.top >= 0 && rect.top < window.innerHeight) {
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                link.classList.add('active');
+                setActiveTriangle(link);
+            }
+        });
+    };
+
+    // Set active link on scroll
+    window.addEventListener('scroll', updateActiveLink);
+
+    // Set initial position of triangle on page load
+    document.addEventListener('DOMContentLoaded', updateActiveLink);
 
 
-    // ------------- HOME START -------------
+    // --------------------------------------------------- HOME START ---------------------------------------------------
 
     const [homeData, setHomeData] = useState({
         title: '',
@@ -174,7 +155,7 @@ export default function Dashboard() {
         }
     };
 
-    // ------------- ABOUT US -------------
+    // --------------------------------------------------- ABOUT US ---------------------------------------------------
 
     const [aboutData, setAboutData] = useState({
         about_img: null,
@@ -235,7 +216,7 @@ export default function Dashboard() {
     };
 
 
-    // ------------- SPEAKERS -------------
+    // --------------------------------------------------- SPEAKERS ---------------------------------------------------
     const [speakers, setSpeakers] = useState([]);
     const [newSpeaker, setNewSpeaker] = useState({
         speakers_img: '',
@@ -245,7 +226,6 @@ export default function Dashboard() {
     const [showModal, setShowModalSpeakers] = useState(false);
     const [selectedLogo, setSelectedLogoSpeakers] = useState(null);
 
-    // Fetch speakers from the API
     useEffect(() => {
         fetchSpeakers();
     }, []);
@@ -307,7 +287,7 @@ export default function Dashboard() {
         }
     };
 
-    // ------------- TUTORIAL -------------
+    // --------------------------------------------------- TUTORIAL ---------------------------------------------------
 
     const [tutorialData, setTutorialData] = useState({
         thumbail_img: null,
@@ -366,7 +346,7 @@ export default function Dashboard() {
         }
     };
 
-    // ------------- Important Date -------------
+    // --------------------------------------------------- Important Date ---------------------------------------------------
 
     const [importantDates, setImportantDates] = useState([]);
     const [newImportantDate, setNewImportantDate] = useState({
@@ -377,12 +357,10 @@ export default function Dashboard() {
     const [selectedIcon, setSelectedIcon] = useState(null);
     const [showModalImportantDate, setShowModalImportantDate] = useState(false);
 
-    // Fetch important dates from the API
     useEffect(() => {
         fetchImportantDates();
     }, []);
 
-    // Function to fetch important dates from the API
     const fetchImportantDates = () => {
         axios.get('http://localhost:8000/api/important-dates')
             .then(response => {
@@ -393,7 +371,6 @@ export default function Dashboard() {
             });
     };
 
-    // Function to handle input changes in the form
     const handleInputChangeImportantDate = (event) => {
         const { name, value } = event.target;
         setNewImportantDate((prevData) => ({
@@ -402,12 +379,10 @@ export default function Dashboard() {
         }));
     };
 
-    // Function to handle file changes (icon upload)
     const handleFileChangeImportantDate = (event) => {
         setSelectedIcon(event.target.files[0]);
     };
 
-    // Function to handle the submission of the new important date
     const handleSubmitImportantDate = (event) => {
         event.preventDefault();
         const formData = new FormData();
@@ -430,7 +405,6 @@ export default function Dashboard() {
             });
     };
 
-    // Function to handle the deletion of an important date
     const handleDeleteImportantDate = (id) => {
         if (window.confirm('Are you sure you want to delete this important date?')) {
             axios.delete(`http://localhost:8000/api/important-dates/${id}`)
@@ -444,7 +418,7 @@ export default function Dashboard() {
         }
     };
 
-    // ---------- IMPORTANT DATE BG ----------
+    // --------------------------------------------------- IMPORTANT DATE BG ---------------------------------------------------
     const [importantDateData, setImportantDateData] = useState({
         important_date_bg: null,
     });
@@ -486,7 +460,7 @@ export default function Dashboard() {
         }
     };
 
-    // ---------- OUT TOPICS ----------
+    // --------------------------------------------------- OUT TOPICS ---------------------------------------------------
 
     const [topics, setTopics] = useState([]);
     const [newTopic, setNewTopic] = useState({
@@ -497,7 +471,6 @@ export default function Dashboard() {
     const [showModalTopics, setShowModalTopics] = useState(false);
     const [selectedTopicId, setSelectedTopicId] = useState(null);
 
-    // Fetch topics from the API
     useEffect(() => {
         fetchTopics();
     }, []);
@@ -570,7 +543,7 @@ export default function Dashboard() {
         setShowModalTopics(true);
     };
 
-    // ---------- AUTHOR INFORMATION ----------
+    // --------------------------------------------------- AUTHOR INFORMATION ---------------------------------------------------
 
     const [authorData, setAuthorData] = useState([]);
     const [newAuthorData, setNewAuthorData] = useState({
@@ -691,7 +664,7 @@ export default function Dashboard() {
     };
 
 
-    // ---------- REGISTRATION ----------
+    // --------------------------------------------------- REGISTRATION ---------------------------------------------------
     const [registrationData, setRegistrationData] = useState([]);
     const [newRegistrationData, setNewRegistrationData] = useState({
         registration_subtitle: '',
@@ -814,7 +787,6 @@ export default function Dashboard() {
     });
     const [selectedCommitteeId, setSelectedCommitteeId] = useState(null);
 
-    // Fetch committees from the API
     useEffect(() => {
         fetchCommittees();
     }, []);
@@ -883,7 +855,6 @@ export default function Dashboard() {
             committee_members: committee.committee_members,
         });
         setSelectedCommitteeId(committee.id);
-        // Open modal programmatically
         window.$('#addCommitteeModal').modal('show');
     };
 
@@ -893,18 +864,16 @@ export default function Dashboard() {
             committee_members: '',
         });
         setSelectedCommitteeId(null);
-        // Close modal programmatically
         window.$('#addCommitteeModal').modal('hide');
     };
 
 
-    // REVIEWER
+    // --------------------------------------------------- REVIEWER ---------------------------------------------------
     const [modalReviewers, setModalReviewers] = useState([]); // List of reviewer names in modal
     const [savedReviewers, setSavedReviewers] = useState([]); // Persisted list from database
     const [modalReviewerName, setModalReviewerName] = useState(""); // New reviewer name input
     const [showModalReviewer, setShowModalReviewer] = useState(false); // Modal visibility
 
-    // Load saved reviewers from database when the component mounts
     useEffect(() => {
         axios.get('http://localhost:8000/api/reviewers')
             .then(response => {
@@ -913,7 +882,6 @@ export default function Dashboard() {
             .catch(error => console.error("Error fetching reviewers:", error));
     }, []);
 
-    // Add a new reviewer to the list in the modal
     const handleModalReviewerAdd = () => {
         if (modalReviewerName.trim()) {
             setModalReviewers([...modalReviewers, modalReviewerName]);
@@ -921,24 +889,21 @@ export default function Dashboard() {
         }
     };
 
-    // Remove a specific reviewer from the list in the modal
     const handleModalReviewerRemove = (index) => {
         setModalReviewers(modalReviewers.filter((_, i) => i !== index));
     };
 
-    // Save reviewers to the database
     const handleModalReviewerSave = () => {
         axios.post('http://localhost:8000/api/reviewers', { reviewers: modalReviewers })
             .then(() => {
-                setSavedReviewers(modalReviewers); // Update displayed reviewers
-                setShowModalReviewer(false); // Close modal
+                setSavedReviewers(modalReviewers); // 
+                setShowModalReviewer(false);
             })
             .catch(error => console.error("Error saving reviewers:", error));
     };
 
-    // Open modal with saved reviewers loaded
     const handleOpenModal = () => {
-        setModalReviewers(savedReviewers); // Load saved reviewers into modal
+        setModalReviewers(savedReviewers);
         setShowModalReviewer(true);
     };
 
@@ -957,7 +922,7 @@ export default function Dashboard() {
     const fetchPricing = async () => {
         try {
             const response = await axios.get('http://localhost:8000/api/pricing');
-            console.log(response.data); // Log the response data
+            console.log(response.data);
             setPricings(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
             console.error("Error fetching pricing data:", error);
@@ -973,10 +938,8 @@ export default function Dashboard() {
         e.preventDefault();
         try {
             if (currentPricing.id) {
-                // Update existing pricing
                 await axios.put(`http://localhost:8000/api/pricing/${currentPricing.id}`, currentPricing);
             } else {
-                // Create new pricing
                 await axios.post('http://localhost:8000/api/pricing', currentPricing);
             }
             setModalVisiblePricing(false);
@@ -1002,91 +965,290 @@ export default function Dashboard() {
     };
 
 
+
+
+
+    // --------------------------------------------------- PAYMENT METHOD ---------------------------------------------------
+    const [paymentData, setPaymentData] = useState([]);
+    const [newPaymentData, setNewPaymentData] = useState({
+        payment_method: '',
+        payment_details: '',
+        payment_additional_info: '',
+        method_or_info: ''
+    });
+
+    const [showPaymentModal, setShowPaymentModal] = useState(false);
+    const [selectedTypePaymentData, setSelectedTypePaymentData] = useState('');
+
+    const [isEditModePayment, setIsEditModePayment] = useState(false);
+    const [editPaymentId, setEditPaymentId] = useState(null);
+
+    // Fetch payment data
+    useEffect(() => {
+        fetchPaymentData();
+    }, []);
+
+    const fetchPaymentData = () => {
+        axios.get('http://localhost:8000/api/payment-methods')
+            .then(response => setPaymentData(response.data))
+            .catch(error => console.error(error));
+    };
+
+    const handlePaymentSubmit = (event) => {
+        event.preventDefault();
+
+        if (isEditModePayment) {
+            axios.put(`http://localhost:8000/api/payment-methods/${editPaymentId}`, newPaymentData)
+                .then(response => {
+                    setPaymentData(paymentData.map(data => data.id === editPaymentId ? response.data : data));
+                    setShowPaymentModal(false);
+                    setIsEditModePayment(false);
+                    alert('Payment data updated successfully!');
+                })
+                .catch(error => console.error(error));
+        } else {
+            axios.post('http://localhost:8000/api/payment-methods', newPaymentData)
+                .then(response => {
+                    setPaymentData([...paymentData, response.data]);
+                    setShowPaymentModal(false);
+                    alert('Payment data added successfully!');
+                })
+                .catch(error => console.error(error));
+        }
+    };
+
+    const handleInputChangePaymentData = (e) => {
+        const { name, value } = e.target;
+        setNewPaymentData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const handleEditPayment = (payment) => {
+        setNewPaymentData({
+            payment_method: payment.payment_method || '',
+            payment_details: payment.payment_details || '',
+            payment_additional_info: payment.payment_additional_info || '',
+            method_or_info: payment.method_or_info
+        });
+        setSelectedTypePaymentData(payment.method_or_info);
+        setEditPaymentId(payment.id);
+        setIsEditModePayment(true);
+        setShowPaymentModal(true);
+    };
+
+    const handleAddPaymentType = (type) => {
+        setNewPaymentData({
+            payment_method: type === 'method' ? '' : null,
+            payment_details: type === 'method' ? '' : null,
+            payment_additional_info: type === 'info' ? '' : null,
+            method_or_info: type
+        });
+        setSelectedTypePaymentData(type);
+        setShowPaymentModal(true);
+    };
+
+    const handleDeletePayment = (id) => {
+        axios.delete(`http://localhost:8000/api/payment-methods/${id}`)
+            .then(() => {
+                setPaymentData(paymentData.filter(data => data.id !== id));
+                alert('Payment data deleted successfully!');
+            })
+            .catch(error => console.error(error));
+    };
+
+
+
+
+
+    // --------------------------------------------------- Auth and Logout ---------------------------------------------------
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        // Jika tidak ada token, arahkan ke halaman login
+        if (!token) {
+            navigate('/login');
+            return;
+        }
+
+    }, [navigate]);
+
+    const handleLogout = () => {
+        const token = localStorage.getItem('token');
+        fetch('http://localhost:8000/api/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(() => {
+                localStorage.removeItem('token');
+                navigate('/login');  // Logout dan arahkan ke login
+            });
+    };
+
+
+    const closeModalPayment = () => {
+        setShowPaymentModal(false);
+        setIsEditModePayment(false);
+        setEditPaymentId(null);
+    };
+
+
     return (
         <div>
-            <div className="main">
 
-                <div>
-                    <h1>Dashboard</h1>
-                    {user ? <p>Welcome, {user.name}</p> : <p>Loading...</p>}
-                    <button onClick={handleLogout}>Logout</button>
+            <nav className="navbar navbar-expand-lg sticky-top">
+                <div className="container-fluid">
+                    <a className="navbar-brand sm-2 justify-content-start align-items-center" href="#">
+                        <img src="./public/logo-icodis.png" alt="" />
+                    </a>
+                    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div className="collapse navbar-collapse justify-content-end align-items-center" id="navbarNav">
+                        <ul className="navbar-nav">
+                            <li className="nav-item">
+                                <a href="#homeSection" className="nav-link">Home</a>
+                            </li>
+                            <li className="nav-item">
+                                <a href="#aboutSection" className="nav-link">About Us</a>
+                            </li>
+                            <li className="nav-item dropdown">
+                                <a href="#speakersSection" className="nav-link dropdown-toggle" id="navbarDropdown" role="button" aria-expanded="false">
+                                    Speakers <i className="bi bi-caret-down-fill ms-1"></i>
+                                </a>
+                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a href="#speakersSection" className="dropdown-item">Keynote Speakers</a>
+                                    </li>
+                                    <li>
+                                        <a href="#tutorialSession" className="dropdown-item">Tutorial Session</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li className="nav-item dropdown">
+                                <a href="#authorInformation" className="nav-link dropdown-toggle" id="navbarDropdown" role="button" aria-expanded="false">
+                                    For Author <i className="bi bi-caret-down-fill ms-1"></i>
+                                </a>
+                                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a href="#importantDateSection" className="dropdown-item">Important Date</a>
+                                    </li>
+                                    <li>
+                                        <a href="#authorInformation" className="dropdown-item">Submission</a>
+                                    </li>
+                                    <li>
+                                        <a href="#registration" className="dropdown-item">Registration</a>
+                                    </li>
+                                    <li>
+                                        <a href="#pricing" className="dropdown-item">Pricing</a>
+                                    </li>
+                                    <li>
+                                        <a href="#linkSchedule" className="dropdown-item">Schedule</a>
+                                    </li>
+                                </ul>
+                            </li>
+
+                            <li className="nav-item">
+                                <a href="#programComittee" className="nav-link">Committee</a>
+                            </li>
+                            <li className="nav-item">
+                                <a href="#address" className="nav-link">Contacts</a>
+                            </li>
+                        </ul>
+
+                        <li className="nav-item list-unstyled ml-1">
+                            <a href="#address" onClick={handleLogout} className="nav-link justify-content-center" id="logout">Logout</a>
+                        </li>
+                    </div>
                 </div>
+            </nav>
 
-
-
+            <div className="dashboard-content">
                 {/* Section Home */}
-                <section className="Home" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
+                <section className="Home" id="homeSection" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
                     <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center">
-                        <div className="container align-items-center" id="hostLogo">
-                            {hostLogoData.length > 0 ? (
-                                hostLogoData.map((logo) => (
-                                    <div id="logo-container" key={logo.id} className="logo-container position-relative"> {/* Tambahkan position-relative */}
-                                        <img src={`http://localhost:8000/storage/${logo.host_logo}`} alt="Host Logo" className="mx-2" />
-                                        <svg
-                                            type="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
-                                            onClick={() => handleLogoDelete(logo.id)} className="delete-icon"
-                                        > <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" fill="white" /> <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" stroke="#DE5858" /> <path d="M6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19V7H6V19ZM8 9H16V19H8V9ZM15.5 4L14.5 3H9.5L8.5 4H5V6H19V4H15.5Z" fill="#DE5858" />
-                                        </svg>
-                                    </div>
-                                ))
-                            ) : (
-                                <p>No logos uploaded yet.</p>
-                            )}
+                        <div className="home-dashboard">
+                            <div className="container d-flex align-items-center" id="hostLogo">
+                                {hostLogoData.length > 0 ? (
+                                    hostLogoData.map((logo) => (
+                                        <div id="logo-container" key={logo.id} className="logo-container position-relative mx-2">
+                                            <img src={`http://localhost:8000/storage/${logo.host_logo}`} alt="Host Logo" className="mx-2" />
+                                            <svg
+                                                type="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"
+                                                onClick={() => handleLogoDelete(logo.id)} className="delete-icon"
+                                            >
+                                                <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" fill="white" />
+                                                <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" stroke="#DE5858" />
+                                                <path d="M6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19V7H6V19ZM8 9H16V19H8V9ZM15.5 4L14.5 3H9.5L8.5 4H5V6H19V4H15.5Z" fill="#DE5858" />
+                                            </svg>
+                                        </div>
+                                    ))
+                                ) : (
+                                    <p>No logos uploaded yet.</p>
+                                )}
 
-                        </div>
+                                <div className="align-items-center mx-2" id="inputLogo">
+                                    <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14.2231 15.3125C14.654 15.3125 15.0807 15.2276 15.4788 15.0627C15.8769 14.8978 16.2386 14.6561 16.5433 14.3514C16.848 14.0468 17.0897 13.685 17.2546 13.2869C17.4195 12.8888 17.5044 12.4621 17.5044 12.0312C17.5044 11.6004 17.4195 11.1737 17.2546 10.7756C17.0897 10.3775 16.848 10.0157 16.5433 9.71106C16.2386 9.40636 15.8769 9.16467 15.4788 8.99977C15.0807 8.83487 14.654 8.75 14.2231 8.75C13.3529 8.75 12.5183 9.0957 11.9029 9.71106C11.2876 10.3264 10.9419 11.161 10.9419 12.0312C10.9419 12.9015 11.2876 13.7361 11.9029 14.3514C12.5183 14.9668 13.3529 15.3125 14.2231 15.3125Z" fill="white" />
+                                        <path d="M30.625 30.625C30.625 31.7853 30.1641 32.8981 29.3436 33.7186C28.5231 34.5391 27.4103 35 26.25 35H8.75C7.58968 35 6.47688 34.5391 5.65641 33.7186C4.83594 32.8981 4.375 31.7853 4.375 30.625V4.375C4.375 3.21468 4.83594 2.10188 5.65641 1.28141C6.47688 0.460936 7.58968 0 8.75 0L20.7812 0L30.625 9.84375V30.625ZM8.75 2.1875C8.16984 2.1875 7.61344 2.41797 7.2032 2.8282C6.79297 3.23844 6.5625 3.79484 6.5625 4.375V26.25L11.4275 21.385C11.5999 21.213 11.8248 21.1035 12.0665 21.0737C12.3082 21.044 12.5529 21.0958 12.7619 21.2209L17.5 24.0625L22.2184 17.4562C22.3108 17.3271 22.4301 17.2197 22.5681 17.1413C22.7062 17.0629 22.8596 17.0155 23.0178 17.0024C23.176 16.9893 23.3351 17.0108 23.4842 17.0654C23.6332 17.1199 23.7686 17.2063 23.8809 17.3184L28.4375 21.875V9.84375H24.0625C23.1923 9.84375 22.3577 9.49805 21.7423 8.88269C21.127 8.26734 20.7812 7.43274 20.7812 6.5625V2.1875H8.75Z" fill="white" />
+                                    </svg>
 
-                        <div className="container" id="inputLogo">
-                            <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M14.2231 15.3125C14.654 15.3125 15.0807 15.2276 15.4788 15.0627C15.8769 14.8978 16.2386 14.6561 16.5433 14.3514C16.848 14.0468 17.0897 13.685 17.2546 13.2869C17.4195 12.8888 17.5044 12.4621 17.5044 12.0312C17.5044 11.6004 17.4195 11.1737 17.2546 10.7756C17.0897 10.3775 16.848 10.0157 16.5433 9.71106C16.2386 9.40636 15.8769 9.16467 15.4788 8.99977C15.0807 8.83487 14.654 8.75 14.2231 8.75C13.3529 8.75 12.5183 9.0957 11.9029 9.71106C11.2876 10.3264 10.9419 11.161 10.9419 12.0312C10.9419 12.9015 11.2876 13.7361 11.9029 14.3514C12.5183 14.9668 13.3529 15.3125 14.2231 15.3125Z" fill="white" />
-                                <path d="M30.625 30.625C30.625 31.7853 30.1641 32.8981 29.3436 33.7186C28.5231 34.5391 27.4103 35 26.25 35H8.75C7.58968 35 6.47688 34.5391 5.65641 33.7186C4.83594 32.8981 4.375 31.7853 4.375 30.625V4.375C4.375 3.21468 4.83594 2.10188 5.65641 1.28141C6.47688 0.460936 7.58968 0 8.75 0L20.7812 0L30.625 9.84375V30.625ZM8.75 2.1875C8.16984 2.1875 7.61344 2.41797 7.2032 2.8282C6.79297 3.23844 6.5625 3.79484 6.5625 4.375V26.25L11.4275 21.385C11.5999 21.213 11.8248 21.1035 12.0665 21.0737C12.3082 21.044 12.5529 21.0958 12.7619 21.2209L17.5 24.0625L22.2184 17.4562C22.3108 17.3271 22.4301 17.2197 22.5681 17.1413C22.7062 17.0629 22.8596 17.0155 23.0178 17.0024C23.176 16.9893 23.3351 17.0108 23.4842 17.0654C23.6332 17.1199 23.7686 17.2063 23.8809 17.3184L28.4375 21.875V9.84375H24.0625C23.1923 9.84375 22.3577 9.49805 21.7423 8.88269C21.127 8.26734 20.7812 7.43274 20.7812 6.5625V2.1875H8.75Z" fill="white" />
-                            </svg>
-
-                            <label htmlFor="file-upload" className="custom-file-upload">
-                                Choose png logo
-                            </label>
-                            <input id="file-upload" type="file" multiple onChange={handleLogoUpload} />
-                        </div>
-
-
-
-                        <form onSubmit={handleSubmit}>
-                            {/* Form untuk data home */}
-                            <div className="container" id="textHome">
-                                <input
-                                    type="text" className="title-input editable-text" name="title"
-                                    value={homeData.title} onChange={handleInputChange} placeholder="Event Name"
-                                />
-
-                                <input
-                                    type="text" className="place-date-input editable-text mb-0" name="place_date"
-                                    value={homeData.place_date} onChange={handleInputChange} placeholder="Place, Date"
-                                />
+                                    <label htmlFor="file-upload" className="custom-file-upload">
+                                        Choose png logo
+                                    </label>
+                                    <input id="file-upload" type="file" multiple onChange={handleLogoUpload} />
+                                </div>
                             </div>
 
-                            <div className="container" id="buttonHome">
-                                <button type="button" className="btn btn-primary mx-2">
-                                    Submit Here
-                                </button>
-                                <button type="button" className="btn btn-primary mx-2">
-                                    Presentation Schedule
-                                </button>
-                            </div>
+                            <form onSubmit={handleSubmit}>
+                                {/* Form untuk data home */}
+                                <div className="container" id="textHome">
+                                    <input
+                                        type="text" className="title-input editable-text" name="title"
+                                        value={homeData.title} onChange={handleInputChange} placeholder="Event Name"
+                                    />
 
-                            <textarea
-                                name="description" className="description-input editable-text mb-0"
-                                value={homeData.description} onChange={handleInputChange} placeholder="Short Description" rows="3">
-                            </textarea>
+                                    <input
+                                        type="text" className="place-date-input editable-text mb-0" name="place_date"
+                                        value={homeData.place_date} onChange={handleInputChange} placeholder="Place, Date"
+                                    />
+                                </div>
+
+                                <div className="container" id="buttonHome">
+                                    <button type="button" className="btn btn-primary mx-2">
+                                        Submit Here
+                                    </button>
+                                    <button type="button" className="btn btn-primary mx-2">
+                                        Presentation Schedule
+                                    </button>
+                                </div>
+
+                                <textarea
+                                    name="description" className="description-input editable-text mb-0"
+                                    value={homeData.description} onChange={handleInputChange} placeholder="Short Description" rows="2">
+                                </textarea>
 
 
-                            <input type="file" accept="image/*" onChange={handleBgUpload} />
+                                <input type="file" accept="image/*" onChange={handleBgUpload} />
 
-                            <button type="submit">Update Home</button>
-                        </form>
+                                <button type="submit">Update Home</button>
+                            </form>
+                        </div>
                     </div>
                 </section>
 
                 {/* Section About Us */}
-                <section className="AboutUs">
+                <section className="AboutUs" id='aboutSection'>
                     <div className="container">
                         <form onSubmit={handleSubmitAbout}>
                             <div className="row flex">
@@ -1145,7 +1307,7 @@ export default function Dashboard() {
                 </section>
 
                 {/* Section Speakers */}
-                <section className="Speakers pt-100 pb-80">
+                <section className="Speakers pt-100 pb-80" id="speakersSection">
                     <div className="container">
                         <div className="section-header">
                             <h5>Keynote</h5>
@@ -1224,7 +1386,7 @@ export default function Dashboard() {
                 )}
 
                 {/* TUTORIAL */}
-                <section className="tutorial-dash">
+                <section className="tutorial-dash" id="tutorialSession">
                     <div className="section-header">
                         <h5>Tutorial</h5>
                         <h2>Session</h2>
@@ -1262,7 +1424,7 @@ export default function Dashboard() {
                 </section>
 
                 {/* IMPORTANT DATES */}
-                <section className="importantDate" style={{ backgroundImage: `url(${importantDateData.important_date_bg})` }}>
+                <section className="importantDate" id="importantDateSection" style={{ backgroundImage: `url(${importantDateData.important_date_bg})` }}>
                     <input type="file" onChange={handleBgUploadImportantBg} style={{ display: 'block', margin: '10px 0' }} />
 
                     <div className="container">
@@ -1800,6 +1962,85 @@ export default function Dashboard() {
                                             <div className="modal-footer">
                                                 <button type="button" className="btn btn-secondary" onClick={() => setModalVisiblePricing(false)}>Cancel</button>
                                                 <button type="submit" className="btn btn-primary">{currentPricing.id ? 'Update' : 'Add'}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
+
+                <section className="payment">
+                    <div className="container">
+                        <div className="section-header">
+                            <h5>Please follow this information for completing your registration:</h5>
+                        </div>
+
+                        <button onClick={() => handleAddPaymentType('method')} className="btn btn-primary">+ Add Payment Method</button>
+                        <button onClick={() => handleAddPaymentType('info')} className="btn btn-secondary">+ Add Additional Info</button>
+
+                        <div className="container mt-3">
+                            <h3 className='pt-3'>Payment Information</h3>
+                            <hr />
+
+                            {paymentData.map((data) => (
+                                <div key={data.id} className="card mt-3" id="payment-dash-card">
+                                    <div className="card-body">
+                                        {data.method_or_info === 'method' && (
+                                            <>
+                                                <h3>{data.payment_method}</h3>
+                                                <p>
+                                                    {data.payment_details.split('\n').map((line, index) => (
+                                                        <span key={index}>
+                                                            {line}
+                                                            <br />
+                                                        </span>
+                                                    ))}
+                                                </p>
+                                            </>
+                                        )}
+                                        {data.method_or_info === 'info' && (
+                                            <p>
+                                                {data.payment_additional_info.split('\n').map((line, index) => (
+                                                    <span key={index}>
+                                                        {line}
+                                                        <br />
+                                                    </span>
+                                                ))}
+                                            </p>
+                                        )}
+                                        <button onClick={() => handleEditPayment(data)} className="btn btn-warning mt-3 me-2">Edit</button>
+                                        <button onClick={() => handleDeletePayment(data.id)} className="btn btn-danger mt-3">Delete</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        {showPaymentModal && (
+                            <div className="modal fade show" style={{ display: 'block' }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title">
+                                                {isEditModePayment ? `Edit ${selectedTypePaymentData === 'method' ? 'Payment Method' : 'Additional Info'}` : `Add ${selectedTypePaymentData === 'method' ? 'Payment Method' : 'Additional Info'}`}
+                                            </h5>
+                                            <button type="button" className="btn-close" onClick={closeModalPayment}></button>
+                                        </div>
+                                        <form onSubmit={handlePaymentSubmit}>
+                                            <div className="modal-body">
+                                                {selectedTypePaymentData === 'method' && (
+                                                    <>
+                                                        <input type="text" name="payment_method" className="form-control" placeholder="Payment Method" value={newPaymentData.payment_method} onChange={handleInputChangePaymentData} />
+                                                        <textarea name="payment_details" className="form-control mt-3" placeholder="Payment Details" value={newPaymentData.payment_details} onChange={handleInputChangePaymentData}></textarea>
+                                                    </>
+                                                )}
+                                                {selectedTypePaymentData === 'info' && (
+                                                    <textarea name="payment_additional_info" className="form-control" placeholder="Additional Information" value={newPaymentData.payment_additional_info} onChange={handleInputChangePaymentData}></textarea>
+                                                )}
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" onClick={closeModalPayment}>Close</button>
+                                                <button type="submit" className="btn btn-primary">{isEditModePayment ? 'Update' : 'Save'}</button>
                                             </div>
                                         </form>
                                     </div>

@@ -167,6 +167,7 @@ nav img {
 
 /* ------------ HOME START ------------ */
 
+
 .Home {
     padding-top: 84px;
     padding-bottom: 84px;
@@ -1594,6 +1595,10 @@ hr {
     font-weight: 500;
     font-size: 16px;
     color: #777777;
+}
+
+.payment .card{
+    border-style: none;
 }
 
 .payment-method,

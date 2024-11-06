@@ -181,7 +181,7 @@ export default function App() {
 
     useEffect(() => {
         fetchAuthorData();
-    }, []); 
+    }, []);
 
 
     const fetchAuthorData = () => {
@@ -289,11 +289,24 @@ export default function App() {
     const fetchPricing = async () => {
         try {
             const response = await axios.get('http://localhost:8000/api/pricing');
-            console.log(response.data); 
+            console.log(response.data);
             setPricings(Array.isArray(response.data) ? response.data : []);
         } catch (error) {
             console.error("Error fetching pricing data:", error);
         }
+    };
+
+    // PAYMENT METHOD
+    const [paymentData, setPaymentData] = useState([]);
+
+    useEffect(() => {
+        fetchPaymentData();
+    }, []);
+
+    const fetchPaymentData = () => {
+        axios.get('http://localhost:8000/api/payment-methods')
+            .then(response => setPaymentData(response.data))
+            .catch(error => console.error(error));
     };
 
     return (
@@ -337,7 +350,7 @@ export default function App() {
                                 </a>
                                 <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <li>
-                                        <a href="#importantDate" className="dropdown-item">Important Date</a>
+                                        <a href="#importantDateSection" className="dropdown-item">Important Date</a>
                                     </li>
                                     <li>
                                         <a href="#authorInformation" className="dropdown-item">Submission</a>
@@ -382,7 +395,6 @@ export default function App() {
                                 <p></p>
                             )}
                         </div>
-
 
                         <div className="container" id="textHome">
                             <div className="container" id="textHome">
@@ -514,7 +526,7 @@ export default function App() {
                     </div>
                 </section>
 
-                <section className="importantDate" style={{ backgroundImage: `url(${importantDateData.important_date_bg})` }}>
+                <section className="importantDate" id="importantDateSection" style={{ backgroundImage: `url(${importantDateData.important_date_bg})` }}>
                     <div className="container">
                         <h2>Important Date</h2>
                     </div>
@@ -780,61 +792,36 @@ export default function App() {
                             <h3 className='pt-3'>Payment Method</h3>
                             <hr />
 
-                            <div className="card payment-method">
-                                <div className="card-body">
-                                    <h3 className="card-title">1) Virtual Account</h3>
-                                    <div className='card-text'>
-                                        Virtual Account Number: 8321066202400006<br />
-                                        Account Holder Name: Telkom University<br />
-                                        Bank Name: Bank Negara Indonesia (BNI)<br />
-                                        Bank Branch: Perintis Kemerdekaan<br />
-                                        *Use BNI Mobile Apps or BNI ATM only
-                                    </div>
-                                </div>
-                            </div>
+                            {paymentData.map((data) => (
+                                <div key={data.id} className="card mt-3">
+                                    <div className="card-body">
+                                        {data.method_or_info === 'method' && (
+                                            <>
+                                                <h3>{data.payment_method}</h3>
+                                                <p className='card-text'>
+                                                    {data.payment_details.split('\n').map((line, index) => (
+                                                        <span key={index}>
+                                                            {line}
+                                                            <br />
+                                                        </span>
+                                                    ))}
+                                                </p>
+                                            </>
+                                        )}
+                                        {data.method_or_info === 'info' && (
+                                            <p className='card-text'>
+                                                {data.payment_additional_info.split('\n').map((line, index) => (
+                                                    <span key={index}>
+                                                        {line}
+                                                        <br />
+                                                    </span>
+                                                ))}
+                                            </p>
+                                        )}
 
-                            <div className="card payment-method">
-                                <div className="card-body">
-                                    <h3 className="card-title">1) Virtual Account</h3>
-                                    <div className='card-text'>
-                                        Virtual Account Number: 8321066202400006<br />
-                                        Account Holder Name: Telkom University<br />
-                                        Bank Name: Bank Negara Indonesia (BNI)<br />
-                                        Bank Branch: Perintis Kemerdekaan<br />
-                                        *Use BNI Mobile Apps or BNI ATM only
                                     </div>
                                 </div>
-                            </div>
-
-                            <div className="card payment-method">
-                                <div className="card-body">
-                                    <h3 className="card-title">1) Virtual Account</h3>
-                                    <div className='card-text'>
-                                        Virtual Account Number: 8321066202400006<br />
-                                        Account Holder Name: Telkom University<br />
-                                        Bank Name: Bank Negara Indonesia (BNI)<br />
-                                        Bank Branch: Perintis Kemerdekaan<br />
-                                        *Use BNI Mobile Apps or BNI ATM only
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="card payment-addInfo">
-                                <div className="card-body">
-                                    <div className='card-text'>
-                                        Additional Information for International Transfer:<br />
-                                        Contact: icodsa@telkomuniversity.ac.id
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div className="card payment-addInfo">
-                                <div className="card-body">
-                                    <div className='card-text'>
-                                        Please be noted that to be indexed by IEEE, the paper must be presented at the conference.
-                                    </div>
-                                </div>
-                            </div>
+                            ))}
 
                         </div>
                     </div>
