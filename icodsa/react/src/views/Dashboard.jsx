@@ -6,6 +6,41 @@ import { useNavigate } from 'react-router-dom';
 import '../styles/dashboard.css';
 
 export default function Dashboard() {
+    // --------------------------------------------------- Auth and Logout ---------------------------------------------------
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+
+        // Jika tidak ada token, arahkan ke halaman login
+        if (!token) {
+            navigate('/login');
+            return;
+        }
+
+    }, [navigate]);
+
+    const handleLogout = () => {
+        const token = localStorage.getItem('token');
+        fetch('http://localhost:8000/api/logout', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+            .then(response => response.json())
+            .then(() => {
+                localStorage.removeItem('token');
+                navigate('/login');  // Logout dan arahkan ke login
+            });
+    };
+
+    const closeModalPayment = () => {
+        setShowPaymentModal(false);
+        setIsEditModePayment(false);
+        setEditPaymentId(null);
+    };
 
     // --------------------------------------------------- NAVBAR ---------------------------------------------------
     const navLinks = document.querySelectorAll('.nav-link');
@@ -1059,44 +1094,87 @@ export default function Dashboard() {
     };
 
 
-
-
-
-    // --------------------------------------------------- Auth and Logout ---------------------------------------------------
-
-    const navigate = useNavigate();
+    // --------------------------------------------------- ARTICLE ---------------------------------------------------
+    const [articles, setArticles] = useState([]);
+    const [showModalArticle, setShowModalArticle] = useState(false);
+    const [isEditingArticle, setIsEditingArticle] = useState(false);
+    const [currentArticleId, setCurrentArticleId] = useState(null);
+    const [articleData, setArticleData] = useState({
+        article_img: null,
+        article_title: '',
+        article_description: '',
+        article_link: '',
+    });
 
     useEffect(() => {
-        const token = localStorage.getItem('token');
+        fetchArticles();
+    }, []);
 
-        // Jika tidak ada token, arahkan ke halaman login
-        if (!token) {
-            navigate('/login');
-            return;
-        }
-
-    }, [navigate]);
-
-    const handleLogout = () => {
-        const token = localStorage.getItem('token');
-        fetch('http://localhost:8000/api/logout', {
-            method: 'POST',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-            },
-        })
-            .then(response => response.json())
-            .then(() => {
-                localStorage.removeItem('token');
-                navigate('/login');  // Logout dan arahkan ke login
-            });
+    const fetchArticles = async () => {
+        const response = await axios.get('http://localhost:8000/api/articles');
+        setArticles(response.data);
     };
 
+    const handleInputChangeArticle = (e) => {
+        const { name, value } = e.target;
+        setArticleData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
 
-    const closeModalPayment = () => {
-        setShowPaymentModal(false);
-        setIsEditModePayment(false);
-        setEditPaymentId(null);
+    const handleImageChangeArticle = (e) => {
+        setArticleData((prevData) => ({
+            ...prevData,
+            article_img: e.target.files[0],
+        }));
+    };
+
+    const handleSubmitArticle = async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData();
+        formData.append('article_img', articleData.article_img);
+        formData.append('article_title', articleData.article_title);
+        formData.append('article_description', articleData.article_description);
+        formData.append('article_link', articleData.article_link);
+
+        if (isEditingArticle) {
+            await axios.post(`http://localhost:8000/api/articles/${currentArticleId}`, formData);
+        } else {
+            await axios.post('http://localhost:8000/api/articles', formData);
+        }
+
+        setShowModalArticle(false);
+        fetchArticles();
+    };
+
+    const handleEditArticle = (article) => {
+        setIsEditingArticle(true);
+        setCurrentArticleId(article.id);
+        setArticleData({
+            article_img: null,
+            article_title: article.article_title,
+            article_description: article.article_description,
+            article_link: article.article_link,
+        });
+        setShowModalArticle(true);
+    };
+
+    const handleDeleteArticle = async (id) => {
+        await axios.delete(`http://localhost:8000/api/articles/${id}`);
+        fetchArticles();
+    };
+
+    const handleCloseModalArticle = () => {
+        setShowModalArticle(false);
+        setIsEditingArticle(false);
+        setArticleData({
+            article_img: null,
+            article_title: '',
+            article_description: '',
+            article_link: '',
+        });
     };
 
 
@@ -1723,7 +1801,7 @@ export default function Dashboard() {
                 </section>
 
                 {/* PROGRAM COMMITTEE */}
-                <section className="programComittee" id="programCommittee">
+                <section className="programComittee" id="programComittee">
                     <div className="container">
                         <div className="section-header pb-1">
                             <h2>Program Committee</h2>
@@ -2050,9 +2128,69 @@ export default function Dashboard() {
                     </div>
                 </section>
 
+                <section className="article">
+                    <div className="container">
+                        <h1>Articles</h1>
+                        <button onClick={() => setShowModalArticle(true)} className="btn btn-primary">Add New Article</button>
+                        <div className="container d-flex justify-content-center article-content text-center p-0">
+                            {articles.map((article) => (
+                                <div key={article.id} className="card mr-2">
+                                    {/* Pastikan gambar diakses dengan URL lengkap */}
+                                    <img src={`http://localhost:8000${article.article_img}`} className="card-img-top" alt="" />
+                                    <div className="card-body">
+                                        <h5 className="card-title">{article.article_title}</h5>
+                                        <p className="card-text">{article.article_description}</p>
+                                        <a href={article.article_link} target="_blank" rel="noopener noreferrer">Read More</a>
+                                        <button onClick={() => handleEditArticle(article)} className="btn btn-warning">Edit</button>
+                                        <button onClick={() => handleDeleteArticle(article.id)} className="btn btn-danger">Delete</button>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+
+                        {showModalArticle && (
+                            <div className="modal" style={{ display: 'block' }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title">{isEditingArticle ? 'Edit Article' : 'Add New Article'}</h5>
+                                            <button type="button" className="close" onClick={handleCloseModalArticle}>
+                                                <span>&times;</span>
+                                            </button>
+                                        </div>
+                                        <form onSubmit={handleSubmitArticle}>
+                                            <div className="modal-body">
+                                                <div className="form-group">
+                                                    <label>Title</label>
+                                                    <input type="text" name="article_title" value={articleData.article_title} onChange={handleInputChangeArticle} className="form-control" required />
+                                                </div>
+                                                <div className="form-group">
+                                                    <label>Description</label>
+                                                    <textarea name="article_description" value={articleData.article_description} onChange={handleInputChangeArticle} className="form-control" required></textarea>
+                                                </div>
+                                                <div className="form-group">
+                                                    <label>Link</label>
+                                                    <input type="url" name="article_link" value={articleData.article_link} onChange={handleInputChangeArticle} className="form-control" required />
+                                                </div>
+                                                <div className="form-group">
+                                                    <label>Image</label>
+                                                    <input type="file" name="article_img" onChange={handleImageChangeArticle} className="form-control" />
+                                                </div>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" onClick={handleCloseModalArticle}>Close</button>
+                                                <button type="submit" className="btn btn-primary">{isEditingArticle ? 'Update' : 'Save'}</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
+
 
             </div>
-
         </div>
     );
 }

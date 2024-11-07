@@ -309,6 +309,18 @@ export default function App() {
             .catch(error => console.error(error));
     };
 
+    // --------------------------------------------------- ARTICLE ---------------------------------------------------
+    const [articles, setArticles] = useState([]);
+
+    useEffect(() => {
+        fetchArticles();
+    }, []);
+
+    const fetchArticles = async () => {
+        const response = await axios.get('http://localhost:8000/api/articles');
+        setArticles(response.data);
+    };
+
     return (
 
         <body>
@@ -831,23 +843,17 @@ export default function App() {
                     <div className="container">
                         <h1>Article</h1>
                         <div className="container d-flex justify-content-center article-content text-center p-0">
-                            <div className="card mr-2">
-                                <img src="/public/article2.png" className="card-img-top" alt="" />
-                                <div className="card-body">
-                                    <h5 className="card-title">updatebali.com</h5>
-                                    <p className="card-text">Conference ICoDSA, Ajang Men Deliver Ilmu Pengetahuan Konsisten Digelar Hingga Tahun Ini</p>
-                                    <a href="#">Read More</a>
+                            {articles.map((article) => (
+                                <div key={article.id} className="card mr-2">
+                                    {/* Pastikan gambar diakses dengan URL lengkap */}
+                                    <img src={`http://localhost:8000${article.article_img}`} className="card-img-top" alt="" />
+                                    <div className="card-body">
+                                        <h5 className="card-title">{article.article_title}</h5>
+                                        <p className="card-text">{article.article_description}</p>
+                                        <a href={article.article_link} target="_blank" rel="noopener noreferrer">Read More</a>
+                                    </div>
                                 </div>
-                            </div>
-
-                            <div className="card ml-2">
-                                <img src="/public/article2.png" className="card-img-top" alt="" />
-                                <div className="card-body">
-                                    <h5 className="card-title">updatebali.com</h5>
-                                    <p className="card-text">Conference ICoDSA, Ajang Men Deliver Ilmu Pengetahuan Konsisten Digelar Hingga Tahun Ini</p>
-                                    <a href="#">Read More</a>
-                                </div>
-                            </div>
+                            ))}
                         </div>
                     </div>
                 </section>
