@@ -43,7 +43,8 @@ export default function Dashboard() {
     };
 
 
-    // --------------------------------------------------- QUILL EDITOR ---------------------------------------------------
+    // --------------------------------------------------- QUILL EDITOR  ---------------------------------------------------
+
 
 
     // --------------------------------------------------- NAVBAR ---------------------------------------------------
@@ -253,6 +254,7 @@ export default function Dashboard() {
             console.error(error);
         }
     };
+
 
 
     // --------------------------------------------------- SPEAKERS ---------------------------------------------------
@@ -1732,55 +1734,7 @@ export default function Dashboard() {
                                         <i className="bi bi-pencil ml-1" ></i>
                                     </button>
 
-                                    {/* Modal for editing "Submit Here" link */}
-                                    <div className={`modal fade ${isModalOpenSubmitHere ? 'show' : ''}`} style={{ display: isModalOpenSubmitHere ? 'block' : 'none' }} tabIndex="-1" aria-labelledby="submitHereModalLabel" aria-hidden={!isModalOpenSubmitHere}>
-                                        <div className="modal-dialog">
-                                            <div className="modal-content">
-                                                <div className="modal-header">
-                                                    <h5 className="modal-title" id="submitHereModalLabel">Edit Submit Here Link</h5>
-                                                    <button type="button" className="btn-close" onClick={handleModalToggleSubmitHere} aria-label="Close"></button>
-                                                </div>
-                                                <div className="modal-body">
-                                                    <input
-                                                        type="url"
-                                                        value={newSubmitHereLink}
-                                                        onChange={handleChangeSubmitHereLink}
-                                                        placeholder="Enter new Submit Here link"
-                                                        className="form-control"
-                                                    />
-                                                </div>
-                                                <div className="modal-footer">
-                                                    <button type="button" className="btn btn-secondary" onClick={handleModalToggleSubmitHere}>Close</button>
-                                                    <button type="button" className="btn btn-primary" onClick={handleSaveSubmitHereLink}>Save</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    {/* Modal for editing "Presentation Schedule" link */}
-                                    <div className={`modal fade ${isModalOpenPresentationSchedule ? 'show' : ''}`} style={{ display: isModalOpenPresentationSchedule ? 'block' : 'none' }} tabIndex="-1" aria-labelledby="presentationScheduleModalLabel" aria-hidden={!isModalOpenPresentationSchedule}>
-                                        <div className="modal-dialog">
-                                            <div className="modal-content">
-                                                <div className="modal-header">
-                                                    <h5 className="modal-title" id="presentationScheduleModalLabel">Edit Presentation Schedule Link</h5>
-                                                    <button type="button" className="btn-close" onClick={handleModalTogglePresentationSchedule} aria-label="Close"></button>
-                                                </div>
-                                                <div className="modal-body">
-                                                    <input
-                                                        type="url"
-                                                        value={newPresentationScheduleLink}
-                                                        onChange={handleChangePresentationScheduleLink}
-                                                        placeholder="Enter new Presentation Schedule link"
-                                                        className="form-control"
-                                                    />
-                                                </div>
-                                                <div className="modal-footer">
-                                                    <button type="button" className="btn btn-secondary" onClick={handleModalTogglePresentationSchedule}>Close</button>
-                                                    <button type="button" className="btn btn-primary" onClick={handleSavePresentationScheduleLink}>Save</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
 
                                 <textarea
@@ -1789,13 +1743,75 @@ export default function Dashboard() {
                                 </textarea>
 
 
-                                <input type="file" accept="image/*" onChange={handleBgUpload} />
+
+                                <div className="file-upload-container align-items-center mx-2" id="inputBgHome">
+                                    <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14.2231 15.3125C14.654 15.3125 15.0807 15.2276 15.4788 15.0627C15.8769 14.8978 16.2386 14.6561 16.5433 14.3514C16.848 14.0468 17.0897 13.685 17.2546 13.2869C17.4195 12.8888 17.5044 12.4621 17.5044 12.0312C17.5044 11.6004 17.4195 11.1737 17.2546 10.7756C17.0897 10.3775 16.848 10.0157 16.5433 9.71106C16.2386 9.40636 15.8769 9.16467 15.4788 8.99977C15.0807 8.83487 14.654 8.75 14.2231 8.75C13.3529 8.75 12.5183 9.0957 11.9029 9.71106C11.2876 10.3264 10.9419 11.161 10.9419 12.0312C10.9419 12.9015 11.2876 13.7361 11.9029 14.3514C12.5183 14.9668 13.3529 15.3125 14.2231 15.3125Z" fill="white" />
+                                        <path d="M30.625 30.625C30.625 31.7853 30.1641 32.8981 29.3436 33.7186C28.5231 34.5391 27.4103 35 26.25 35H8.75C7.58968 35 6.47688 34.5391 5.65641 33.7186C4.83594 32.8981 4.375 31.7853 4.375 30.625V4.375C4.375 3.21468 4.83594 2.10188 5.65641 1.28141C6.47688 0.460936 7.58968 0 8.75 0L20.7812 0L30.625 9.84375V30.625ZM8.75 2.1875C8.16984 2.1875 7.61344 2.41797 7.2032 2.8282C6.79297 3.23844 6.5625 3.79484 6.5625 4.375V26.25L11.4275 21.385C11.5999 21.213 11.8248 21.1035 12.0665 21.0737C12.3082 21.044 12.5529 21.0958 12.7619 21.2209L17.5 24.0625L22.2184 17.4562C22.3108 17.3271 22.4301 17.2197 22.5681 17.1413C22.7062 17.0629 22.8596 17.0155 23.0178 17.0024C23.176 16.9893 23.3351 17.0108 23.4842 17.0654C23.6332 17.1199 23.7686 17.2063 23.8809 17.3184L28.4375 21.875V9.84375H24.0625C23.1923 9.84375 22.3577 9.49805 21.7423 8.88269C21.127 8.26734 20.7812 7.43274 20.7812 6.5625V2.1875H8.75Z" fill="white" />
+                                    </svg>
+                                    <label htmlFor="fileInput" className="file-upload-label">
+                                        Upload Background
+                                    </label>
+                                    <input
+                                        id="fileInput" type="file" accept="image/*" onChange={handleBgUpload} className="file-input"
+                                    />
+                                </div>
 
                                 <button type="submit" id="UpdateHome">Update Home</button>
                             </form>
                         </div>
                     </div>
                 </section>
+
+                {/* Modal for editing "Submit Here" link */}
+                <div className={`modal fade ${isModalOpenSubmitHere ? 'show' : ''}`} style={{ display: isModalOpenSubmitHere ? 'block' : 'none' }} tabIndex="-1" aria-labelledby="submitHereModalLabel" aria-hidden={!isModalOpenSubmitHere}>
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content " id="modalHomeLink">
+                            <div className="modal-header modalHomeLink">
+                                <h5 className="modal-title" id="submitHereModalLabel">Edit Submit Here Link</h5>
+                                <button type="button" className="btn-close" onClick={handleModalToggleSubmitHere} aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                <input
+                                    type="url"
+                                    value={newSubmitHereLink}
+                                    onChange={handleChangeSubmitHereLink}
+                                    placeholder="Enter new Submit Here link"
+                                    className="form-control"
+                                />
+                            </div>
+                            <div className="modal-footer" id="modalButtonLinkHome">
+                                <button type="button" id="modalButtonLinkHomClose" className="btn btn-secondary" onClick={handleModalToggleSubmitHere}>Close</button>
+                                <button type="button" id="modalButtonLinkHomSave" className="btn btn-primary" onClick={handleSaveSubmitHereLink}>Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {/* Modal for editing "Presentation Schedule" link */}
+                <div className={`modal fade ${isModalOpenPresentationSchedule ? 'show' : ''}`} style={{ display: isModalOpenPresentationSchedule ? 'block' : 'none' }} tabIndex="-1" aria-labelledby="presentationScheduleModalLabel" aria-hidden={!isModalOpenPresentationSchedule}>
+                    <div className="modal-dialog modal-dialog-centered" id="modalHomeLink">
+                        <div className="modal-content">
+                            <div className="modal-header" >
+                                <h5 className="modal-title" id="presentationScheduleModalLabel">Edit Presentation Schedule Link</h5>
+                                <button type="button" className="btn-close" onClick={handleModalTogglePresentationSchedule} aria-label="Close"></button>
+                            </div>
+                            <div className="modal-body">
+                                <input
+                                    type="url"
+                                    value={newPresentationScheduleLink}
+                                    onChange={handleChangePresentationScheduleLink}
+                                    placeholder="Enter new Presentation Schedule link"
+                                    className="form-control"
+                                />
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" id="modalButtonLinkHomClose" className="btn btn-secondary" onClick={handleModalTogglePresentationSchedule}>Close</button>
+                                <button type="button" id="modalButtonLinkHomSave" className="btn btn-primary" onClick={handleSavePresentationScheduleLink}>Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 {/* Section About Us */}
                 <section className="AboutUs" id='aboutSection'>

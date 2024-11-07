@@ -19,7 +19,7 @@ body {
 
 /* ------------ HOME START ------------ */
 .home-dashboard {
-    margin-top: 100px;
+    margin-top: 50px;
 }
 
 #inputLogo {
@@ -134,12 +134,67 @@ body {
     color: #ffffff;
 }
 
+#inputBgHome {
+    width: 160px;
+    height: 100px;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    position: absolute; /* Atur posisi sesuai keinginan */
+    bottom: 20px; /* Atur jarak dari atas */
+    right: 10px; /* Atur jarak dari kiri */
+    padding: 10px; /* Tambahkan padding untuk memperbesar area klik */
+    border-radius: 5px; /* Membulatkan sudut label */
+    font-size: 16px; /* Gaya teks label */
+}
+
+#inputBgHome label {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 9px;
+}
+
+#inputBgHome input[type="file"] {
+    display: none; /* Hide the actual file input */
+}
+
+.file-upload-label {
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #3584a7;
+    color: white;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+    width: 150px;
+}
+
+.file-upload-label:hover {
+    background-color: #2ba2d6;
+}
+
 @media (max-width: 480px) {
     #hostLogo img {
         width: auto;
         height: 30px;
         margin-bottom: 10px;
     }
+}
+
+#modalHomeLink{
+    color: #000000;
+}
+
+
+
+#modalButtonLinkHomClose {
+    background-color: #E2564D;
+}
+
+#modalButtonLinkHomSave{
+    background-color: #3584A7;
 }
 
 /* ------------ ABOUT US START ------------ */
