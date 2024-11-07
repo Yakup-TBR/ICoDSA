@@ -2675,9 +2675,7 @@ export default function Dashboard() {
 
                     {/* Logo Upload Section */}
                     <div className="align-items-center mx-2">
-                        <label htmlFor="file-upload" className="custom-file-upload">
-                            Choose PNG logo
-                        </label>
+                       
                         <input
                             id="file-upload"
                             type="file"
