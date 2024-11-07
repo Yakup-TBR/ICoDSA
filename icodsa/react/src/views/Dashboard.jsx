@@ -21,6 +21,8 @@ export default function Dashboard() {
 
     }, [navigate]);
 
+    const [showLogoutModal, setShowLogoutModal] = useState(false);
+
     const handleLogout = () => {
         const token = localStorage.getItem('token');
         fetch('http://localhost:8000/api/logout', {
@@ -32,15 +34,17 @@ export default function Dashboard() {
             .then(response => response.json())
             .then(() => {
                 localStorage.removeItem('token');
-                navigate('/login');  // Logout dan arahkan ke login
+                navigate('/login'); // Logout and redirect to login
             });
     };
 
-    const closeModalPayment = () => {
-        setShowPaymentModal(false);
-        setIsEditModePayment(false);
-        setEditPaymentId(null);
+    const confirmLogout = () => {
+        setShowLogoutModal(true);
     };
+
+
+    // --------------------------------------------------- QUILL EDITOR ---------------------------------------------------
+
 
     // --------------------------------------------------- NAVBAR ---------------------------------------------------
     const navLinks = document.querySelectorAll('.nav-link');
@@ -1093,6 +1097,12 @@ export default function Dashboard() {
             .catch(error => console.error(error));
     };
 
+    const closeModalPayment = () => {
+        setShowPaymentModal(false);
+        setIsEditModePayment(false);
+        setEditPaymentId(null);
+    };
+
 
     // --------------------------------------------------- ARTICLE ---------------------------------------------------
     const [articles, setArticles] = useState([]);
@@ -1628,11 +1638,30 @@ export default function Dashboard() {
                         </ul>
 
                         <li className="nav-item list-unstyled ml-1">
-                            <a href="#" onClick={handleLogout} className="nav-link justify-content-center" id="logout">Logout</a>
+                            <a href="#" onClick={(e) => { e.preventDefault(); confirmLogout(); }} className="nav-link justify-content-center" id="logout">Logout</a>
                         </li>
                     </div>
                 </div>
+
+
             </nav>
+
+            {showLogoutModal && (
+                <div className="modal show" style={{ display: 'block', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                    <div className="modal-dialog modal-dialog-centered" id="modalLogout">
+                        <div className="modal-content">
+                            <div className="modal-body text-center px-5">
+                                <h4>Are you sure you want to <span className="text-danger">logout</span> ?</h4>
+                            </div>
+                            <div className="d-flex justify-content-center">
+                                <button type="button" className="btn btn-danger" onClick={() => setShowLogoutModal(false)}>Cancel</button>
+                                <button type="button" className="btn btn-primary" id="logoutYes" onClick={handleLogout}>Yes</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
 
             <div className="dashboard-content">
                 {/* Section Home */}
@@ -1762,7 +1791,7 @@ export default function Dashboard() {
 
                                 <input type="file" accept="image/*" onChange={handleBgUpload} />
 
-                                <button type="submit">Update Home</button>
+                                <button type="submit" id="UpdateHome">Update Home</button>
                             </form>
                         </div>
                     </div>
@@ -2797,9 +2826,9 @@ export default function Dashboard() {
                                             onChange={handleInputChangeAddress}
                                             placeholder="Enter venue"
                                             rows="3"
-                                            style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid #ccc', color: '#ffffff', zIndex: 1}}
+                                            style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid #ccc', color: '#ffffff', zIndex: 1 }}
                                         /></h5>
-                                        
+
                                     </div>
                                     <div id="additional-info-area">
                                         <p><textarea
@@ -2810,7 +2839,7 @@ export default function Dashboard() {
                                             rows="3"
                                             style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid #ccc', color: '#ffffff' }}
                                         /></p>
-                                        
+
                                     </div>
                                 </div>
                             </div>
