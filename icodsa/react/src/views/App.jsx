@@ -321,6 +321,44 @@ export default function App() {
         setArticles(response.data);
     };
 
+    // --------------------------------------------------- DOCUMENTATION ---------------------------------------------------
+
+    // Documentation Image
+    const [documentationImages, setDocumentationImages] = useState([]);
+    const [videoLink, setVideoLink] = useState('');
+
+    useEffect(() => {
+        fetchDocumentationImages();
+        fetchLinks();
+    }, []);
+
+    const fetchDocumentationImages = () => {
+        axios.get('http://localhost:8000/api/documentation-images')
+            .then(response => {
+                setDocumentationImages(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const [documentationLink, setDocumentationLink] = useState('');
+
+
+    const fetchLinks = () => {
+        axios.get('http://localhost:8000/api/documentation-links')
+            .then(response => {
+                const data = response.data;
+                if (data) {
+                    setDocumentationLink(data.documentation_cloud);
+                    setVideoLink(data.video_link);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
     return (
 
         <body>
@@ -861,52 +899,23 @@ export default function App() {
                 <section className="documentation">
                     <div className="container">
                         <h1>Documentation</h1>
-                        <a href="#">LINK DOCUMENTATION</a>
+                        <a href={documentationLink || '#'} target="_blank" rel="noopener noreferrer">LINK DOCUMENTATION</a>
                         <div className="container photo-area">
                             <div className="row">
 
-                                <div className="col-12 col-md-4 p-0 photo-documentation">
-                                    <a href="#">
-                                        <img src="/public/article2.png" alt="" />
-                                    </a>
-                                </div>
-
-                                <div className="col-12 col-md-4 p-0 photo-documentation">
-                                    <a href="#">
-                                        <img src="/public/article2.png" alt="" />
-                                    </a>
-                                </div>
-
-                                <div className="col-12 col-md-4 p-0 photo-documentation">
-                                    <a href="#">
-                                        <img src="/public/article2.png" alt="" />
-                                    </a>
-                                </div>
-
-                                <div className="col-12 col-md-4 p-0 photo-documentation">
-                                    <a href="#">
-                                        <img src="/public/article2.png" alt="" />
-                                    </a>
-                                </div>
-
-                                <div className="col-12 col-md-4 p-0 photo-documentation">
-                                    <a href="#">
-                                        <img src="/public/article2.png" alt="" />
-                                    </a>
-                                </div>
-
-                                <div className="col-12 col-md-4 p-0 photo-documentation">
-                                    <a href="#">
-                                        <img src="/public/article2.png" alt="" />
-                                    </a>
-                                </div>
-
+                                {documentationImages.map((image) => (
+                                    <div className="col-12 col-md-4 p-0 photo-documentation" key={image.id}>
+                                        <a href="#">
+                                            <img src={`http://localhost:8000${image.documentation_img}`} alt="" />
+                                        </a>
+                                    </div>
+                                ))}
                             </div>
                         </div>
 
                         <div className="container video-documentation p-0">
                             <iframe width="100%" height="400"
-                                src="https://www.youtube.com/embed/2KnuZaqjvo4"
+                                src={videoLink || 'https://www.youtube.com/embed/2KnuZaqjvo4'}
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowFullScreen>
                             </iframe>

@@ -1177,6 +1177,119 @@ export default function Dashboard() {
         });
     };
 
+    // --------------------------------------------------- DOCUMENTATION ---------------------------------------------------
+
+    // Documentation Image
+    const [documentationImages, setDocumentationImages] = useState([]);
+    const [newDocumentationImage, setNewDocumentationImage] = useState(null);
+    const [showModalDocumentationImg, setShowModalDocumentationImg] = useState(false);
+
+    useEffect(() => {
+        fetchDocumentationImages();
+        fetchLinks();
+    }, []);
+
+    const fetchDocumentationImages = () => {
+        axios.get('http://localhost:8000/api/documentation-images')
+            .then(response => {
+                setDocumentationImages(response.data);
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleFileChangeDocumentationImg = (event) => {
+        setNewDocumentationImage(event.target.files[0]);
+    };
+
+    const handleSubmitDocumentationImg = (event) => {
+        event.preventDefault();
+        const formData = new FormData();
+        formData.append('documentation_img', newDocumentationImage);
+
+        axios.post('http://localhost:8000/api/documentation-images', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then(response => {
+                setDocumentationImages([...documentationImages, response.data]);
+                setShowModalDocumentationImg(false);
+                alert('Image added successfully!');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleDeleteDocumentationImg = async (id) => {
+        const confirmDelete = window.confirm('Are you sure you want to delete this image?');
+        if (confirmDelete) {
+            try {
+                // Kirim permintaan untuk menghapus gambar
+                await axios.delete(`http://localhost:8000/api/documentation-images/${id}`);
+                // Setelah berhasil, lakukan pengambilan data ulang
+                fetchDocumentationImages();  // Untuk memperbarui tampilan
+                alert('Image deleted successfully!');
+            } catch (error) {
+                console.error('Error deleting image:', error);
+            }
+        }
+    };
+
+
+
+    // Documentation Link dan Video Link
+    const [documentationLink, setDocumentationLink] = useState('');
+    const [videoLink, setVideoLink] = useState('');
+    const [showModalLink, setShowModalLink] = useState(false);
+    const [showModalVideoLink, setShowModalVideoLink] = useState(false);
+
+    const fetchLinks = () => {
+        axios.get('http://localhost:8000/api/documentation-links')
+            .then(response => {
+                const data = response.data;
+                if (data) {
+                    setDocumentationLink(data.documentation_cloud);
+                    setVideoLink(data.video_link);
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    // CRUD untuk Documentation Link dan Video Link
+    const handleSubmitLink = (event) => {
+        event.preventDefault();
+        axios.post('http://localhost:8000/api/documentation-links', {
+            documentation_cloud: documentationLink,
+        })
+            .then(() => {
+                setShowModalLink(false);
+                alert('Documentation Link updated successfully!');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+    const handleSubmitVideoLink = (event) => {
+        event.preventDefault();
+        axios.post('http://localhost:8000/api/documentation-links', {
+            video_link: videoLink,
+        })
+            .then(() => {
+                setShowModalVideoLink(false);
+                alert('Video Link updated successfully!');
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    };
+
+
 
     return (
         <div>
@@ -2189,6 +2302,139 @@ export default function Dashboard() {
                     </div>
                 </section>
 
+                <section className="documentation">
+                    <div className="container">
+                        <h1>Documentation</h1>
+
+                        <a href={documentationLink || '#'} target="_blank" rel="noopener noreferrer">LINK CLOUD</a>
+                        <i className="bi bi-pencil" onClick={() => setShowModalLink(true)}></i>
+
+                        <div className="container photo-area">
+                            <div className="row">
+                                {documentationImages.map((image) => (
+                                    <div className="col-12 col-md-4 p-0 photo-documentation" key={image.id}>
+                                        <a href="#">
+                                            <img src={`http://localhost:8000${image.documentation_img}`} alt="" />
+                                        </a>
+                                        <button
+                                            className="btn btn-danger mt-2"
+                                            onClick={() => handleDeleteDocumentationImg(image.id)}
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        <button className="btn btn-primary mt-3" onClick={() => setShowModalDocumentationImg(true)}>
+                            Add New Image
+                        </button>
+
+                        <br />
+
+                        <a href="#">VIDEO LINK</a>
+                        <i className="bi bi-pencil" onClick={() => setShowModalVideoLink(true)}></i>
+                        <div className="container video-documentation p-0">
+                            <iframe width="100%" height="400"
+                                src={videoLink || 'https://www.youtube.com/embed/2KnuZaqjvo4'}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen>
+                            </iframe>
+                        </div>
+
+
+                        {/* Modal for Documentation Link */}
+                        {showModalLink && (
+                            <div className="modal fade show" style={{ display: 'block' }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title">Edit Documentation Link</h5>
+                                            <button type="button" className="btn-close" onClick={() => setShowModalLink(false)}></button>
+                                        </div>
+                                        <form onSubmit={handleSubmitLink}>
+                                            <div className="modal-body">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Documentation Link</label>
+                                                    <input
+                                                        type="url"
+                                                        className="form-control"
+                                                        value={documentationLink}
+                                                        onChange={(e) => setDocumentationLink(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" onClick={() => setShowModalLink(false)}>Close</button>
+                                                <button type="submit" className="btn btn-primary">Save Link</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Modal for Image */}
+                        {showModalDocumentationImg && (
+                            <div className="modal fade show" style={{ display: 'block' }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title">Add New Documentation Image</h5>
+                                            <button type="button" className="btn-close" onClick={() => setShowModalDocumentationImg(false)}></button>
+                                        </div>
+                                        <form onSubmit={handleSubmitDocumentationImg}>
+                                            <div className="modal-body">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Upload Image</label>
+                                                    <input type="file" className="form-control" onChange={handleFileChangeDocumentationImg} required />
+                                                </div>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" onClick={() => setShowModalDocumentationImg(false)}>Close</button>
+                                                <button type="submit" className="btn btn-primary">Add Image</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Modal for Video Link */}
+                        {showModalVideoLink && (
+                            <div className="modal fade show" style={{ display: 'block' }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title">Edit Video Link</h5>
+                                            <button type="button" className="btn-close" onClick={() => setShowModalVideoLink(false)}></button>
+                                        </div>
+                                        <form onSubmit={handleSubmitVideoLink}>
+                                            <div className="modal-body">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Video Link</label>
+                                                    <input
+                                                        type="url"
+                                                        className="form-control"
+                                                        value={videoLink}
+                                                        onChange={(e) => setVideoLink(e.target.value)}
+                                                        required
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" onClick={() => setShowModalVideoLink(false)}>Close</button>
+                                                <button type="submit" className="btn btn-primary">Save Link</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
 
             </div>
         </div>

@@ -4,6 +4,9 @@ use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorInformationController;
+use App\Http\Controllers\DocumentationController;
+use App\Http\Controllers\DocumentationImageController;
+use App\Http\Controllers\DocumentationLinkController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeHostLogoController;
 use App\Http\Controllers\ImportantDateBgController;
@@ -63,5 +66,10 @@ Route::put('payment-methods/{id}', [PaymentMethodController::class, 'update']);
 
 Route::get('/articles', [ArticleController::class, 'index']);
 Route::post('/articles', [ArticleController::class, 'store']);
-Route::post('/articles/{id}', [ArticleController::class, 'update']); // Pastikan route ini ditambahkan untuk update
+Route::post('/articles/{id}', [ArticleController::class, 'update']);
 Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
+
+
+Route::apiResource('documentation-images', DocumentationImageController::class);
+Route::post('documentation-links', [DocumentationLinkController::class, 'store']);
+Route::get('documentation-links', [DocumentationLinkController::class, 'index']);
