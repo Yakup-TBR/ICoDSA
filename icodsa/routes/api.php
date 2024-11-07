@@ -19,6 +19,7 @@ use App\Http\Controllers\ProgramCommitteeController;
 use App\Http\Controllers\RegistrationController;
 use App\Http\Controllers\ReviewersController;
 use App\Http\Controllers\SpeakerController;
+use App\Http\Controllers\SponsoreController;
 use App\Http\Controllers\TopicsController;
 use App\Http\Controllers\TutorialController;
 use Illuminate\Http\Request;
@@ -76,3 +77,6 @@ Route::post('documentation-links', [DocumentationLinkController::class, 'store']
 Route::get('documentation-links', [DocumentationLinkController::class, 'index']);
 
 Route::apiResource('address', AddressController::class);
+
+Route::apiResource('sponsored_by', SponsoreController::class);
+

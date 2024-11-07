@@ -376,6 +376,22 @@ export default function App() {
             .catch(error => console.error(error));
     };
 
+    // --------------------------------------------------- SPONSORE ---------------------------------------------------
+    const [sponsorsLogoList, setSponsorsLogoList] = useState([]);
+
+    // Fetch sponsors data
+    useEffect(() => {
+        const fetchSponsorsLogo = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/sponsored_by');
+                setSponsorsLogoList(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchSponsorsLogo();
+    }, []);
+
     return (
 
         <body>
@@ -957,7 +973,7 @@ export default function App() {
                                     </div>
                                     <div className="contact">
                                         <p>
-                                        {addressData.address_additional_info}
+                                            {addressData.address_additional_info}
                                         </p>
                                     </div>
                                 </div>
@@ -1003,9 +1019,19 @@ export default function App() {
                 <div className="container-fluid justify-content-center align-items-center sponsored-area">
                     <div className="sponsored d-flex align-items-center justify-content-center">
                         <h3 className="m-0">Sponsored by:</h3>
-                        <img src="/public/logo-utm.png" alt="" />
-                        <img src="/public/logo-telu.png" alt="" />
-                        <img src="/public/logo-ieeeindo.png" alt="" />
+                        {sponsorsLogoList.length > 0 ? (
+                            sponsorsLogoList.map((sponsorLogo) => (
+                                <div key={sponsorLogo.id} className="sponsor-logo-container position-relative mx-2">
+                                    <img
+                                        src={`http://localhost:8000/storage/${sponsorLogo.sponsore_logo}`}
+                                        alt="Sponsor Logo"
+                                        className="mx-2"
+                                    />
+                                </div>
+                            ))
+                        ) : (
+                            <p>No sponsor logos uploaded yet.</p>
+                        )}
                     </div>
                 </div>
             </footer>

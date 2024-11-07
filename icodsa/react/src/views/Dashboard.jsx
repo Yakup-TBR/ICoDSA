@@ -1342,6 +1342,56 @@ export default function Dashboard() {
             .catch(error => console.error(error));
     };
 
+    // --------------------------------------------------- SPONSORE ---------------------------------------------------
+    const [sponsorsLogoList, setSponsorsLogoList] = useState([]);
+
+    // Fetch sponsors data
+    useEffect(() => {
+        const fetchSponsorsLogo = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/sponsored_by');
+                setSponsorsLogoList(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchSponsorsLogo();
+    }, []);
+
+    // Handle logo upload
+    const handleLogoUploadSponsoreLogo = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('sponsore_logo', file);
+
+        try {
+            await axios.post('http://localhost:8000/api/sponsored_by', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            // Refresh sponsors list after upload
+            const response = await axios.get('http://localhost:8000/api/sponsored_by');
+            setSponsorsLogoList(response.data);
+            alert('Logo uploaded successfully!');
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    // Handle logo delete
+    const handleLogoDeleteSponsoreLogo = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8000/api/sponsored_by/${id}`);
+            // Refresh sponsors list after deletion
+            const response = await axios.get('http://localhost:8000/api/sponsored_by');
+            setSponsorsLogoList(response.data);
+            alert('Logo deleted successfully!');
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
 
     return (
         <div>
@@ -2563,6 +2613,80 @@ export default function Dashboard() {
                     </div>
                 </section>
             </div>
+
+            <footer className="footer">
+                <div className="container-fluid footer-content">
+                    <div className="container-fluid">
+                        <div className="row">
+                            <div className="col icodsa-footer">
+                                <img src="/public/logo-icodis.png" alt="" />
+                                <p>The International Conference on Data Science and Its Applications</p>
+                            </div>
+
+                            <div className="col">
+                                <h3 className='m-0'>Supported by :</h3>
+                                <div className="container-fluid support-logo p-0">
+                                    <img src="/public/logo-utm.png" alt="" />
+                                    <img src="/public/logo-telu.png" alt="" />
+                                    <img src="/public/logo-ieeeindo.png" alt="" />
+                                </div>
+                            </div>
+
+                            <div className="container text-center">
+                                <hr className="opacity-100" />
+                                <p>© Copyright 2024. ICoDSA</p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className="container-fluid justify-content-center align-items-center sponsored-area">
+                    <div className="sponsored d-flex align-items-center justify-content-center">
+                        <h3 className="m-0">Sponsored by:</h3>
+                        {sponsorsLogoList.length > 0 ? (
+                            sponsorsLogoList.map((sponsorLogo) => (
+                                <div key={sponsorLogo.id} className="sponsor-logo-container position-relative mx-2">
+                                    <img
+                                        src={`http://localhost:8000/storage/${sponsorLogo.sponsore_logo}`}
+                                        alt="Sponsor Logo"
+                                        className="mx-2"
+                                    />
+                                    <svg
+                                        type="button"
+                                        width="24"
+                                        height="24"
+                                        viewBox="0 0 24 24"
+                                        fill="none"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        onClick={() => handleLogoDeleteSponsoreLogo(sponsorLogo.id)}
+                                        className="delete-icon"
+                                    >
+                                        <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" fill="white" />
+                                        <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" stroke="#DE5858" />
+                                        <path d="M6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19V7H6V19ZM8 9H16V19H8V9ZM15.5 4L14.5 3H9.5L8.5 4H5V6H19V4H15.5Z" fill="#DE5858" />
+                                    </svg>
+                                </div>
+                            ))
+                        ) : (
+                            <p>No sponsor logos uploaded yet.</p>
+                        )}
+                    </div>
+
+                    {/* Logo Upload Section */}
+                    <div className="align-items-center mx-2">
+                        <label htmlFor="file-upload" className="custom-file-upload">
+                            Choose PNG logo
+                        </label>
+                        <input
+                            id="file-upload"
+                            type="file"
+                            onChange={handleLogoUploadSponsoreLogo}
+                        />
+                    </div>
+                </div>
+
+            </footer>
         </div>
     );
 }
