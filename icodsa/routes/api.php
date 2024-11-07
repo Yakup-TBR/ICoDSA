@@ -5,9 +5,11 @@ use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorInformationController;
+use App\Http\Controllers\CopyrightController;
 use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\DocumentationImageController;
 use App\Http\Controllers\DocumentationLinkController;
+use App\Http\Controllers\HomeButtonLinkController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\HomeHostLogoController;
 use App\Http\Controllers\ImportantDateBgController;
@@ -82,5 +84,13 @@ Route::apiResource('address', AddressController::class);
 Route::apiResource('sponsored_by', SponsoreController::class);
 
 Route::apiResource('supported_by', SupportController::class);
+
+Route::get('/copyright', [CopyrightController::class, 'index']);
+Route::post('/copyright', [CopyrightController::class, 'store']);
+Route::put('/copyright', [CopyrightController::class, 'update']);
+
+Route::get('button-links', [HomeButtonLinkController::class, 'index']);
+Route::post('button-links', [HomeButtonLinkController::class, 'store']);
+Route::put('button-links/{id}', [HomeButtonLinkController::class, 'update']);
 
 

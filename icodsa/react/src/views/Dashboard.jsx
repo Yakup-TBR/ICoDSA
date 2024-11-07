@@ -1442,6 +1442,123 @@ export default function Dashboard() {
         }
     };
 
+
+
+    // --------------------------------------------------- COPYRIGHT ---------------------------------------------------
+
+    const [copyrightText, setCopyrightText] = useState('');
+    const [isModalOpenCopyright, setIsModalOpenCopyright] = useState(false);
+    const [newCopyrightText, setNewCopyrightText] = useState('');
+
+    // Fetch the current copyright text from the server
+    useEffect(() => {
+        const fetchCopyrightText = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/copyright');
+                if (response.data.length > 0) {
+                    setCopyrightText(response.data[0].copyright_text);
+                }
+            } catch (error) {
+                console.error('Error fetching copyright text:', error);
+            }
+        };
+        fetchCopyrightText();
+    }, []);
+
+    // Handle open and close of the modal
+    const handleModalToggleCopyright = () => {
+        setIsModalOpenCopyright(!isModalOpenCopyright);
+    };
+
+    // Handle changes in the input field
+    const handleChangeCopyright = (event) => {
+        setNewCopyrightText(event.target.value);
+    };
+
+    // Save or create the copyright text
+    const handleSaveCopyright = async () => {
+        try {
+            if (copyrightText) {
+                // Update the copyright text
+                await axios.put('http://localhost:8000/api/copyright', { copyright_text: newCopyrightText });
+                setCopyrightText(newCopyrightText);
+            } else {
+                // Create new copyright text if none exists
+                await axios.post('http://localhost:8000/api/copyright', { copyright_text: newCopyrightText });
+                setCopyrightText(newCopyrightText);
+            }
+            handleModalToggleCopyright();
+        } catch (error) {
+            console.error('Error saving copyright text:', error);
+        }
+    };
+
+    // --------------------------------------------------- HOME BUTTON LINK ---------------------------------------------------
+    const [buttonLinks, setButtonLinks] = useState({});
+    const [isModalOpenSubmitHere, setIsModalOpenSubmitHere] = useState(false);
+    const [isModalOpenPresentationSchedule, setIsModalOpenPresentationSchedule] = useState(false);
+    const [newSubmitHereLink, setNewSubmitHereLink] = useState('');
+    const [newPresentationScheduleLink, setNewPresentationScheduleLink] = useState('');
+
+    // Fetch the button links from the server
+    useEffect(() => {
+        const fetchButtonLinks = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/button-links');
+                setButtonLinks(response.data || {});
+                setNewSubmitHereLink(response.data?.submit_here_link || '');
+                setNewPresentationScheduleLink(response.data?.presentation_schedule_link || '');
+            } catch (error) {
+                console.error('Error fetching button links:', error);
+            }
+        };
+        fetchButtonLinks();
+    }, []);
+
+    // Toggle modals for editing the links
+    const handleModalToggleSubmitHere = () => setIsModalOpenSubmitHere(!isModalOpenSubmitHere);
+    const handleModalTogglePresentationSchedule = () => setIsModalOpenPresentationSchedule(!isModalOpenPresentationSchedule);
+
+    // Handle input changes for each link
+    const handleChangeSubmitHereLink = (event) => setNewSubmitHereLink(event.target.value);
+    const handleChangePresentationScheduleLink = (event) => setNewPresentationScheduleLink(event.target.value);
+
+    // Save or update the "Submit Here" link
+    const handleSaveSubmitHereLink = async () => {
+        try {
+            await axios.post('http://localhost:8000/api/button-links', {
+                submit_here_link: newSubmitHereLink,
+                presentation_schedule_link: buttonLinks.presentation_schedule_link,
+            });
+            // After saving, update the state with the new link
+            setButtonLinks((prevLinks) => ({
+                ...prevLinks,
+                submit_here_link: newSubmitHereLink,
+            }));
+            handleModalToggleSubmitHere();
+        } catch (error) {
+            console.error('Error saving Submit Here link:', error);
+        }
+    };
+
+    // Save or update the "Presentation Schedule" link
+    const handleSavePresentationScheduleLink = async () => {
+        try {
+            await axios.post('http://localhost:8000/api/button-links', {
+                submit_here_link: buttonLinks.submit_here_link,
+                presentation_schedule_link: newPresentationScheduleLink,
+            });
+            // After saving, update the state with the new link
+            setButtonLinks((prevLinks) => ({
+                ...prevLinks,
+                presentation_schedule_link: newPresentationScheduleLink,
+            }));
+            handleModalTogglePresentationSchedule();
+        } catch (error) {
+            console.error('Error saving Presentation Schedule link:', error);
+        }
+    };
+
     return (
         <div>
 
@@ -1495,7 +1612,9 @@ export default function Dashboard() {
                                         <a href="#pricing" className="dropdown-item">Pricing</a>
                                     </li>
                                     <li>
-                                        <a href="#linkSchedule" className="dropdown-item">Schedule</a>
+                                        <a href={buttonLinks.presentation_schedule_link} target="_blank" rel="noopener noreferrer" className="dropdown-item">
+                                            Schedule
+                                        </a>
                                     </li>
                                 </ul>
                             </li>
@@ -1567,12 +1686,72 @@ export default function Dashboard() {
                                 </div>
 
                                 <div className="container" id="buttonHome">
-                                    <button type="button" className="btn btn-primary mx-2">
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary mx-2"
+                                        onClick={handleModalToggleSubmitHere}>
                                         Submit Here
+                                        <i className="bi bi-pencil ml-1" ></i>
                                     </button>
-                                    <button type="button" className="btn btn-primary mx-2">
+
+                                    <button
+                                        type="button"
+                                        className="btn btn-primary mx-2"
+                                        onClick={handleModalTogglePresentationSchedule}
+                                    >
                                         Presentation Schedule
+                                        <i className="bi bi-pencil ml-1" ></i>
                                     </button>
+
+                                    {/* Modal for editing "Submit Here" link */}
+                                    <div className={`modal fade ${isModalOpenSubmitHere ? 'show' : ''}`} style={{ display: isModalOpenSubmitHere ? 'block' : 'none' }} tabIndex="-1" aria-labelledby="submitHereModalLabel" aria-hidden={!isModalOpenSubmitHere}>
+                                        <div className="modal-dialog">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h5 className="modal-title" id="submitHereModalLabel">Edit Submit Here Link</h5>
+                                                    <button type="button" className="btn-close" onClick={handleModalToggleSubmitHere} aria-label="Close"></button>
+                                                </div>
+                                                <div className="modal-body">
+                                                    <input
+                                                        type="url"
+                                                        value={newSubmitHereLink}
+                                                        onChange={handleChangeSubmitHereLink}
+                                                        placeholder="Enter new Submit Here link"
+                                                        className="form-control"
+                                                    />
+                                                </div>
+                                                <div className="modal-footer">
+                                                    <button type="button" className="btn btn-secondary" onClick={handleModalToggleSubmitHere}>Close</button>
+                                                    <button type="button" className="btn btn-primary" onClick={handleSaveSubmitHereLink}>Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Modal for editing "Presentation Schedule" link */}
+                                    <div className={`modal fade ${isModalOpenPresentationSchedule ? 'show' : ''}`} style={{ display: isModalOpenPresentationSchedule ? 'block' : 'none' }} tabIndex="-1" aria-labelledby="presentationScheduleModalLabel" aria-hidden={!isModalOpenPresentationSchedule}>
+                                        <div className="modal-dialog">
+                                            <div className="modal-content">
+                                                <div className="modal-header">
+                                                    <h5 className="modal-title" id="presentationScheduleModalLabel">Edit Presentation Schedule Link</h5>
+                                                    <button type="button" className="btn-close" onClick={handleModalTogglePresentationSchedule} aria-label="Close"></button>
+                                                </div>
+                                                <div className="modal-body">
+                                                    <input
+                                                        type="url"
+                                                        value={newPresentationScheduleLink}
+                                                        onChange={handleChangePresentationScheduleLink}
+                                                        placeholder="Enter new Presentation Schedule link"
+                                                        className="form-control"
+                                                    />
+                                                </div>
+                                                <div className="modal-footer">
+                                                    <button type="button" className="btn btn-secondary" onClick={handleModalTogglePresentationSchedule}>Close</button>
+                                                    <button type="button" className="btn btn-primary" onClick={handleSavePresentationScheduleLink}>Save</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
 
                                 <textarea
@@ -2718,7 +2897,32 @@ export default function Dashboard() {
 
                             <div className="container text-center">
                                 <hr className="opacity-100" />
-                                <p>© Copyright 2024. ICoDSA  <i className="bi bi-pencil"></i></p>
+                                <p>© {copyrightText} <i className="bi bi-pencil" onClick={handleModalToggleCopyright}></i></p>
+
+                                {/* Modal for editing copyright text */}
+                                <div className={`modal fade ${isModalOpenCopyright ? 'show' : ''}`} style={{ display: isModalOpenCopyright ? 'block' : 'none' }} tabIndex="-1" aria-labelledby="copyrightModalLabel" aria-hidden={!isModalOpenCopyright}>
+                                    <div className="modal-dialog">
+                                        <div className="modal-content">
+                                            <div className="modal-header">
+                                                <h5 className="modal-title" id="copyrightModalLabel">Edit Copyright Text</h5>
+                                                <button type="button" className="btn-close" onClick={handleModalToggleCopyright} aria-label="Close"></button>
+                                            </div>
+                                            <div className="modal-body">
+                                                <textarea
+                                                    value={newCopyrightText}
+                                                    onChange={handleChangeCopyright}
+                                                    placeholder="Enter new copyright text"
+                                                    rows="4"
+                                                    className="form-control"
+                                                />
+                                            </div>
+                                            <div className="modal-footer">
+                                                <button type="button" className="btn btn-secondary" onClick={handleModalToggleCopyright}>Close</button>
+                                                <button type="button" className="btn btn-primary" onClick={handleSaveCopyright}>Save</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -5,13 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Copyright extends Model
+class HomeButtonLink extends Model
 {
     use HasFactory;
-    protected $table = 'copyright';
+
+    protected $table = 'home_button_link';
 
     protected $fillable = [
         'id',
-        'copyright_text'
+        'submit_here_link',
+        'presentation_schedule_link'
     ];
 }

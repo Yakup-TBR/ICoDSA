@@ -408,6 +408,41 @@ export default function App() {
         fetchSupportLogo();
     }, []);
 
+    // --------------------------------------------------- COPYRIGHT ---------------------------------------------------
+
+    const [copyrightText, setCopyrightText] = useState('');
+
+    // Fetch the current copyright text from the server
+    useEffect(() => {
+        const fetchCopyrightText = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/copyright');
+                if (response.data.length > 0) {
+                    setCopyrightText(response.data[0].copyright_text);
+                }
+            } catch (error) {
+                console.error('Error fetching copyright text:', error);
+            }
+        };
+        fetchCopyrightText();
+    }, []);
+
+    const [buttonLinks, setButtonLinks] = useState({});
+
+
+    // Fetch the button links from the server
+    useEffect(() => {
+        const fetchButtonLinks = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/button-links');
+                setButtonLinks(response.data || {});
+            } catch (error) {
+                console.error('Error fetching button links:', error);
+            }
+        };
+        fetchButtonLinks();
+    }, []);
+
     return (
 
         <body>
@@ -461,7 +496,9 @@ export default function App() {
                                         <a href="#pricing" className="dropdown-item">Pricing</a>
                                     </li>
                                     <li>
-                                        <a href="#linkSchedule" className="dropdown-item">Schedule</a>
+                                        <a href={buttonLinks.presentation_schedule_link}target="_blank"rel="noopener noreferrer"className="dropdown-item">
+                                            Schedule
+                                        </a>
                                     </li>
                                 </ul>
                             </li>
@@ -503,12 +540,24 @@ export default function App() {
                         </div>
 
                         <div className="container" id="buttonHome">
-                            <button type="button" className="btn btn-primary mx-2">
+                            <button
+                                type="button"
+                                className="btn btn-primary mx-2"
+                                onClick={() => window.open(buttonLinks.submit_here_link, '_blank', 'noopener,noreferrer')}
+                            >
                                 Submit Here
                             </button>
-                            <button type="button" className="btn btn-primary mx-2">
+
+                            <button
+                                type="button"
+                                className="btn btn-primary mx-2"
+                                onClick={() => window.open(buttonLinks.presentation_schedule_link, '_blank', 'noopener,noreferrer')}
+                            >
                                 Presentation Schedule
                             </button>
+
+
+
                         </div>
 
                         <div className="wrapper">
@@ -1039,7 +1088,7 @@ export default function App() {
 
                             <div className="container text-center">
                                 <hr className="opacity-100" />
-                                <p>© Copyright 2024. ICoDSA</p>
+                                <p>© {copyrightText}</p>
 
                             </div>
                         </div>
