@@ -359,6 +359,23 @@ export default function App() {
             });
     };
 
+    // --------------------------------------------------- ADDRESS ---------------------------------------------------
+    const [addressData, setAddressData] = useState({ place: '', address_additional_info: '', google_map_link: '' });
+
+    useEffect(() => {
+        fetchAddressData();
+    }, []);
+
+    const fetchAddressData = () => {
+        axios.get('http://localhost:8000/api/address')
+            .then(response => {
+                if (response.data) {
+                    setAddressData(response.data);
+                }
+            })
+            .catch(error => console.error(error));
+    };
+
     return (
 
         <body>
@@ -931,8 +948,7 @@ export default function App() {
                             <div className="col-md-6 address-area" style={{ backgroundImage: `url('/bgfooter.jpg')` }}>
                                 <div className="address-place">
                                     <h5>
-                                        Venue: <br />
-                                        Aston Kuta Hotel & Residence
+                                        {addressData.place}
                                     </h5>
                                     <div className="address-city">
                                         <p>
@@ -941,16 +957,16 @@ export default function App() {
                                     </div>
                                     <div className="contact">
                                         <p>
-                                            Contacts: icodsa@telkomuniversity.ac.id
-                                            <br />
-                                            commdis.telkomuniversity.ac.id/icodsa/2024
+                                        {addressData.address_additional_info}
                                         </p>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="col-md-6 map-area">
-                                <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d15840.958936556244!2d107.6522965579938!3d-6.981012981163149!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e9adf177bf8d%3A0x437398556f9fa03!2sUniversitas%20Telkom!5e0!3m2!1sid!2sid!4v1729189533259!5m2!1sid!2sid" allowfullscreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+                                <iframe
+                                    src={addressData.google_map_link || "https://www.google.com/maps"}
+                                    allowfullscreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
                             </div>
                         </div>
                     </div>

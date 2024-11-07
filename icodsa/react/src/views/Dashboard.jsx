@@ -1289,6 +1289,58 @@ export default function Dashboard() {
             });
     };
 
+    // --------------------------------------------------- ADDRESS ---------------------------------------------------
+    const [addressData, setAddressData] = useState({ place: '', address_additional_info: '', google_map_link: '' });
+    const [showModalMapLinkAddress, setShowModalMapLinkAddress] = useState(false);
+    const [newMapLinkAddress, setNewMapLinkAddress] = useState('');
+
+    useEffect(() => {
+        fetchAddressData();
+    }, []);
+
+    const fetchAddressData = () => {
+        axios.get('http://localhost:8000/api/address')
+            .then(response => {
+                if (response.data) {
+                    setAddressData(response.data);
+                }
+            })
+            .catch(error => console.error(error));
+    };
+
+    const handleInputChangeAddress = (event) => {
+        const { name, value } = event.target;
+        setAddressData(prevState => ({ ...prevState, [name]: value }));
+    };
+
+    const handleSubmitAddress = (event) => {
+        event.preventDefault();
+        const endpoint = addressData.id ? `http://localhost:8000/api/address/${addressData.id}` : 'http://localhost:8000/api/address';
+        const method = addressData.id ? 'put' : 'post';
+
+        axios[method](endpoint, addressData)
+            .then(response => {
+                setAddressData(response.data);
+                alert('Address updated successfully!');
+            })
+            .catch(error => console.error(error));
+    };
+
+    const handleMapLinkChangeAddress = (event) => {
+        setNewMapLinkAddress(event.target.value);
+    };
+
+    const handleSaveMapLinkAddress = () => {
+        const updatedAddressData = { ...addressData, google_map_link: newMapLinkAddress };
+
+        axios.put(`http://localhost:8000/api/address/${addressData.id}`, updatedAddressData)
+            .then(response => {
+                setAddressData(response.data);
+                setShowModalMapLinkAddress(false);
+                alert('Google Map link updated successfully!');
+            })
+            .catch(error => console.error(error));
+    };
 
 
     return (
@@ -2436,6 +2488,80 @@ export default function Dashboard() {
                     </div>
                 </section>
 
+                <section className="address" id="address">
+                    <div className="container-fluid">
+                        <div className="row no-gutters m-0">
+                            <div className="col-md-6 address-area" style={{ backgroundImage: `url('/bgfooter.jpg')` }}>
+                                <div className="address-place">
+                                    <button type="button" onClick={handleSubmitAddress} className="btn btn-primary">
+                                        Update Address
+                                    </button>
+                                    <div id="place-area">
+                                        <h5>Venue:</h5>
+                                        <textarea
+                                            name="place"
+                                            value={addressData.place}
+                                            onChange={handleInputChangeAddress}
+                                            placeholder="Enter venue"
+                                            rows="3"
+                                        />
+                                    </div>
+                                    <div id="additional-info-area">
+                                        <h5>Additional Info:</h5>
+                                        <textarea
+                                            name="address_additional_info"
+                                            value={addressData.address_additional_info}
+                                            onChange={handleInputChangeAddress}
+                                            placeholder="Enter city or additional info"
+                                            rows="3"
+                                        />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div className="col-md-6 map-area">
+
+                                <a href="#">Google Map Link</a>
+                                <i className="bi bi-pencil" onClick={() => setShowModalMapLinkAddress(true)}></i>
+                                <iframe
+                                    src={addressData.google_map_link || "https://www.google.com/maps"}
+                                    allowFullScreen=""
+                                    loading="lazy"
+                                    referrerPolicy="no-referrer-when-downgrade"
+                                ></iframe>
+                            </div>
+
+                        </div>
+
+                        {showModalMapLinkAddress && (
+                            <div className="modal fade show" style={{ display: 'block' }}>
+                                <div className="modal-dialog">
+                                    <div className="modal-content">
+                                        <div className="modal-header">
+                                            <h5 className="modal-title">Edit Google Map Link</h5>
+                                            <button type="button" className="btn-close" onClick={() => setShowModalMapLinkAddress(false)}></button>
+                                        </div>
+                                        <div className="modal-body">
+                                            <label className="form-label">Google Map Link</label>
+                                            <input
+                                                type="text"
+                                                className="form-control"
+                                                value={newMapLinkAddress}
+                                                onChange={handleMapLinkChangeAddress}
+                                                placeholder="Enter Google Map embed link"
+                                            />
+                                        </div>
+                                        <div className="modal-footer">
+                                            <button type="button" className="btn btn-secondary" onClick={() => setShowModalMapLinkAddress(false)}>Close</button>
+                                            <button type="button" className="btn btn-primary" onClick={handleSaveMapLinkAddress}>Save Link</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                </section>
             </div>
         </div>
     );

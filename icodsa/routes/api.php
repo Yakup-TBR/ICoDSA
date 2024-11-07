@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AboutUsController;
+use App\Http\Controllers\AddressController;
 use App\Http\Controllers\ArticleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthorInformationController;
@@ -73,3 +74,5 @@ Route::delete('/articles/{id}', [ArticleController::class, 'destroy']);
 Route::apiResource('documentation-images', DocumentationImageController::class);
 Route::post('documentation-links', [DocumentationLinkController::class, 'store']);
 Route::get('documentation-links', [DocumentationLinkController::class, 'index']);
+
+Route::apiResource('address', AddressController::class);
