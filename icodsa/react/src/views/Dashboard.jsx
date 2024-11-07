@@ -1342,7 +1342,7 @@ export default function Dashboard() {
             .catch(error => console.error(error));
     };
 
-    // --------------------------------------------------- SPONSORE ---------------------------------------------------
+    // --------------------------------------------------- SPONSORE BY ---------------------------------------------------
     const [sponsorsLogoList, setSponsorsLogoList] = useState([]);
 
     // Fetch sponsors data
@@ -1392,6 +1392,55 @@ export default function Dashboard() {
         }
     };
 
+    // --------------------------------------------------- SUPPORTED BY ---------------------------------------------------
+    const [supportLogoList, setSupportLogoList] = useState([]);
+
+    // Fetch supported logos data
+    useEffect(() => {
+        const fetchSupportLogo = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/supported_by');
+                setSupportLogoList(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchSupportLogo();
+    }, []);
+
+    // Handle logo upload for supported logos
+    const handleLogoUploadSupportLogo = async (event) => {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('support_logo', file);
+
+        try {
+            await axios.post('http://localhost:8000/api/supported_by', formData, {
+                headers: { 'Content-Type': 'multipart/form-data' },
+            });
+            // Refresh the list after upload
+            const response = await axios.get('http://localhost:8000/api/supported_by');
+            setSupportLogoList(response.data);
+            alert('Logo uploaded successfully!');
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    // Handle logo deletion
+    const handleLogoDeleteSupportLogo = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8000/api/supported_by/${id}`);
+            // Refresh the list after deletion
+            const response = await axios.get('http://localhost:8000/api/supported_by');
+            setSupportLogoList(response.data);
+            alert('Logo deleted successfully!');
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <div>
@@ -2624,18 +2673,52 @@ export default function Dashboard() {
                             </div>
 
                             <div className="col">
-                                <h3 className='m-0'>Supported by :</h3>
+                                <h3 className="m-0">Supported by:</h3>
                                 <div className="container-fluid support-logo p-0">
-                                    <img src="/public/logo-utm.png" alt="" />
-                                    <img src="/public/logo-telu.png" alt="" />
-                                    <img src="/public/logo-ieeeindo.png" alt="" />
+                                    {supportLogoList.length > 0 ? (
+                                        <div className="d-flex">
+                                            {supportLogoList.map((supportLogo) => (
+                                                <div key={supportLogo.id} className="support-logo-container position-relative mx-2">
+                                                    <img
+                                                        src={`http://localhost:8000/storage/${supportLogo.support_logo}`}
+                                                        alt="Support Logo"
+                                                        className="mx-2"
+                                                    />
+                                                    <svg
+                                                        type="button"
+                                                        width="24"
+                                                        height="24"
+                                                        viewBox="0 0 24 24"
+                                                        fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg"
+                                                        onClick={() => handleLogoDeleteSupportLogo(supportLogo.id)}
+                                                        className="delete-icon"
+                                                    >
+                                                        <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" fill="white" />
+                                                        <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" stroke="#DE5858" />
+                                                        <path d="M6 19C6 19.5304 6.21071 20.0391 6.58579 20.4142C6.96086 20.7893 7.46957 21 8 21H16C16.5304 21 17.0391 20.7893 17.4142 20.4142C17.7893 20.0391 18 19.5304 18 19V7H6V19ZM8 9H16V19H8V9ZM15.5 4L14.5 3H9.5L8.5 4H5V6H19V4H15.5Z" fill="#DE5858" />
+                                                    </svg>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p>No logos uploaded yet.</p>
+                                    )}
+                                </div>
+
+                                {/* Logo Upload Section */}
+                                <div className="align-items-center mx-2">
+                                    <input
+                                        id="file-upload"
+                                        type="file"
+                                        onChange={handleLogoUploadSupportLogo}
+                                    />
                                 </div>
                             </div>
 
                             <div className="container text-center">
                                 <hr className="opacity-100" />
-                                <p>© Copyright 2024. ICoDSA</p>
-
+                                <p>© Copyright 2024. ICoDSA  <i className="bi bi-pencil"></i></p>
                             </div>
                         </div>
                     </div>
@@ -2669,13 +2752,14 @@ export default function Dashboard() {
                                 </div>
                             ))
                         ) : (
-                            <p>No sponsor logos uploaded yet.</p>
+                            <p>No sponsor logos uploaded yet.
+                            </p>
                         )}
                     </div>
 
                     {/* Logo Upload Section */}
                     <div className="align-items-center mx-2">
-                       
+
                         <input
                             id="file-upload"
                             type="file"

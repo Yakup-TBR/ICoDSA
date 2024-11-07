@@ -392,6 +392,22 @@ export default function App() {
         fetchSponsorsLogo();
     }, []);
 
+    // --------------------------------------------------- SUPPORTED BY ---------------------------------------------------
+    const [supportLogoList, setSupportLogoList] = useState([]);
+
+    // Fetch supported logos data
+    useEffect(() => {
+        const fetchSupportLogo = async () => {
+            try {
+                const response = await axios.get('http://localhost:8000/api/supported_by');
+                setSupportLogoList(response.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchSupportLogo();
+    }, []);
+
     return (
 
         <body>
@@ -999,13 +1015,27 @@ export default function App() {
                             </div>
 
                             <div className="col">
-                                <h3 className='m-0'>Supported by :</h3>
+                                <h3 className="m-0">Supported by:</h3>
                                 <div className="container-fluid support-logo p-0">
-                                    <img src="/public/logo-utm.png" alt="" />
-                                    <img src="/public/logo-telu.png" alt="" />
-                                    <img src="/public/logo-ieeeindo.png" alt="" />
+                                    {supportLogoList.length > 0 ? (
+                                        <div className="d-flex">
+                                            {supportLogoList.map((supportLogo) => (
+                                                <div key={supportLogo.id} className="support-logo-container position-relative mx-2">
+                                                    <img
+                                                        src={`http://localhost:8000/storage/${supportLogo.support_logo}`}
+                                                        alt="Support Logo"
+                                                        className="mx-2"
+                                                    />
+
+                                                </div>
+                                            ))}
+                                        </div>
+                                    ) : (
+                                        <p>No logos uploaded yet.</p>
+                                    )}
                                 </div>
                             </div>
+
 
                             <div className="container text-center">
                                 <hr className="opacity-100" />
