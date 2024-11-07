@@ -1828,7 +1828,6 @@ hr {
 .photo-documentation {
     flex: 0 0 calc(33.33% - 20px); /* 3 elemen per baris dengan margin hanya 20px */
     height: 230px;
-    background-color: #00afb9;
     margin-bottom: 30px; /* Jarak antar baris */
 }
 

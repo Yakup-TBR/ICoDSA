@@ -1628,7 +1628,7 @@ export default function Dashboard() {
                         </ul>
 
                         <li className="nav-item list-unstyled ml-1">
-                            <a href="#address" onClick={handleLogout} className="nav-link justify-content-center" id="logout">Logout</a>
+                            <a href="#" onClick={handleLogout} className="nav-link justify-content-center" id="logout">Logout</a>
                         </li>
                     </div>
                 </div>
@@ -2051,7 +2051,7 @@ export default function Dashboard() {
                                             <div className="card-body p-0">
                                                 <h4 className="card-text">{topic.topic_title}</h4>
                                                 <h5>{topic.topic_list}</h5>
-                                                <button className="btn btn-danger" onClick={() => handleDeleteTopics(topic.id)}>
+                                                <button className="btn btn-danger mr-2" onClick={() => handleDeleteTopics(topic.id)}>
                                                     Delete
                                                 </button>
                                                 <button className="btn btn-secondary" onClick={() => handleEditTopics(topic)}>
@@ -2104,9 +2104,9 @@ export default function Dashboard() {
                 <section className="AuthorInfo" id="authorInformation">
                     <div className="container">
                         <h1>Author Information</h1>
-                        <button onClick={handleAddSubtitleAuthor} className="btn btn-primary">+ Add Subtitle</button>
-                        <button onClick={handleAddTextAuthor} className="btn btn-secondary">+ Add Text</button>
-                        <button onClick={handleAddButtonLinkAuthor} className="btn btn-success">+ Add Button Link</button>
+                        <button onClick={handleAddSubtitleAuthor} className="btn btn-primary mr-2">+ Add Subtitle</button>
+                        <button onClick={handleAddTextAuthor} className="btn btn-secondary mr-2">+ Add Text</button>
+                        <button onClick={handleAddButtonLinkAuthor} className="btn btn-success mr-2">+ Add Button Link</button>
                     </div>
 
                     <div className="container mt-3">
@@ -2251,19 +2251,18 @@ export default function Dashboard() {
                             <button
                                 type="button"
                                 className="btn btn-secondary"
-                                onClick={() => window.$('#addCommitteeModal').modal('show')}
-                            >
+                                onClick={() => window.$('#addCommitteeModal').modal('show')}>
                                 ADD Committee
                             </button>
                         </div>
 
                         <div className="committee-list">
                             {committees.map(committee => (
-                                <div key={committee.id} className="committee-item">
+                                <div key={committee.id} className="committee-item my-4">
                                     <h4>{committee.committee_position}</h4>
                                     <p>{committee.committee_members}</p>
-                                    <button onClick={() => handleEditCommittee(committee)}>Edit</button>
-                                    <button onClick={() => handleDeleteCommittee(committee.id)}>Delete</button>
+                                    <button className="btn btn-warning mr-3" onClick={() => handleEditCommittee(committee)}>Edit</button>
+                                    <button className="btn btn-danger" onClick={() => handleDeleteCommittee(committee.id)}>Delete</button>
                                 </div>
                             ))}
                         </div>
@@ -2414,7 +2413,7 @@ export default function Dashboard() {
                 <section className="pricing" id="pricing">
                     <div className="container">
                         <h2>Pricing</h2>
-                        <button type="button" className="btn btn-primary" onClick={() => setModalVisiblePricing(true)}>Add Pricing</button>
+                        <button type="button" className="btn btn-primary my-2" onClick={() => setModalVisiblePricing(true)}>Add Pricing</button>
 
 
                         <div className="row">
@@ -2425,8 +2424,8 @@ export default function Dashboard() {
                                             <h3 className="card-title">{pricing.price_label}</h3>
                                             <h4>${pricing.price}</h4>
                                             <p className="card-text">{pricing.price_idr}</p>
-                                            <button onClick={() => handleEditPricing(pricing)}>Edit</button>
-                                            <button onClick={() => handleDeletePricing(pricing.id)}>Delete</button>
+                                            <button className="btn btn-warning mr-2" onClick={() => handleEditPricing(pricing)}>Edit</button>
+                                            <button className="btn btn-danger" onClick={() => handleDeletePricing(pricing.id)}>Delete</button>
                                         </div>
                                     </div>
                                 </div>
@@ -2498,11 +2497,11 @@ export default function Dashboard() {
                             <h5>Please follow this information for completing your registration:</h5>
                         </div>
 
-                        <button onClick={() => handleAddPaymentType('method')} className="btn btn-primary">+ Add Payment Method</button>
+                        <button onClick={() => handleAddPaymentType('method')} className="btn btn-primary mr-3">+ Add Payment Method</button>
                         <button onClick={() => handleAddPaymentType('info')} className="btn btn-secondary">+ Add Additional Info</button>
 
                         <div className="container mt-3">
-                            <h3 className='pt-3'>Payment Information</h3>
+                            <h3 className='pt-3'>Payment Method</h3>
                             <hr />
 
                             {paymentData.map((data) => (
@@ -2574,7 +2573,7 @@ export default function Dashboard() {
                 <section className="article">
                     <div className="container">
                         <h1>Articles</h1>
-                        <button onClick={() => setShowModalArticle(true)} className="btn btn-primary">Add New Article</button>
+                        <button onClick={() => setShowModalArticle(true)} className="btn btn-secondary mb-3">Add New Article</button>
                         <div className="container d-flex justify-content-center article-content text-center p-0">
                             {articles.map((article) => (
                                 <div key={article.id} className="card mr-2">
@@ -2584,7 +2583,8 @@ export default function Dashboard() {
                                         <h5 className="card-title">{article.article_title}</h5>
                                         <p className="card-text">{article.article_description}</p>
                                         <a href={article.article_link} target="_blank" rel="noopener noreferrer">Read More</a>
-                                        <button onClick={() => handleEditArticle(article)} className="btn btn-warning">Edit</button>
+                                        <br />
+                                        <button onClick={() => handleEditArticle(article)} className="btn btn-warning mr-1">Edit</button>
                                         <button onClick={() => handleDeleteArticle(article.id)} className="btn btn-danger">Delete</button>
                                     </div>
                                 </div>
@@ -2636,22 +2636,20 @@ export default function Dashboard() {
                     <div className="container">
                         <h1>Documentation</h1>
 
-                        <a href={documentationLink || '#'} target="_blank" rel="noopener noreferrer">LINK CLOUD</a>
+                        <a href={documentationLink || '#'} target="_blank" rel="noopener noreferrer">LINK DOCUMENTATION</a>
                         <i className="bi bi-pencil" onClick={() => setShowModalLink(true)}></i>
 
                         <div className="container photo-area">
                             <div className="row">
                                 {documentationImages.map((image) => (
-                                    <div className="col-12 col-md-4 p-0 photo-documentation" key={image.id}>
+                                    <div className="col-12 col-md-4 p-0 pt-3 photo-documentation" key={image.id}>
+                                        <button className="btn btn-danger pt-2" onClick={() => handleDeleteDocumentationImg(image.id)}>
+                                            Delete
+                                        </button>
                                         <a href="#">
                                             <img src={`http://localhost:8000${image.documentation_img}`} alt="" />
                                         </a>
-                                        <button
-                                            className="btn btn-danger mt-2"
-                                            onClick={() => handleDeleteDocumentationImg(image.id)}
-                                        >
-                                            Delete
-                                        </button>
+
                                     </div>
                                 ))}
                             </div>
@@ -2768,40 +2766,57 @@ export default function Dashboard() {
 
                 <section className="address" id="address">
                     <div className="container-fluid">
+
+
+                        <div className="row no-gutters m-0">
+                            <div className="col-md-6 kosong">
+
+                            </div>
+
+                            <div className="col-md-6">
+
+                                <a href="#">Google Map Link</a>
+                                <i className="bi bi-pencil" onClick={() => setShowModalMapLinkAddress(true)}></i>
+
+                            </div>
+
+                        </div>
+
+
+
                         <div className="row no-gutters m-0">
                             <div className="col-md-6 address-area" style={{ backgroundImage: `url('/bgfooter.jpg')` }}>
                                 <div className="address-place">
-                                    <button type="button" onClick={handleSubmitAddress} className="btn btn-primary">
+                                    <button type="button" onClick={handleSubmitAddress} className="btn btn-secondary mb-3">
                                         Update Address
                                     </button>
                                     <div id="place-area">
-                                        <h5>Venue:</h5>
-                                        <textarea
+                                        <h5><textarea
                                             name="place"
                                             value={addressData.place}
                                             onChange={handleInputChangeAddress}
                                             placeholder="Enter venue"
                                             rows="3"
-                                        />
+                                            style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid #ccc', color: '#ffffff', zIndex: 1}}
+                                        /></h5>
+                                        
                                     </div>
                                     <div id="additional-info-area">
-                                        <h5>Additional Info:</h5>
-                                        <textarea
+                                        <p><textarea
                                             name="address_additional_info"
                                             value={addressData.address_additional_info}
                                             onChange={handleInputChangeAddress}
                                             placeholder="Enter city or additional info"
                                             rows="3"
-                                        />
+                                            style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid #ccc', color: '#ffffff' }}
+                                        /></p>
+                                        
                                     </div>
-
                                 </div>
                             </div>
 
-                            <div className="col-md-6 map-area">
 
-                                <a href="#">Google Map Link</a>
-                                <i className="bi bi-pencil" onClick={() => setShowModalMapLinkAddress(true)}></i>
+                            <div className="col-md-6 map-area">
                                 <iframe
                                     src={addressData.google_map_link || "https://www.google.com/maps"}
                                     allowFullScreen=""
@@ -2900,7 +2915,7 @@ export default function Dashboard() {
                                 <p>© {copyrightText} <i className="bi bi-pencil" onClick={handleModalToggleCopyright}></i></p>
 
                                 {/* Modal for editing copyright text */}
-                                <div className={`modal fade ${isModalOpenCopyright ? 'show' : ''}`} style={{ display: isModalOpenCopyright ? 'block' : 'none' }} tabIndex="-1" aria-labelledby="copyrightModalLabel" aria-hidden={!isModalOpenCopyright}>
+                                <div className={`modal fade ${isModalOpenCopyright ? 'show' : ''}`} style={{ display: isModalOpenCopyright ? 'block' : 'none', zIndex: 10 }} tabIndex="-1" aria-labelledby="copyrightModalLabel" aria-hidden={!isModalOpenCopyright}>
                                     <div className="modal-dialog">
                                         <div className="modal-content">
                                             <div className="modal-header">
