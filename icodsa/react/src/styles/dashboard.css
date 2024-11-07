@@ -183,18 +183,16 @@ body {
     }
 }
 
-#modalHomeLink{
+#modalHomeLink {
     color: #000000;
 }
 
-
-
 #modalButtonLinkHomClose {
-    background-color: #E2564D;
+    background-color: #e2564d;
 }
 
-#modalButtonLinkHomSave{
-    background-color: #3584A7;
+#modalButtonLinkHomSave {
+    background-color: #3584a7;
 }
 
 /* ------------ ABOUT US START ------------ */
@@ -495,8 +493,87 @@ body {
 }
 
 /* IMPORTANT DATE */
+.importantDate .input-file-wrapper {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 20px;
+}
+
+.importantDate label,
+.importantDate input[type="file"] {
+    z-index: 3;
+    position: relative;
+    color: #ffffff;
+    font-weight: bold;
+}
+
+.svg-icon-wrapper {
+    position: relative;
+    z-index: 2; /* Pastikan SVG berada di depan */
+    margin-bottom: 5px;
+}
+
+#inputBgDate {
+    width: 160px;
+    height: 100px;
+    text-align: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 15%;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#inputBgDate label {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 10px;
+}
+
+#inputBgDate input[type="file"] {
+    display: none; /* Hide the actual file input */
+}
+
+.file-upload-label {
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #3584a7;
+    color: white;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+    width: 150px;
+}
+
+.file-upload-label:hover {
+    background-color: #2ba2d6;
+}
 
 /* AUTHOR INFORMATION */
+#buttonAuthorRegisSubtitle {
+    background-color: #ffffff;
+    color: #343a3a;
+    border-style: solid;
+    border-color: #343a3a;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 21px;
+}
+
+#buttonAuthorRegisText {
+    background-color: #ffffff;
+    color: #777777;
+    border-style: solid;
+    border-color: #777777;
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+}
 
 /* REGISTRATION */
 
@@ -509,7 +586,51 @@ body {
     border-image-repeat: round;
 }
 
+/* PRICING */
+#buttonAddPricing {
+    background-color: #3584a7;
+}
+
+#priceCardDash {
+    height: 310px;
+}
+
+/* COMMITTEE */
+.ModalCommittee_Position .form-control,
+.ModalCommitteeMember .form-control {
+    width:430px;
+    box-sizing: border-box; /* Agar padding tidak memengaruhi lebar */
+}
+
 /* Address */
+.text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#buttonPreview {
+    background-color: #858585;
+    color: #ffffff;
+    width: 300px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+#buttonPreview h2 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 33px;
+    margin-right: 10px;
+    margin-bottom: 0;
+}
+
+#buttonPreview i {
+    font-size: 40px;
+}
 
 /* Modal LogOut */
 #modalLogout {
@@ -538,4 +659,82 @@ body {
 
 .text-danger {
     color: #bc0101; /* Ganti dengan kode warna merah yang diinginkan */
+}
+
+/* FOOTER */
+/* Support */
+
+#inputLogoSupport {
+    width: 150px;
+    height: 80px;
+    border: 1px dotted rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#inputLogoSupport label {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 9px;
+}
+
+#file-upload-support[type="file"] {
+    display: none; /* Hide the actual file input */
+}
+
+.file-upload-support {
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #3584a7;
+    color: white;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+    width: 110px;
+}
+
+.file-upload-support:hover {
+    background-color: #2ba2d6;
+}
+
+/* Sponsore */
+#inputSponsoreLogo {
+    width: 150px;
+    height: 80px;
+    border: 1px dotted rgba(255, 255, 255, 0.7);
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+#inputSponsoreLogo label {
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 9px;
+}
+
+#file-upload-sponsore[type="file"] {
+    display: none; /* Hide the actual file input */
+}
+
+.file-upload-sponsore {
+    display: inline-block;
+    padding: 5px 10px;
+    cursor: pointer;
+    background-color: #3584a7;
+    color: white;
+    border: 1px solid #ffffff;
+    border-radius: 50px;
+    transition: background-color 0.3s ease;
+    width: 110px;
+}
+
+.file-upload-sponsore:hover {
+    background-color: #2ba2d6;
 }

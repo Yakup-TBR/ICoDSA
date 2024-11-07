@@ -763,7 +763,7 @@ export default function App() {
                                 </p>
                                 }
                                 {data.author_add === 'button' && (
-                                    <button type='button' className='btn btn-primary'>
+                                    <button type='button' className='btn btn-primary mt-3' id="buttonAuthorRegis">
                                         <a href={data.author_button_link} target="_blank" >{data.author_button_text || 'Visit'}</a>
                                     </button>
                                 )}
@@ -778,7 +778,6 @@ export default function App() {
                             Registration
                         </h1>
                     </div>
-
 
                     <div className="container mt-3">
                         {registrationData.map((data) => (
@@ -806,7 +805,7 @@ export default function App() {
                                 )}
 
                                 {data.registration_add === 'button' && (
-                                    <button type='button' className='btn btn-primary' >
+                                    <button type='button' className='btn btn-primary mt-3' id="buttonAuthorRegis">
                                         <a href={data.registration_button_link} target="_blank">{data.registration_button_text || 'Visit'}</a>
                                     </button>
                                 )}

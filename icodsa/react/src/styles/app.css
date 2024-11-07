@@ -1058,13 +1058,12 @@ nav img {
 }
 
 /* Button styling */
-.AuthorInfo button {
+#buttonAuthorRegis {
     font-family: "Poppins", sans-serif;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
     letter-spacing: 1px;
-    margin-top: 20px;
     border: none;
     background: linear-gradient(45deg, #363060, #00afb9); /* Gradien default */
     background-size: 200% 200%; /* Ukuran latar besar untuk efek bergerak */
@@ -1076,12 +1075,12 @@ nav img {
         color 0.4s ease; /* Transisi halus */
 }
 
-.AuthorInfo button a{
+#buttonAuthorRegis a{
     text-decoration: none;
     color: #ffffff;
 }
 
-.AuthorInfo button:hover {
+#buttonAuthorRegis:hover {
     background-position: 100% 50%; /* Geser gradien untuk memberikan efek bergerak */
     color: white;
 }
@@ -1185,35 +1184,6 @@ nav img {
     font-family: "Roboto", sans-serif;
     font-size: 16px;
     color: #777777;
-}
-
-/* Button styling */
-.registration button {
-    font-family: "Poppins", sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    letter-spacing: 1px;
-    margin-top: 20px;
-    border: none;
-    background: linear-gradient(45deg, #363060, #00afb9); /* Gradien default */
-    background-size: 200% 200%; /* Ukuran latar besar untuk efek bergerak */
-    background-position: 0% 50%; /* Posisi awal */
-    color: white;
-    transition:
-        background-position 0.6s ease,
-        background-size 0.6s ease,
-        color 0.4s ease; /* Transisi halus */
-}
-
-.registration button a{
-    text-decoration: none;
-    color: #ffffff;
-}
-
-.registration button:hover {
-    background-position: 100% 50%; /* Geser gradien untuk memberikan efek bergerak */
-    color: white;
 }
 
 /* ------------ RESPONSIVE STYLING ------------ */
@@ -1941,7 +1911,7 @@ hr {
 
 .address-place {
     position: relative;
-    z-index: 2;
+    z-index: 1;
     padding: 100px;
 }
 

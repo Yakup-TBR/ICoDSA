@@ -1991,7 +1991,24 @@ export default function Dashboard() {
 
                 {/* IMPORTANT DATES */}
                 <section className="importantDate" id="importantDateSection" style={{ backgroundImage: `url(${importantDateData.important_date_bg})` }}>
-                    <input type="file" onChange={handleBgUploadImportantBg} style={{ display: 'block', margin: '10px 0' }} />
+
+
+                    <div className="file-upload-container align-items-center mx-2" id="inputBgDate">
+                        <div className="svg-icon-wrapper">
+                            <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14.2231 15.3125C14.654 15.3125 15.0807 15.2276 15.4788 15.0627C15.8769 14.8978 16.2386 14.6561 16.5433 14.3514C16.848 14.0468 17.0897 13.685 17.2546 13.2869C17.4195 12.8888 17.5044 12.4621 17.5044 12.0312C17.5044 11.6004 17.4195 11.1737 17.2546 10.7756C17.0897 10.3775 16.848 10.0157 16.5433 9.71106C16.2386 9.40636 15.8769 9.16467 15.4788 8.99977C15.0807 8.83487 14.654 8.75 14.2231 8.75C13.3529 8.75 12.5183 9.0957 11.9029 9.71106C11.2876 10.3264 10.9419 11.161 10.9419 12.0312C10.9419 12.9015 11.2876 13.7361 11.9029 14.3514C12.5183 14.9668 13.3529 15.3125 14.2231 15.3125Z" fill="white" />
+                                <path d="M30.625 30.625C30.625 31.7853 30.1641 32.8981 29.3436 33.7186C28.5231 34.5391 27.4103 35 26.25 35H8.75C7.58968 35 6.47688 34.5391 5.65641 33.7186C4.83594 32.8981 4.375 31.7853 4.375 30.625V4.375C4.375 3.21468 4.83594 2.10188 5.65641 1.28141C6.47688 0.460936 7.58968 0 8.75 0L20.7812 0L30.625 9.84375V30.625ZM8.75 2.1875C8.16984 2.1875 7.61344 2.41797 7.2032 2.8282C6.79297 3.23844 6.5625 3.79484 6.5625 4.375V26.25L11.4275 21.385C11.5999 21.213 11.8248 21.1035 12.0665 21.0737C12.3082 21.044 12.5529 21.0958 12.7619 21.2209L17.5 24.0625L22.2184 17.4562C22.3108 17.3271 22.4301 17.2197 22.5681 17.1413C22.7062 17.0629 22.8596 17.0155 23.0178 17.0024C23.176 16.9893 23.3351 17.0108 23.4842 17.0654C23.6332 17.1199 23.7686 17.2063 23.8809 17.3184L28.4375 21.875V9.84375H24.0625C23.1923 9.84375 22.3577 9.49805 21.7423 8.88269C21.127 8.26734 20.7812 7.43274 20.7812 6.5625V2.1875H8.75Z" fill="white" />
+                            </svg>
+                        </div>
+                        <label htmlFor="bgUpload" className="file-upload-label">
+                            Upload Background
+                        </label>
+                        <input
+                            type="file"
+                            id="bgUpload"
+                            onChange={handleBgUploadImportantBg}
+                        />
+                    </div>
 
                     <div className="container">
                         <h2>Important Date</h2>
@@ -2081,7 +2098,7 @@ export default function Dashboard() {
                         <div className="section-header">
                             <h5>Our</h5>
                             <h2>Topics</h2>
-                            <button className="btn btn-primary" onClick={() => { setNewTopic({ topic_order: '', topic_title: '', topic_list: '' }); setSelectedTopicId(null); setShowModalTopics(true); }}>
+                            <button className="btn btn-secondary" onClick={() => { setNewTopic({ topic_order: '', topic_title: '', topic_list: '' }); setSelectedTopicId(null); setShowModalTopics(true); }}>
                                 + Add Topic
                             </button>
                         </div>
@@ -2099,7 +2116,7 @@ export default function Dashboard() {
                                                 <button className="btn btn-danger mr-2" onClick={() => handleDeleteTopics(topic.id)}>
                                                     Delete
                                                 </button>
-                                                <button className="btn btn-secondary" onClick={() => handleEditTopics(topic)}>
+                                                <button className="btn btn-warning" onClick={() => handleEditTopics(topic)}>
                                                     Edit
                                                 </button>
                                             </div>
@@ -2149,9 +2166,9 @@ export default function Dashboard() {
                 <section className="AuthorInfo" id="authorInformation">
                     <div className="container">
                         <h1>Author Information</h1>
-                        <button onClick={handleAddSubtitleAuthor} className="btn btn-primary mr-2">+ Add Subtitle</button>
-                        <button onClick={handleAddTextAuthor} className="btn btn-secondary mr-2">+ Add Text</button>
-                        <button onClick={handleAddButtonLinkAuthor} className="btn btn-success mr-2">+ Add Button Link</button>
+                        <button onClick={handleAddSubtitleAuthor} className="btn mr-2" id="buttonAuthorRegisSubtitle">Add Subtitle</button>
+                        <button onClick={handleAddTextAuthor} className="btn btn-secondary mr-2" id="buttonAuthorRegisText">Add Text</button>
+                        <button onClick={handleAddButtonLinkAuthor} className="btn mr-2" id="buttonAuthorRegis">+ Add Button Link</button>
                     </div>
 
                     <div className="container mt-3">
@@ -2173,9 +2190,9 @@ export default function Dashboard() {
                                 </p>
                                 }
                                 {data.author_add === 'button' && (
-                                    <a href={data.author_button_link} className="btn btn-primary">{data.author_button_text || 'Visit'}</a>
+                                    <a href={data.author_button_link} className="btn btn-primary mr-3" id="buttonAuthorRegis">{data.author_button_text || 'Visit'}</a>
                                 )}
-                                <button onClick={() => handleDeleteAuthor(data.id)} className="btn btn-danger">Delete</button>
+                                <button onClick={() => handleDeleteAuthor(data.id)} className="btn btn-danger my-1">Delete</button>
                             </div>
                         ))}
                     </div>
@@ -2234,22 +2251,22 @@ export default function Dashboard() {
                 <section className="registration" id="registration">
                     <div className="container">
                         <h1>Registration</h1>
-                        <button onClick={handleAddSubtitleRegistration} className="btn btn-primary">+ Add Subtitle</button>
-                        <button onClick={handleAddTextRegistration} className="btn btn-secondary">+ Add Text</button>
-                        <button onClick={handleAddButtonLinkRegistration} className="btn btn-success">+ Add Button Link</button>
+                        <button onClick={handleAddSubtitleRegistration} className="btn btn-primary mr-2" id="buttonAuthorRegisSubtitle">+ Add Subtitle</button>
+                        <button onClick={handleAddTextRegistration} className="btn btn-secondary mr-2" id="buttonAuthorRegisText">Add Text</button>
+                        <button onClick={handleAddButtonLinkRegistration} className="btn btn-success mr-2" id="buttonAuthorRegis">+ Add Button Link</button>
                     </div>
 
                     <div className="container mt-3">
                         {registrationData.map((data) => (
                             <div key={data.id}>
-                                {data.registration_add === 'subtitle' && <h2>{data.registration_subtitle}</h2>}
+                                {data.registration_add === 'subtitle' && <h2 className=''>{data.registration_subtitle}</h2>}
                                 {data.registration_add === 'text' && <p>{data.registration_text}</p>}
                                 {data.registration_add === 'button' && (
-                                    <a href={data.registration_button_link} className="btn btn-primary">
+                                    <a href={data.registration_button_link} className="btn btn-primary mr-3" id="buttonAuthorRegis">
                                         {data.registration_button_text || 'Visit'}
                                     </a>
                                 )}
-                                <button onClick={() => handleDeleteRegistration(data.id)} className="btn btn-danger">Delete</button>
+                                <button onClick={() => handleDeleteRegistration(data.id)} className="btn btn-danger my-1">Delete</button>
                             </div>
                         ))}
                     </div>
@@ -2458,21 +2475,33 @@ export default function Dashboard() {
                 <section className="pricing" id="pricing">
                     <div className="container">
                         <h2>Pricing</h2>
-                        <button type="button" className="btn btn-primary my-2" onClick={() => setModalVisiblePricing(true)}>Add Pricing</button>
+                        <button type="button" className="btn btn-secondary my-2" id="buttonAddPricing" onClick={() => setModalVisiblePricing(true)}>+ Add Pricing</button>
 
 
                         <div className="row">
                             {Array.isArray(pricings) && pricings.map((pricing) => (
                                 <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4" key={pricing.id}>
-                                    <div className="card priceCard">
+                                    <div className="card priceCard" id="priceCardDash">
                                         <div className="card-body">
-                                            <h3 className="card-title">{pricing.price_label}</h3>
+                                            <div className="card-head">
+                                                <h3 className="card-title">
+                                                    {pricing.price_label.split('\n').map((line, index) => (
+                                                        <span key={index}>
+                                                            {line}
+                                                            <br />
+                                                        </span>
+                                                    ))}
+                                                </h3>
+                                            </div>
+
+                                            <hr className="opacity-100" />
                                             <h4>${pricing.price}</h4>
-                                            <p className="card-text">{pricing.price_idr}</p>
+                                            <p className="card-text mt-4">{pricing.price_idr}</p>
                                             <button className="btn btn-warning mr-2" onClick={() => handleEditPricing(pricing)}>Edit</button>
                                             <button className="btn btn-danger" onClick={() => handleDeletePricing(pricing.id)}>Delete</button>
                                         </div>
                                     </div>
+
                                 </div>
                             ))}
                         </div>
@@ -2542,7 +2571,7 @@ export default function Dashboard() {
                             <h5>Please follow this information for completing your registration:</h5>
                         </div>
 
-                        <button onClick={() => handleAddPaymentType('method')} className="btn btn-primary mr-3">+ Add Payment Method</button>
+                        <button onClick={() => handleAddPaymentType('method')} className="btn btn-primary mr-3" id="buttonAddPricing">+ Add Payment Method</button>
                         <button onClick={() => handleAddPaymentType('info')} className="btn btn-secondary">+ Add Additional Info</button>
 
                         <div className="container mt-3">
@@ -2618,7 +2647,7 @@ export default function Dashboard() {
                 <section className="article">
                     <div className="container">
                         <h1>Articles</h1>
-                        <button onClick={() => setShowModalArticle(true)} className="btn btn-secondary mb-3">Add New Article</button>
+                        <button onClick={() => setShowModalArticle(true)} className="btn btn-secondary mb-3"> + Add New Article</button>
                         <div className="container d-flex justify-content-center article-content text-center p-0">
                             {articles.map((article) => (
                                 <div key={article.id} className="card mr-2">
@@ -2681,32 +2710,50 @@ export default function Dashboard() {
                     <div className="container">
                         <h1>Documentation</h1>
 
-                        <a href={documentationLink || '#'} target="_blank" rel="noopener noreferrer">LINK DOCUMENTATION</a>
+                        <a href={documentationLink || '#'} target="_blank" rel="noopener noreferrer">LINK DOCUMENTATION </a>
                         <i className="bi bi-pencil" onClick={() => setShowModalLink(true)}></i>
 
                         <div className="container photo-area">
+                            <button className="btn btn-primary mt-5" id="buttonAddPricing" onClick={() => setShowModalDocumentationImg(true)}>
+                                + Add New Image
+                            </button>
                             <div className="row">
                                 {documentationImages.map((image) => (
-                                    <div className="col-12 col-md-4 p-0 pt-3 photo-documentation" key={image.id}>
-                                        <button className="btn btn-danger pt-2" onClick={() => handleDeleteDocumentationImg(image.id)}>
-                                            Delete
+                                    <div className="col-12 col-md-4 p-0 photo-documentation" key={image.id}>
+                                        {/* Tombol delete dengan SVG */}
+                                        <button
+                                            className="btn delete-date position-relative"
+                                            style={{
+                                                position: 'absolute',
+                                                top: '50px',
+                                                left: '15px',
+                                                zIndex: 1,
+                                                backgroundColor: 'white',
+                                                border: 'none',
+                                                padding: '0',
+                                            }}
+                                            onClick={() => handleDeleteDocumentationImg(image.id)}
+                                        >
+                                            <svg width="35" height="35" viewBox="0 0 49 49" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <rect x="0.5" y="0.5" width="48" height="48" rx="9.5" stroke="#DE5858" />
+                                                <path d="M12.25 38.7917C12.25 39.8746 12.6802 40.9132 13.446 41.679C14.2117 42.4448 15.2504 42.875 16.3333 42.875H32.6667C33.7496 42.875 34.7882 42.4448 35.554 41.679C36.3198 40.9132 36.75 39.8746 36.75 38.7917V14.2917H12.25V38.7917ZM16.3333 18.375H32.6667V38.7917H16.3333V18.375ZM31.6458 8.16667L29.6042 6.125H19.3958L17.3542 8.16667H10.2083V12.25H38.7917V8.16667H31.6458Z" fill="#DE5858" />
+                                            </svg>
                                         </button>
+
                                         <a href="#">
                                             <img src={`http://localhost:8000${image.documentation_img}`} alt="" />
                                         </a>
-
                                     </div>
                                 ))}
+
                             </div>
                         </div>
 
-                        <button className="btn btn-primary mt-3" onClick={() => setShowModalDocumentationImg(true)}>
-                            Add New Image
-                        </button>
+
 
                         <br />
 
-                        <a href="#">VIDEO LINK</a>
+                        <a>VIDEO LINK  </a>
                         <i className="bi bi-pencil" onClick={() => setShowModalVideoLink(true)}></i>
                         <div className="container video-documentation p-0">
                             <iframe width="100%" height="400"
@@ -2781,7 +2828,7 @@ export default function Dashboard() {
                                 <div className="modal-dialog">
                                     <div className="modal-content">
                                         <div className="modal-header">
-                                            <h5 className="modal-title">Edit Video Link</h5>
+                                            <h5 className="modal-title">Edit Video Link - Embed SRC Link Only!</h5>
                                             <button type="button" className="btn-close" onClick={() => setShowModalVideoLink(false)}></button>
                                         </div>
                                         <form onSubmit={handleSubmitVideoLink}>
@@ -2811,23 +2858,14 @@ export default function Dashboard() {
 
                 <section className="address" id="address">
                     <div className="container-fluid">
-
-
                         <div className="row no-gutters m-0">
                             <div className="col-md-6 kosong">
-
                             </div>
-
                             <div className="col-md-6">
-
                                 <a href="#">Google Map Link</a>
                                 <i className="bi bi-pencil" onClick={() => setShowModalMapLinkAddress(true)}></i>
-
                             </div>
-
                         </div>
-
-
 
                         <div className="row no-gutters m-0">
                             <div className="col-md-6 address-area" style={{ backgroundImage: `url('/bgfooter.jpg')` }}>
@@ -2848,12 +2886,8 @@ export default function Dashboard() {
                                     </div>
                                     <div id="additional-info-area">
                                         <p><textarea
-                                            name="address_additional_info"
-                                            value={addressData.address_additional_info}
-                                            onChange={handleInputChangeAddress}
-                                            placeholder="Enter city or additional info"
-                                            rows="3"
-                                            style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid #ccc', color: '#ffffff' }}
+                                            name="address_additional_info" value={addressData.address_additional_info} onChange={handleInputChangeAddress}
+                                            placeholder="Enter city or additional info" rows="3" style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid #ccc', color: '#ffffff' }}
                                         /></p>
 
                                     </div>
@@ -2877,7 +2911,7 @@ export default function Dashboard() {
                                 <div className="modal-dialog">
                                     <div className="modal-content">
                                         <div className="modal-header">
-                                            <h5 className="modal-title">Edit Google Map Link</h5>
+                                            <h5 className="modal-title">Edit Google Map Link - Embed SRC Only!</h5>
                                             <button type="button" className="btn-close" onClick={() => setShowModalMapLinkAddress(false)}></button>
                                         </div>
                                         <div className="modal-body">
@@ -2898,7 +2932,17 @@ export default function Dashboard() {
                                 </div>
                             </div>
                         )}
+
+                        {/* Tombol Preview yang mengarah ke halaman index */}
+                        <div className="text-center my-3">
+                            <a href="/" className="btn mb-3" id="buttonPreview" target="_blank" rel="noopener noreferrer">
+                                <h2>Preview</h2>
+                                <i className="bi bi-eye-fill ml-2"></i>
+                            </a>
+                        </div>
+
                     </div>
+
                 </section>
             </div>
 
@@ -2943,16 +2987,22 @@ export default function Dashboard() {
                                     ) : (
                                         <p>No logos uploaded yet.</p>
                                     )}
+                                    {/* Logo Upload Section */}
+                                    <div className="align-items-center mx-2" id="inputLogoSupport">
+                                        <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path d="M14.2231 15.3125C14.654 15.3125 15.0807 15.2276 15.4788 15.0627C15.8769 14.8978 16.2386 14.6561 16.5433 14.3514C16.848 14.0468 17.0897 13.685 17.2546 13.2869C17.4195 12.8888 17.5044 12.4621 17.5044 12.0312C17.5044 11.6004 17.4195 11.1737 17.2546 10.7756C17.0897 10.3775 16.848 10.0157 16.5433 9.71106C16.2386 9.40636 15.8769 9.16467 15.4788 8.99977C15.0807 8.83487 14.654 8.75 14.2231 8.75C13.3529 8.75 12.5183 9.0957 11.9029 9.71106C11.2876 10.3264 10.9419 11.161 10.9419 12.0312C10.9419 12.9015 11.2876 13.7361 11.9029 14.3514C12.5183 14.9668 13.3529 15.3125 14.2231 15.3125Z" fill="white" />
+                                            <path d="M30.625 30.625C30.625 31.7853 30.1641 32.8981 29.3436 33.7186C28.5231 34.5391 27.4103 35 26.25 35H8.75C7.58968 35 6.47688 34.5391 5.65641 33.7186C4.83594 32.8981 4.375 31.7853 4.375 30.625V4.375C4.375 3.21468 4.83594 2.10188 5.65641 1.28141C6.47688 0.460936 7.58968 0 8.75 0L20.7812 0L30.625 9.84375V30.625ZM8.75 2.1875C8.16984 2.1875 7.61344 2.41797 7.2032 2.8282C6.79297 3.23844 6.5625 3.79484 6.5625 4.375V26.25L11.4275 21.385C11.5999 21.213 11.8248 21.1035 12.0665 21.0737C12.3082 21.044 12.5529 21.0958 12.7619 21.2209L17.5 24.0625L22.2184 17.4562C22.3108 17.3271 22.4301 17.2197 22.5681 17.1413C22.7062 17.0629 22.8596 17.0155 23.0178 17.0024C23.176 16.9893 23.3351 17.0108 23.4842 17.0654C23.6332 17.1199 23.7686 17.2063 23.8809 17.3184L28.4375 21.875V9.84375H24.0625C23.1923 9.84375 22.3577 9.49805 21.7423 8.88269C21.127 8.26734 20.7812 7.43274 20.7812 6.5625V2.1875H8.75Z" fill="white" />
+                                        </svg>
+                                        <label htmlFor="file-upload-support" className="file-upload-support">
+                                            Choose png logo
+                                        </label>
+
+                                        <input
+                                            id="file-upload-support" type="file" onChange={handleLogoUploadSupportLogo} />
+                                    </div>
                                 </div>
 
-                                {/* Logo Upload Section */}
-                                <div className="align-items-center mx-2">
-                                    <input
-                                        id="file-upload"
-                                        type="file"
-                                        onChange={handleLogoUploadSupportLogo}
-                                    />
-                                </div>
+
                             </div>
 
                             <div className="container text-center">
@@ -3000,14 +3050,7 @@ export default function Dashboard() {
                                         className="mx-2"
                                     />
                                     <svg
-                                        type="button"
-                                        width="24"
-                                        height="24"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        onClick={() => handleLogoDeleteSponsoreLogo(sponsorLogo.id)}
-                                        className="delete-icon"
+                                        type="button" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => handleLogoDeleteSponsoreLogo(sponsorLogo.id)} className="delete-icon"
                                     >
                                         <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" fill="white" />
                                         <rect x="0.5" y="0.5" width="23" height="23" rx="9.5" stroke="#DE5858" />
@@ -3019,17 +3062,21 @@ export default function Dashboard() {
                             <p>No sponsor logos uploaded yet.
                             </p>
                         )}
+
+                        {/* Logo Upload Section */}
+                        <div className="align-items-center mx-2" id="inputSponsoreLogo">
+                            <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14.2231 15.3125C14.654 15.3125 15.0807 15.2276 15.4788 15.0627C15.8769 14.8978 16.2386 14.6561 16.5433 14.3514C16.848 14.0468 17.0897 13.685 17.2546 13.2869C17.4195 12.8888 17.5044 12.4621 17.5044 12.0312C17.5044 11.6004 17.4195 11.1737 17.2546 10.7756C17.0897 10.3775 16.848 10.0157 16.5433 9.71106C16.2386 9.40636 15.8769 9.16467 15.4788 8.99977C15.0807 8.83487 14.654 8.75 14.2231 8.75C13.3529 8.75 12.5183 9.0957 11.9029 9.71106C11.2876 10.3264 10.9419 11.161 10.9419 12.0312C10.9419 12.9015 11.2876 13.7361 11.9029 14.3514C12.5183 14.9668 13.3529 15.3125 14.2231 15.3125Z" fill="white" />
+                                <path d="M30.625 30.625C30.625 31.7853 30.1641 32.8981 29.3436 33.7186C28.5231 34.5391 27.4103 35 26.25 35H8.75C7.58968 35 6.47688 34.5391 5.65641 33.7186C4.83594 32.8981 4.375 31.7853 4.375 30.625V4.375C4.375 3.21468 4.83594 2.10188 5.65641 1.28141C6.47688 0.460936 7.58968 0 8.75 0L20.7812 0L30.625 9.84375V30.625ZM8.75 2.1875C8.16984 2.1875 7.61344 2.41797 7.2032 2.8282C6.79297 3.23844 6.5625 3.79484 6.5625 4.375V26.25L11.4275 21.385C11.5999 21.213 11.8248 21.1035 12.0665 21.0737C12.3082 21.044 12.5529 21.0958 12.7619 21.2209L17.5 24.0625L22.2184 17.4562C22.3108 17.3271 22.4301 17.2197 22.5681 17.1413C22.7062 17.0629 22.8596 17.0155 23.0178 17.0024C23.176 16.9893 23.3351 17.0108 23.4842 17.0654C23.6332 17.1199 23.7686 17.2063 23.8809 17.3184L28.4375 21.875V9.84375H24.0625C23.1923 9.84375 22.3577 9.49805 21.7423 8.88269C21.127 8.26734 20.7812 7.43274 20.7812 6.5625V2.1875H8.75Z" fill="white" />
+                            </svg>
+                            <label htmlFor="file-upload-sponsore" className="file-upload-sponsore">
+                                Choose png logo
+                            </label>
+                            <input id="file-upload-sponsore" type="file" multiple onChange={handleLogoUploadSponsoreLogo} />
+                        </div>
                     </div>
 
-                    {/* Logo Upload Section */}
-                    <div className="align-items-center mx-2">
 
-                        <input
-                            id="file-upload"
-                            type="file"
-                            onChange={handleLogoUploadSponsoreLogo}
-                        />
-                    </div>
                 </div>
 
             </footer>
