@@ -1146,11 +1146,16 @@ export default function Dashboard() {
         e.preventDefault();
 
         const formData = new FormData();
-        formData.append('article_img', articleData.article_img);
+
+        // Jika gambar baru ada, kirimkan gambar; jika tidak, lewati
+        if (articleData.article_img) {
+            formData.append('article_img', articleData.article_img);
+        }
         formData.append('article_title', articleData.article_title);
         formData.append('article_description', articleData.article_description);
         formData.append('article_link', articleData.article_link);
 
+        // Mengirimkan POST atau PUT berdasarkan apakah sedang mengedit
         if (isEditingArticle) {
             await axios.post(`http://localhost:8000/api/articles/${currentArticleId}`, formData);
         } else {
@@ -1160,6 +1165,7 @@ export default function Dashboard() {
         setShowModalArticle(false);
         fetchArticles();
     };
+
 
     const handleEditArticle = (article) => {
         setIsEditingArticle(true);
@@ -2039,8 +2045,6 @@ export default function Dashboard() {
                                 </div>
                             ))}
 
-
-                            {/* Tombol Add Important Date berada setelah semua card */}
                             <div className="col-12 col-sm-6 col-md-4 col-lg-auto mb-4">
                                 <button className="btn" onClick={() => setShowModalImportantDate(true)}>
                                     <svg width="130" height="130" viewBox="0 0 130 130" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -2061,23 +2065,23 @@ export default function Dashboard() {
                     {showModalImportantDate && (
                         <div className="modal fade show" style={{ display: 'block' }}>
                             <div className="modal-dialog">
-                                <div className="modal-content">
+                                <div className="modal-content" >
                                     <div className="modal-header">
-                                        <h5 className="modal-title">Add New Important Date</h5>
+                                        <h5 className="modal-title" id="modalDate" >Add New Important Date</h5>
                                         <button type="button" className="btn-close" onClick={() => setShowModalImportantDate(false)}></button>
                                     </div>
                                     <form onSubmit={handleSubmitImportantDate}>
-                                        <div className="modal-body">
+                                        <div className="modal-body" >
                                             <div className="mb-3">
-                                                <label className="form-label">Activity</label>
+                                                <label className="form-label" id="modalDate" >Activity</label>
                                                 <input type="text" className="form-control" name="activity" onChange={handleInputChangeImportantDate} required />
                                             </div>
                                             <div className="mb-3">
-                                                <label className="form-label">Upload Icon</label>
+                                                <label className="form-label" id="modalDate" >Upload Icon</label>
                                                 <input type="file" className="form-control" onChange={handleFileChangeImportantDate} required />
                                             </div>
                                             <div className="mb-3">
-                                                <label className="form-label">Event Date</label>
+                                                <label className="form-label" id="modalDate" >Event Date</label>
                                                 <input type="date" className="form-control" name="event_date" onChange={handleInputChangeImportantDate} required />
                                             </div>
                                         </div>
@@ -2934,7 +2938,7 @@ export default function Dashboard() {
                         )}
 
                         {/* Tombol Preview yang mengarah ke halaman index */}
-                        <div className="text-center my-3">
+                        <div className="text-center my-3" id="previewArea">
                             <a href="/" className="btn mb-3" id="buttonPreview" target="_blank" rel="noopener noreferrer">
                                 <h2>Preview</h2>
                                 <i className="bi bi-eye-fill ml-2"></i>

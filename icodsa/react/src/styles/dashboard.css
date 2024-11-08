@@ -493,6 +493,11 @@ body {
 }
 
 /* IMPORTANT DATE */
+
+#modalDate{
+    color: #000000;
+}
+
 .importantDate .input-file-wrapper {
     position: relative;
     z-index: 2;
@@ -603,7 +608,7 @@ body {
 }
 
 /* Address */
-.text-center {
+#previewArea {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -662,6 +667,7 @@ body {
 }
 
 /* FOOTER */
+
 /* Support */
 
 #inputLogoSupport {

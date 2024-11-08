@@ -40,6 +40,7 @@ class ArticleController extends Controller
     {
         $article = Article::findOrFail($id);
 
+        // Validasi hanya untuk data yang ada, tanpa memaksa gambar setiap saat
         $validatedData = $request->validate([
             'article_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg,webp|max:10240',
             'article_title' => 'required|string|max:255',
@@ -47,8 +48,9 @@ class ArticleController extends Controller
             'article_link' => 'required|url',
         ]);
 
+        // Periksa apakah gambar baru ada dan perlu disimpan
         if ($request->hasFile('article_img')) {
-            // Hapus gambar lama dari storage
+            // Hapus gambar lama jika ada
             if ($article->article_img) {
                 $oldImagePath = str_replace('/storage/', '', $article->article_img);
                 Storage::disk('public')->delete($oldImagePath);
@@ -59,6 +61,7 @@ class ArticleController extends Controller
             $article->article_img = '/storage/' . $path;
         }
 
+        // Update data artikel (hanya jika ada perubahan)
         $article->article_title = $validatedData['article_title'];
         $article->article_description = $validatedData['article_description'];
         $article->article_link = $validatedData['article_link'];
@@ -66,6 +69,7 @@ class ArticleController extends Controller
 
         return response()->json($article);
     }
+
 
     public function destroy($id)
     {
