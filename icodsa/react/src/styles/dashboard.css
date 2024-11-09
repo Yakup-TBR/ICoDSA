@@ -13,9 +13,51 @@ body {
 }
 
 #logout {
-    border-left: 1px solid #ffffff;
     padding-left: 10px; /* Jarak antara garis dan teks */
 }
+
+#previewAreaNavbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#buttonPreviewNavbar {
+    background-color: #408788;
+    color: #ffffff;
+    width: 150px;
+    height: 40px;
+    border-radius: 7px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border: none;
+}
+
+#buttonPreviewNavbar:hover{
+    background-color: #275253;
+
+}
+
+#buttonPreviewNavbar h2 {
+    font-family: "Roboto", sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    margin-right: 5px;
+    margin-bottom: 0;
+}
+
+#buttonPreviewNavbar i {
+    font-size: 18px;
+    margin-top: 3px;
+}
+
+.vl {
+    border-left: 1px solid #ffffff;
+    height: 30px;
+  }
+
 
 /* ------------ HOME START ------------ */
 .home-dashboard {
@@ -636,6 +678,9 @@ body {
 #buttonPreview i {
     font-size: 40px;
 }
+
+
+
 
 /* Modal LogOut */
 #modalLogout {

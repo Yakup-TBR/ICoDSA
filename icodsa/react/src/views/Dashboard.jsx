@@ -1645,7 +1645,16 @@ export default function Dashboard() {
                             </li>
                         </ul>
 
-                        <li className="nav-item list-unstyled ml-1">
+                        <div className="text-center ml-1" id="previewAreaNavbar">
+                            <a href="/" className="btn" id="buttonPreviewNavbar" target="_blank" rel="noopener noreferrer">
+                                <h2>Preview</h2>
+                                <i className="bi bi-eye-fill ml-2"></i>
+                            </a>
+                        </div>
+
+                        <div className="vl ml-3"></div>
+
+                        <li className="nav-item list-unstyled">
                             <a href="#" onClick={(e) => { e.preventDefault(); confirmLogout(); }} className="nav-link justify-content-center" id="logout">Logout</a>
                         </li>
                     </div>
