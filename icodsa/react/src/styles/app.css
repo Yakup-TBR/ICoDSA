@@ -156,6 +156,15 @@ nav img {
     .navbar-nav .nav-link::after {
         display: none; /* Hilangkan segitiga */
     }
+
+    /* Sembunyikan dropdown menu di bawah 992px */
+    .navbar-nav .nav-item.dropdown .dropdown-menu {
+        display: none; /* Menyembunyikan menu dropdown */
+    }
+
+    .navbar-nav .nav-item.dropdown .bi-caret-down-fill {
+        display: none; /* Menyembunyikan menu dropdown */
+    }
 }
 
 @media (max-width: 663px) {
@@ -166,7 +175,6 @@ nav img {
 }
 
 /* ------------ HOME START ------------ */
-
 
 .Home {
     padding-top: 84px;
@@ -182,7 +190,7 @@ nav img {
 }
 
 .homecontent {
-    margin-top: 184px;
+    margin-top: 110px;
 }
 
 .Home::before {
@@ -259,6 +267,22 @@ nav img {
     border-width: 1px;
     transform: scale(1.05);
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.wrapper {
+    width: 100%;
+    overflow-wrap: anywhere; /* Memungkinkan kata panjang untuk membungkus jika tidak cukup lebar */
+    word-break: break-word; /* Memungkinkan pembungkusan di antara kata */
+}
+
+.typing-demo {
+    overflow: hidden;
+    white-space: normal; /* Izinkan pembungkusan kata ke baris baru */
+}
+
+.sec-text {
+    display: inline-block;
+    max-width: 100%;
 }
 
 .Home p {
@@ -381,7 +405,7 @@ nav img {
 
 .excellance-tag {
     position: absolute;
-    top: 50%;
+    top: 75%;
     left: 40%;
     width: 200px;
     height: 250px;
@@ -804,7 +828,7 @@ nav img {
     cursor: pointer;
 }
 
-.importantDate button{
+.importantDate button {
     position: relative;
     z-index: 2;
     cursor: pointer;
@@ -1075,7 +1099,7 @@ nav img {
         color 0.4s ease; /* Transisi halus */
 }
 
-#buttonAuthorRegis a{
+#buttonAuthorRegis a {
     text-decoration: none;
     color: #ffffff;
 }
@@ -1279,6 +1303,7 @@ nav img {
     font-weight: 400;
     font-size: 16px;
     color: #777777;
+    line-height: 28px;
 }
 
 .programComittee hr {
@@ -1367,6 +1392,7 @@ hr {
     font-weight: 400;
     font-size: 16px;
     color: #777777;
+    line-height: 28px;
 }
 
 /* Responsif untuk layar dengan lebar maksimal 1024px */
@@ -1449,7 +1475,7 @@ hr {
     height: 250px;
 }
 
-.priceCard .card-head{
+.priceCard .card-head {
     min-height: 65px;
     max-height: 65px;
 }
@@ -1567,7 +1593,7 @@ hr {
     color: #777777;
 }
 
-.payment .card{
+.payment .card {
     border-style: none;
 }
 
@@ -1675,8 +1701,17 @@ hr {
     color: #343a3a;
 }
 
+.article-content {
+    display: flex;
+    flex-wrap: wrap; /* Pastikan kartu bisa berpindah baris */
+    justify-content: center; /* Menyusun kartu di tengah */
+    gap: 20px; /* Memberikan jarak antar kartu */
+}
+
+/* Kartu Artikel */
 .article-content .card {
-    width: 50%;
+    width: 100%; /* Membuat kartu mengambil seluruh lebar pada layar kecil */
+    max-width: 500px; /* Menjaga agar kartu tidak terlalu besar */
 }
 
 .article-content .card h5 {
@@ -1710,7 +1745,7 @@ hr {
         font-size: 28px;
     }
     .article-content .card {
-        width: 60%;
+        width: 100%;
     }
     .article-content .card h5 {
         font-size: 18px;
@@ -1746,7 +1781,8 @@ hr {
         font-size: 24px;
     }
     .article-content .card {
-        width: 100%;
+        width: 100%; /* Kartu mengambil 100% lebar pada layar kecil */
+        margin-bottom: 20px; /* Menambahkan jarak antar kartu */
     }
 }
 
@@ -1767,7 +1803,6 @@ hr {
         font-size: 12px;
     }
 }
-
 /* ------------ DOCUMENT START ------------ */
 .documentation {
     margin-top: 20px;

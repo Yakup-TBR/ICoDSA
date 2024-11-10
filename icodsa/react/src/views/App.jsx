@@ -496,7 +496,7 @@ export default function App() {
                                         <a href="#pricing" className="dropdown-item">Pricing</a>
                                     </li>
                                     <li>
-                                        <a href={buttonLinks.presentation_schedule_link}target="_blank"rel="noopener noreferrer"className="dropdown-item">
+                                        <a href={buttonLinks.presentation_schedule_link} target="_blank" rel="noopener noreferrer" className="dropdown-item">
                                             Schedule
                                         </a>
                                     </li>
@@ -516,8 +516,9 @@ export default function App() {
 
             <div className='content'>
                 <section className="Home" id="homeSection" style={{ backgroundImage: `url('http://localhost:8000/storage/${homeData.home_bg || 'gb.jpg'}')` }} >
+                    {/* <Particle className="tsparticles"/> */}
                     <div className="container d-flex flex-column align-items-center justify-content-center min-vh-100 text-center homecontent">
-                        {/* <Particle className="tsparticles"/> */}
+
 
                         <div className="container" id="hostLogo">
                             {hostLogoData.length > 0 ? (
@@ -563,17 +564,18 @@ export default function App() {
                         <div className="wrapper">
                             <div className="container typing-demo" id="descHome">
                                 <p className='sec-text'>
-                                    <span className="typing-text">{homeData.description}</span>
+                                    <p>
+                                        {homeData.description.split('\n').map((line, index) => (
+                                            <span key={index}>
+                                                {line}
+                                                <br />
+                                            </span>
+                                        ))}
+                                    </p>
                                     <span className="cursor"></span>
                                 </p>
                             </div>
                         </div>
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
-                        <br />
                         <br />
                     </div>
                 </section>
@@ -831,8 +833,14 @@ export default function App() {
                                                 <h3>{committee.committee_position}</h3>
                                             </div>
                                             <div className="content-body">
-                                                <h4>{committee.committee_members}</h4>
-                                            </div>
+                                                <h4>
+                                                    {committee.committee_members.split('\n').map((line, index) => (
+                                                        <span key={index}>
+                                                            {line}
+                                                            <br />
+                                                        </span>
+                                                    ))}
+                                                </h4>                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -899,7 +907,6 @@ export default function App() {
                         <div className="container pricing-area p-0 pt-5">
                             <div className="container p-0">
                                 <div className="row">
-
 
                                     {Array.isArray(pricings) && pricings.map((pricing) => (
                                         <div className="col-xxl-3 col-lg-4 col-md-4 col-sm-6 col-12 mb-4 fade-in" key={pricing.id}>
@@ -993,7 +1000,7 @@ export default function App() {
                     </div>
                 </section>
 
-                <section className="documentation">
+                <section className="documentation" >
                     <div className="container">
                         <h1>Documentation</h1>
                         <a href={documentationLink || '#'} target="_blank" rel="noopener noreferrer">LINK DOCUMENTATION</a>
@@ -1030,11 +1037,6 @@ export default function App() {
                                     <h5>
                                         {addressData.place}
                                     </h5>
-                                    <div className="address-city">
-                                        <p>
-                                            Bali, ID
-                                        </p>
-                                    </div>
                                     <div className="contact">
                                         <p>
                                             {addressData.address_additional_info}

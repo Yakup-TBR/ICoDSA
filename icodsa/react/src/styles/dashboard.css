@@ -35,9 +35,8 @@ body {
     border: none;
 }
 
-#buttonPreviewNavbar:hover{
+#buttonPreviewNavbar:hover {
     background-color: #275253;
-
 }
 
 #buttonPreviewNavbar h2 {
@@ -56,8 +55,7 @@ body {
 .vl {
     border-left: 1px solid #ffffff;
     height: 30px;
-  }
-
+}
 
 /* ------------ HOME START ------------ */
 .home-dashboard {
@@ -402,6 +400,15 @@ body {
     width: auto;
     margin: 20px;
 }
+
+#textAbout {
+    border: dashed 2px #a3a3a3; /*optional*/
+    border-style: dashed;
+    border-image-source: url("https://i.sstatic.net/wLdVc.png");
+    border-image-slice: 2;
+    border-image-repeat: round;
+}
+
 /* ------------ SPEAKERS US START ------------ */
 
 .Speakers h5 {
@@ -536,7 +543,7 @@ body {
 
 /* IMPORTANT DATE */
 
-#modalDate{
+#modalDate {
     color: #000000;
 }
 
@@ -645,7 +652,7 @@ body {
 /* COMMITTEE */
 .ModalCommittee_Position .form-control,
 .ModalCommitteeMember .form-control {
-    width:430px;
+    width: 430px;
     box-sizing: border-box; /* Agar padding tidak memengaruhi lebar */
 }
 
@@ -679,8 +686,29 @@ body {
     font-size: 40px;
 }
 
+#place-area textarea {
+    width: 100%;
+    background-color: transparent;
+    color: #ffffff;
+    resize: none;
+    border: dashed 1.5px #ffffff; /*optional*/
+    border-style: dashed;
+    border-image-source: url("https://i.sstatic.net/wLdVc.png");
+    border-image-slice: 2;
+    border-image-repeat: round;
+}
 
-
+#additional-info-area textarea {
+    width: 100%;
+    background-color: transparent;
+    color: #ffffff;
+    resize: none;
+    border: dashed 1.5px #ffffff; /*optional*/
+    border-style: dashed;
+    border-image-source: url("https://i.sstatic.net/wLdVc.png");
+    border-image-slice: 2;
+    border-image-repeat: round;
+}
 
 /* Modal LogOut */
 #modalLogout {

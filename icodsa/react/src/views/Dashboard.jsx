@@ -1875,7 +1875,7 @@ export default function Dashboard() {
                                 </div>
                                 <div className="col">
                                     <h1 className="mb-5" id="aboutUsH1">About Us</h1>
-                                    <textarea
+                                    <textarea id="textAbout"
                                         className="descAbout-input" name="about_desc" value={aboutData.about_desc}
                                         onChange={handleInputChangeAbout} placeholder="About Description" rows="10"
                                     />
@@ -2334,8 +2334,15 @@ export default function Dashboard() {
                         <div className="committee-list">
                             {committees.map(committee => (
                                 <div key={committee.id} className="committee-item my-4">
-                                    <h4>{committee.committee_position}</h4>
-                                    <p>{committee.committee_members}</p>
+                                    <h3>{committee.committee_position}</h3>
+                                    <h4>
+                                        {committee.committee_members.split('\n').map((line, index) => (
+                                            <span key={index}>
+                                                {line}
+                                                <br />
+                                            </span>
+                                        ))}
+                                    </h4>
                                     <button className="btn btn-warning mr-3" onClick={() => handleEditCommittee(committee)}>Edit</button>
                                     <button className="btn btn-danger" onClick={() => handleDeleteCommittee(committee.id)}>Delete</button>
                                 </div>
@@ -2405,12 +2412,7 @@ export default function Dashboard() {
                                     {savedReviewers
                                         .slice(0, Math.ceil(savedReviewers.length / 2))
                                         .map((reviewer, index) => (
-                                            <h4
-                                                key={index}
-                                                onClick={handleOpenModal}
-                                                className="reviewer-name"
-                                                style={{ cursor: 'pointer' }}
-                                            >
+                                            <h4 key={index} onClick={handleOpenModal} className="reviewer-name" style={{ cursor: 'pointer' }}>
                                                 {reviewer}
                                             </h4>
                                         ))}
@@ -2875,7 +2877,7 @@ export default function Dashboard() {
                             <div className="col-md-6 kosong">
                             </div>
                             <div className="col-md-6">
-                                <a href="#">Google Map Link</a>
+                                <a>Google Map Link </a>
                                 <i className="bi bi-pencil" onClick={() => setShowModalMapLinkAddress(true)}></i>
                             </div>
                         </div>
@@ -2888,25 +2890,19 @@ export default function Dashboard() {
                                     </button>
                                     <div id="place-area">
                                         <h5><textarea
-                                            name="place"
-                                            value={addressData.place}
-                                            onChange={handleInputChangeAddress}
-                                            placeholder="Enter venue"
-                                            rows="3"
-                                            style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid #ccc', color: '#ffffff', zIndex: 1 }}
-                                        /></h5>
-
+                                            name="place" value={addressData.place} onChange={handleInputChangeAddress}
+                                            placeholder="Enter venue" rows="3" />
+                                        </h5>
                                     </div>
                                     <div id="additional-info-area">
-                                        <p><textarea
-                                            name="address_additional_info" value={addressData.address_additional_info} onChange={handleInputChangeAddress}
-                                            placeholder="Enter city or additional info" rows="3" style={{ width: '100%', backgroundColor: 'transparent', border: '1px solid #ccc', color: '#ffffff' }}
-                                        /></p>
-
+                                        <p>
+                                            <textarea name="address_additional_info" value={addressData.address_additional_info} onChange={handleInputChangeAddress}
+                                                placeholder="Enter city or additional info" rows="4"
+                                            />
+                                        </p>
                                     </div>
                                 </div>
                             </div>
-
 
                             <div className="col-md-6 map-area">
                                 <iframe
