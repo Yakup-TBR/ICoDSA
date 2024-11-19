@@ -2327,7 +2327,7 @@ export default function Dashboard() {
                                 type="button"
                                 className="btn btn-secondary"
                                 onClick={() => window.$('#addCommitteeModal').modal('show')}>
-                                ADD Committee
+                                + Add Committee
                             </button>
                         </div>
 
@@ -2389,8 +2389,8 @@ export default function Dashboard() {
 
                                         </div>
                                         <div className="modal-footer">
-                                            <button type="submit" className="btn btn-primary">Save</button>
                                             <button type="button" className="btn btn-secondary" onClick={resetForm}>Cancel</button>
+                                            <button type="submit" className="btn btn-primary">Save</button>
                                         </div>
                                     </form>
                                 </div>
