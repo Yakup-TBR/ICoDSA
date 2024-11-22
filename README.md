@@ -26,10 +26,10 @@ Sistem CMS ini dirancang untuk mempermudah pengelolaan konten pada website ICoDS
    
 2. **Dalam folder react, jalankan command 'npm run dev' untuk menjalankan fronten **
 
-3. **Saat di halaman login, bisa menggunakan akun :
-email : admin@gmail.com
-password : admin123
-Atau bisa membuat akun baru pada seeder **
+3. **Saat di halaman login, bisa menggunakan akun :**
+**email : admin@gmail.com**
+**password : admin123**
+**Atau bisa membuat akun baru pada seeder**
 
 
 
