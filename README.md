@@ -26,7 +26,7 @@ Sistem CMS ini dirancang untuk mempermudah pengelolaan konten pada website ICoDS
    
 2. **Dalam folder react, jalankan command 'npm run dev' untuk menjalankan fronten**
 
-3. **Saat di halaman login, bisa menggunakan akun:**
+3. **Saat di halaman login, bisa menggunakan akun (HANYA SEBAGAI AKUN DUMMY, HARAP DIHAPUS SAAT PROJEK RILIS!):**
 
    **Email**: admin@gmail.com  
    **Password**: admin123  
